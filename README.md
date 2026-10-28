@@ -1,6 +1,6 @@
 # qelunai-web
 
-Showcase site for the Qelunai app (Eastern wisdom & AI), live at <https://qelunai.com>.
+Showcase and store-support site for the Qelunai app (Vietnamese lunar calendar, I Ching, Four Pillars, feng shui), live at <https://qelunai.com>. The look follows the app's "Sơn mài" (lacquer) design.
 
 Static [Astro](https://astro.build) site, deployed to GitHub Pages by `.github/workflows/deploy.yml` on every push to `main`.
 
@@ -19,25 +19,46 @@ Node 22 or newer.
 
 | Path | What it holds |
 | --- | --- |
-| `src/i18n/locales/*.ts` | All copy, one file per language |
-| `src/layouts/Base.astro` | `<head>`, SEO tags, hreflang, JSON-LD, header |
+| `src/i18n/locales/*.ts` | All copy, one file per language (`vi` at `/`, `en` at `/en/`) |
+| `src/i18n/index.ts` | Default language, page slugs, `pathFor`, `localePaths` |
+| `src/layouts/Base.astro` | `<head>`, SEO tags, hreflang, JSON-LD, header, footer |
+| `src/layouts/LegalPage.astro` | Shell for the privacy, support, delete-account and terms pages |
 | `src/components/Landing.astro` | The landing page sections |
-| `src/scripts/page.ts` | Scroll story: Lenis smooth scroll, GSAP ScrollTrigger scenes, reduced-motion fallback |
-| `src/scripts/sky.ts` | Three.js star field and astrolabe, lazy-loaded after first paint |
 | `src/components/LandingPage.astro` | Page wrapper that adds the app and FAQ structured data |
+| `src/components/StoreButtons.astro` | Store badges; links are `href="#"` placeholders marked `data-store-link` |
+| `src/pages/[...lang]/*.astro` | One route per page, built for every language |
+| `src/content/privacy.md` | Privacy policy copied from the app repo (see below) |
+| `src/lib/policy.ts` | Splits the policy into Vietnamese and English and renders it |
+| `src/scripts/reveal.ts` | Fade-in on scroll; skipped under reduced motion |
 | `src/styles/global.css` | Tokens and all styles |
-| `src/assets/gen/` | Illustrations and parallax layers (generated for Qelunai), optimised at build time |
-| `src/pages/sitemap.xml.ts`, `robots.txt.ts` | Generated from the locale list |
-| `public/` | `CNAME`, favicons, fonts, `og.png`, web manifest |
+| `src/assets/sonmai/` | Lacquer art and feature medallions from the app |
+| `src/assets/shots/<lang>/` | Screenshots of the real app, optimised at build time |
+| `src/pages/sitemap.xml.ts`, `robots.txt.ts` | Generated from the page and locale lists |
+| `public/` | `CNAME`, `app-ads.txt`, favicons, fonts, `og.png`, web manifest |
+
+## Privacy policy
+
+The `/privacy/` pages are built from `src/content/privacy.md`. After the policy changes in the app repo, run
+
+```sh
+npm run sync:privacy                          # reads ../qelunai-app-ads/docs/legal/PRIVACY_POLICY.md
+npm run sync:privacy -- path/to/PRIVACY_POLICY.md
+```
+
+and commit the updated file. Vietnamese comes before the `---` line, English after it.
+
+## Store links
+
+When the listings are live, replace the `href="#"` of every element with `data-store-link="app-store"` or `data-store-link="google-play"` (in `StoreButtons.astro` and `Footer.astro`).
 
 ## Add a language
 
-1. Copy `src/i18n/locales/en.ts` to `src/i18n/locales/<code>.ts` (for example `ja.ts`).
-2. Set `code`, `htmlLang`, `ogLocale`, `nativeName` and `order` (its position in the language menu), then translate every string. TypeScript (`satisfies Locale`) reports any missing key.
-3. For a non-Latin script, set `script` and add a matching font stack in `global.css` next to `:root[data-script='sc']`.
+1. Copy `src/i18n/locales/en.ts` to `src/i18n/locales/<code>.ts`.
+2. Set `code`, `htmlLang`, `ogLocale`, `nativeName` and `order`, then translate every string. TypeScript (`satisfies Locale`) reports any missing key.
+3. Optionally add screenshots in `src/assets/shots/<code>/`; missing ones fall back to `vi`.
 4. `npm run build`.
 
-Nothing else needs to change: the page at `/<code>/`, the language menu, hreflang tags and sitemap entries are generated from the files in `locales/`. English stays the default at `/`; change `defaultLocaleCode` in `src/i18n/index.ts` to move it.
+Every page at `/<code>/...`, the language switch, hreflang tags and sitemap entries are generated from the files in `locales/`. Vietnamese is the default at `/`; change `defaultLocaleCode` in `src/i18n/index.ts` to move it. The privacy page only has Vietnamese and English text.
 
 ## Deploy
 
