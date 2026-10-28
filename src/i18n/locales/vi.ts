@@ -239,12 +239,8 @@ export default {
           a: 'Vào **Hồ sơ > Xoá tài khoản** trong ứng dụng, hoặc gửi email từ địa chỉ đã đăng ký tới support@qelunai.com. Các bước và dữ liệu bị xoá có ở trang Xoá tài khoản.',
         },
         {
-          q: 'Qelunai Plus và quảng cáo',
-          a: 'Bản miễn phí có thể có quảng cáo của Google AdMob, không có ở màn đăng nhập, lúc đang gieo quẻ, ở La bàn camera hay ở widget. Qelunai Plus là gói đăng ký tháng hoặc năm qua App Store hoặc Google Play, không có quảng cáo, mở thêm tìm ngày tốt trong 12 tháng, không giới hạn hồ sơ gia đình và nhắc giỗ nhiều mốc. Thanh toán, huỷ và hoàn tiền do Apple hoặc Google xử lý.',
-        },
-        {
-          q: 'Tôi đổi máy, làm sao lấy lại gói Plus?',
-          a: 'Đăng nhập cửa hàng bằng Apple ID hoặc tài khoản Google đã mua, mở Qelunai Plus trong tab Hồ sơ và chọn **Khôi phục giao dịch**. Quản lý hoặc huỷ gói: https://apps.apple.com/account/subscriptions (iPhone) hoặc https://play.google.com/store/account/subscriptions (Android).',
+          q: 'Quảng cáo và gói Qelunai Plus',
+          a: 'Bản miễn phí có thể có quảng cáo của Google AdMob, không có ở màn đăng nhập, lúc đang gieo quẻ, ở La bàn camera hay ở widget. Hiện ứng dụng chưa bán gói trả phí nào. Khi có, Qelunai Plus sẽ là gói đăng ký tháng hoặc năm qua App Store hoặc Google Play, không có quảng cáo; thanh toán, huỷ và hoàn tiền do Apple hoặc Google xử lý.',
         },
         {
           q: 'Tôi không nhận được nhắc ngày giỗ',
@@ -339,7 +335,7 @@ export default {
         {
           title: 'Qelunai Plus và mua trong ứng dụng',
           body: [
-            'Qelunai Plus là gói đăng ký theo tháng hoặc theo năm, mua qua App Store hoặc Google Play. Việc thanh toán, tự gia hạn, dùng thử, huỷ và hoàn tiền tuân theo điều khoản của Apple hoặc Google. Gói tự gia hạn cho tới khi bạn huỷ trong phần đăng ký của cửa hàng. Giá và quyền lợi được hiện trong ứng dụng trước khi bạn mua.',
+            'Khi có trên cửa hàng, Qelunai Plus là gói đăng ký theo tháng hoặc theo năm, mua qua App Store hoặc Google Play. Việc thanh toán, tự gia hạn, dùng thử, huỷ và hoàn tiền tuân theo điều khoản của Apple hoặc Google. Gói tự gia hạn cho tới khi bạn huỷ trong phần đăng ký của cửa hàng. Giá và quyền lợi được hiện trong ứng dụng trước khi bạn mua.',
           ],
         },
         {

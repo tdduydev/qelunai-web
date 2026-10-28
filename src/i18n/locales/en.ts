@@ -239,12 +239,8 @@ export default {
           a: 'Go to **Profile > Delete account** in the app, or email support@qelunai.com from the address you signed up with. The steps and what gets deleted are on the Delete account page.',
         },
         {
-          q: 'Qelunai Plus and ads',
-          a: 'The free version may show Google AdMob ads, never on the sign-in screen, while casting, in the camera compass or in widgets. Qelunai Plus is a monthly or yearly subscription through the App Store or Google Play with no ads, a 12-month good-day search, unlimited family profiles and more memorial-day reminders. Apple or Google handles payment, cancellation and refunds.',
-        },
-        {
-          q: 'I changed phones. How do I get Plus back?',
-          a: 'Sign in to the store with the Apple ID or Google account you bought with, open Qelunai Plus from the Profile tab and tap **Restore purchases**. To manage or cancel: https://apps.apple.com/account/subscriptions (iPhone) or https://play.google.com/store/account/subscriptions (Android).',
+          q: 'Ads and Qelunai Plus',
+          a: 'The free version may show Google AdMob ads, never on the sign-in screen, while casting, in the camera compass or in widgets. The app does not sell any paid plan yet. When it does, Qelunai Plus will be a monthly or yearly subscription through the App Store or Google Play with no ads; Apple or Google handles payment, cancellation and refunds.',
         },
         {
           q: 'I get no memorial-day reminders',
@@ -339,7 +335,7 @@ export default {
         {
           title: 'Qelunai Plus and in-app purchases',
           body: [
-            'Qelunai Plus is a monthly or yearly subscription bought through the App Store or Google Play. Payment, auto-renewal, trials, cancellation and refunds follow Apple’s or Google’s terms. The subscription renews until you cancel it in your store subscriptions. Price and benefits are shown in the app before you buy.',
+            'Once it is in the stores, Qelunai Plus is a monthly or yearly subscription bought through the App Store or Google Play. Payment, auto-renewal, trials, cancellation and refunds follow Apple’s or Google’s terms. The subscription renews until you cancel it in your store subscriptions. Price and benefits are shown in the app before you buy.',
           ],
         },
         {
