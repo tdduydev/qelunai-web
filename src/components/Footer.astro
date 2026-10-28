@@ -1,0 +1,57 @@
+---
+import Mark from './Mark.astro';
+import StoreButtons from './StoreButtons.astro';
+import { email, pathFor, type Locale } from '../i18n';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const t = locale.footer;
+const p = locale.pages;
+const year = new Date().getFullYear();
+---
+
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <a class="brand" href={pathFor(locale)} aria-label={locale.nav.home}>
+        <Mark size={30} />
+        <span>Qelunai</span>
+      </a>
+      <p>{t.tagline}</p>
+      <StoreButtons locale={locale} />
+    </div>
+    <nav class="footer-cols" aria-label={t.legal}>
+      <div>
+        <h2>{t.app}</h2>
+        <ul>
+          <li><a href={`${pathFor(locale)}#features`}>{locale.nav.features}</a></li>
+          <li><a href={`${pathFor(locale)}#faq`}>{locale.nav.faq}</a></li>
+          <li><a href="#" data-store-link="app-store">{locale.store.appStore}</a></li>
+          <li><a href="#" data-store-link="google-play">{locale.store.googlePlay}</a></li>
+        </ul>
+      </div>
+      <div>
+        <h2>{t.help}</h2>
+        <ul>
+          <li><a href={pathFor(locale, 'support')}>{p.support.title}</a></li>
+          <li><a href={pathFor(locale, 'deleteAccount')}>{p.deleteAccount.title}</a></li>
+          <li><a href={`mailto:${email}`}>{email}</a></li>
+        </ul>
+      </div>
+      <div>
+        <h2>{t.legal}</h2>
+        <ul>
+          <li><a href={pathFor(locale, 'privacy')}>{p.privacy.title}</a></li>
+          <li><a href={pathFor(locale, 'terms')}>{p.terms.title}</a></li>
+        </ul>
+      </div>
+    </nav>
+  </div>
+  <div class="footer-base">
+    <p>{t.disclaimer}</p>
+    <p>© {year} {t.rights}</p>
+  </div>
+</footer>

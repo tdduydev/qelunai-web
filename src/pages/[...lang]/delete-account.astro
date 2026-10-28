@@ -1,0 +1,17 @@
+---
+import Blocks from '../../components/Blocks.astro';
+import LegalPage from '../../layouts/LegalPage.astro';
+import { email, localePaths } from '../../i18n';
+
+export const getStaticPaths = localePaths;
+
+const { locale } = Astro.props;
+const t = locale.pages.deleteAccount;
+const mailto = `mailto:${email}?subject=${encodeURIComponent(t.mailSubject)}&body=${encodeURIComponent(t.mailBody)}`;
+---
+
+<LegalPage locale={locale} page="deleteAccount" title={t.title} description={t.description} lead={t.lead}>
+  <Blocks blocks={t.blocks.slice(0, 2)} />
+  <p><a class="btn btn-gold" href={mailto}>{t.mailAction}</a></p>
+  <Blocks blocks={t.blocks.slice(2)} />
+</LegalPage>

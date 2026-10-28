@@ -1,12 +1,13 @@
 ---
-import '@fontsource/cormorant-garamond/500.css';
-import '@fontsource/cormorant-garamond/600.css';
-import '@fontsource/cormorant-garamond/500-italic.css';
 import '../styles/global.css';
-import { locales, defaultLocale, pathFor, type Locale } from '../i18n';
+import Footer from '../components/Footer.astro';
+import Mark from '../components/Mark.astro';
+import { email, locales, defaultLocale, pathFor, type Locale, type PageId } from '../i18n';
 
 interface Props {
   locale: Locale;
+  /** Which page this is; canonical, hreflang and the language switch point at its siblings. */
+  page?: PageId;
   /** Page-specific title; defaults to the locale's SEO title. */
   title?: string;
   description?: string;
@@ -16,12 +17,13 @@ interface Props {
   schema?: Record<string, unknown>[];
 }
 
-const { locale, title = locale.seo.title, description = locale.seo.description, noindex = false, schema = [] } = Astro.props;
+const { locale, page = 'home', title = locale.seo.title, description = locale.seo.description, noindex = false, schema = [] } = Astro.props;
 
 const site = Astro.site!;
-const canonical = new URL(pathFor(locale), site).href;
-const ogImage = new URL('/og.png', site).href;
-const email = 'support@qelunai.com';
+const abs = (path: string) => new URL(path, site).href;
+const canonical = abs(pathFor(locale, page));
+const ogImage = abs('/og.png');
+const home = pathFor(locale);
 
 const graph = [
   {
@@ -29,7 +31,7 @@ const graph = [
     '@id': `${site.href}#organization`,
     name: 'Qelunai',
     url: site.href,
-    logo: new URL('/icon-512.png', site).href,
+    logo: abs('/icon-512.png'),
     email,
   },
   {
@@ -45,7 +47,7 @@ const graph = [
 ---
 
 <!doctype html>
-<html lang={locale.htmlLang} dir={locale.dir ?? 'ltr'} data-script={locale.script ?? 'latin'}>
+<html lang={locale.htmlLang}>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -54,7 +56,7 @@ const graph = [
         const root = document.documentElement;
         root.classList.add('js');
         // Hidden-before-reveal styles only apply when motion is welcome; a timer
-        // shows everything anyway if the motion bundle never arrives.
+        // shows everything anyway if the reveal script never runs.
         if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
           root.classList.add('motion');
           setTimeout(() => root.classList.add('motion-fallback'), 4000);
@@ -63,22 +65,20 @@ const graph = [
     </script>
     <title>{title}</title>
     <meta name="description" content={description} />
-    {!noindex && <meta name="keywords" content={locale.seo.keywords} />}
+    {!noindex && page === 'home' && <meta name="keywords" content={locale.seo.keywords} />}
     <meta name="robots" content={noindex ? 'noindex, follow' : 'index, follow, max-image-preview:large'} />
     {!noindex && <link rel="canonical" href={canonical} />}
-    {
-      !noindex &&
-        locales.map((l) => <link rel="alternate" hreflang={l.code} href={new URL(pathFor(l), site).href} />)
-    }
-    {!noindex && <link rel="alternate" hreflang="x-default" href={new URL(pathFor(defaultLocale), site).href} />}
+    {!noindex && locales.map((l) => <link rel="alternate" hreflang={l.code} href={abs(pathFor(l, page))} />)}
+    {!noindex && <link rel="alternate" hreflang="x-default" href={abs(pathFor(defaultLocale, page))} />}
 
-    <meta name="theme-color" content="#0E1828" />
+    <meta name="theme-color" content="#0D0A08" />
     <meta name="color-scheme" content="dark" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="icon" href="/favicon.png" type="image/png" sizes="48x48" />
     <link rel="apple-touch-icon" href="/icon-512.png" />
     <link rel="manifest" href="/manifest.webmanifest" />
-    <link rel="preload" href="/fonts/BeVietnamPro-Bold.ttf" as="font" type="font/ttf" crossorigin />
+    <link rel="preload" href="/fonts/BeVietnamPro-Regular.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/PlayfairDisplay-Variable.woff2" as="font" type="font/woff2" crossorigin />
 
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="Qelunai" />
@@ -88,7 +88,7 @@ const graph = [
     <meta property="og:image" content={ogImage} />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
-    <meta property="og:image:alt" content="Qelunai, Eastern wisdom & AI" />
+    <meta property="og:image:alt" content={locale.seo.ogAlt} />
     <meta property="og:locale" content={locale.ogLocale} />
     {locales.filter((l) => l.code !== locale.code).map((l) => <meta property="og:locale:alternate" content={l.ogLocale} />)}
     <meta name="twitter:card" content="summary_large_image" />
@@ -101,34 +101,40 @@ const graph = [
   <body>
     <a class="skip" href="#main">{locale.nav.skip}</a>
     <header class="site-header">
-      <a class="brand" href={pathFor(locale)} aria-label="Qelunai">
-        <img src="/favicon.svg" alt="" width="32" height="32" />
+      <a class="brand" href={home} aria-label={locale.nav.home}>
+        <Mark size={30} />
         <span>Qelunai</span>
       </a>
-      <nav class="site-nav" aria-label="Main">
-        <a href={`${pathFor(locale)}#modules`}>{locale.nav.modules}</a>
-        <a href={`${pathFor(locale)}#principles`}>{locale.nav.principles}</a>
-        <a href={`${pathFor(locale)}#faq`}>{locale.nav.faq}</a>
+      <nav class="site-nav" aria-label={locale.nav.home}>
+        <a href={`${home}#features`}>{locale.nav.features}</a>
+        <a href={`${home}#faq`}>{locale.nav.faq}</a>
+        <a href={pathFor(locale, 'support')} aria-current={page === 'support' ? 'page' : undefined}>{locale.nav.support}</a>
       </nav>
-      <details class="lang">
-        <summary aria-label={locale.nav.language}>{locale.code.toUpperCase()}</summary>
-        <ul data-ui>
-          {
-            locales.map((l) => (
-              <li>
-                <a href={pathFor(l)} hreflang={l.code} lang={l.htmlLang} aria-current={l.code === locale.code ? 'page' : undefined}>
-                  {l.nativeName}
-                </a>
-              </li>
-            ))
-          }
-        </ul>
-      </details>
-      <a class="btn btn-gold header-action" href={`${pathFor(locale)}#begin`}>{locale.nav.action}</a>
+      <ul class="lang" aria-label={locale.nav.language}>
+        {
+          locales.map((l) => (
+            <li>
+              <a
+                href={pathFor(l, page)}
+                hreflang={l.code}
+                lang={l.htmlLang}
+                title={l.nativeName}
+                aria-current={l.code === locale.code ? 'true' : undefined}
+              >
+                {l.code.toUpperCase()}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+      <a class="btn btn-gold header-action" href={`${home}#download`}>{locale.nav.action}</a>
     </header>
     <main id="main">
       <slot />
     </main>
-    <slot name="footer" />
+    <Footer locale={locale} />
+    <script>
+      import '../scripts/reveal';
+    </script>
   </body>
 </html>

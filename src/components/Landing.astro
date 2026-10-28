@@ -1,321 +1,168 @@
 ---
+import type { ImageMetadata } from 'astro';
 import { Image } from 'astro:assets';
-import { locales, pathFor, type Locale, type ModuleId } from '../i18n';
-import sky from '../assets/gen/layer-sky.png';
-import far from '../assets/gen/layer-far.png';
-import mid from '../assets/gen/layer-mid.png';
-import near from '../assets/gen/layer-near.png';
-import stones from '../assets/gen/stones.png';
+import StoreButtons from './StoreButtons.astro';
+import { pathFor, rich, type FeatureId, type Locale } from '../i18n';
+import trongdong from '../assets/sonmai/trongdong.webp';
+import sen from '../assets/sonmai/sen-sonmai.webp';
 
 interface Props {
   locale: Locale;
 }
 
-const { locale: t } = Astro.props;
-const email = 'support@qelunai.com';
-const [mailUser, mailHost] = email.split('@');
-const latin = (t.script ?? 'latin') === 'latin';
+const { locale } = Astro.props;
+const t = locale;
 
-const moduleOrder: ModuleId[] = ['tuvi', 'batu', 'phongthuy', 'kinhdich', 'licham', 'thansohoc'];
+const shots = import.meta.glob<{ default: ImageMetadata }>('../assets/shots/*/*.png', { eager: true });
+const icons = import.meta.glob<{ default: ImageMetadata }>('../assets/sonmai/icons/*.webp', { eager: true });
+const shot = (name: string) => (shots[`../assets/shots/${locale.code}/${name}.png`] ?? shots[`../assets/shots/vi/${name}.png`]).default;
+const icon = (name: string) => icons[`../assets/sonmai/icons/${name}.webp`].default;
 
-// Headline split for the letter-by-letter rise. Latin keeps words whole so lines
-// still wrap between words; Han and Hangul may break after any character.
-const split = (line: string) =>
-  latin ? line.split(' ').map((w) => [...w]) : [...line].map((c) => [c]);
-
-// The zodiac wheel: twelve earthly branches, every 5° a tick, a marker per module.
-const branches = ['子', '丑', '寅', '卯', '辰', '巳', '午', '未', '申', '酉', '戌', '亥'];
-const polar = (deg: number, r: number) => {
-  const a = ((deg - 90) * Math.PI) / 180;
-  return [+(Math.cos(a) * r).toFixed(2), +(Math.sin(a) * r).toFixed(2)];
-};
-const ticks = Array.from({ length: 72 }, (_, i) => {
-  const long = i % 6 === 0;
-  const [x1, y1] = polar(i * 5, long ? 268 : 278);
-  const [x2, y2] = polar(i * 5, 288);
-  return { x1, y1, x2, y2, long };
-});
-const terms = Array.from({ length: 24 }, (_, i) => polar(i * 15 + 7.5, 196));
-
-// 中孚, Inner Truth, read bottom to top: two yang, two yin, two yang.
-const hexagram = [1, 1, 0, 0, 1, 1].reverse();
-const numerals = ['一', '二', '三', '四', '五', '六', '七', '八', '九'];
+/** Features shown with an app screenshot, in page order, and their medallion icon. */
+const rows: { id: FeatureId; shot: string; icon: string }[] = [
+  { id: 'today', shot: 'home', icon: 'ngaygio' },
+  { id: 'licham', shot: 'calendar', icon: 'licham' },
+  { id: 'kinhdich', shot: 'modules-kinhdich', icon: 'kinhdich' },
+  { id: 'phongthuy', shot: 'la-ban', icon: 'phongthuy' },
+  { id: 'giadinh', shot: 'gia-dinh', icon: 'giadinh' },
+];
+/** Features shown as cards, without a screenshot. */
+const cards: { id: FeatureId; icon: string }[] = [
+  { id: 'thansohoc', icon: 'thansohoc' },
+  { id: 'batu', icon: 'batu' },
+];
+const shotWidths = [260, 340, 520];
 ---
-
-<canvas class="sky-canvas" aria-hidden="true"></canvas>
-<div class="cursor-glow" aria-hidden="true"></div>
 
 <section class="hero" aria-labelledby="hero-title">
   <div class="hero-copy">
-    <h1 id="hero-title" class="hero-title">
-      <span class="sr-only">Qelunai: {t.hero.line1} {t.hero.line2}</span>
-      {
-        [t.hero.line1, t.hero.line2].map((line, li) => (
-          <span class:list={['hero-line', `hero-line--${li + 1}`]} aria-hidden="true">
-            {split(line).map((word) => (
-              <span class="word">
-                {word.map((c) => (
-                  <span class="ch">{c}</span>
-                ))}
-              </span>
-            ))}
-          </span>
-        ))
-      }
+    <p class="eyebrow">{t.hero.eyebrow}</p>
+    <h1 id="hero-title">
+      {t.hero.title}
+      <em class="gold-text">{t.hero.accent}</em>
     </h1>
-    <p class="hero-sub">{t.hero.sub}</p>
-    <div class="hero-actions">
-      <a class="btn btn-gold magnetic" href="#begin">{t.nav.action}</a>
-      <a class="btn btn-ghost magnetic" href="#modules">{t.nav.modules}</a>
-    </div>
+    <p class="lede">{t.hero.sub}</p>
+    <StoreButtons locale={locale} />
+    <p class="note">{t.store.soon}</p>
   </div>
-  <div class="scroll-hint" aria-hidden="true"><span></span></div>
-</section>
-
-<section class="vista" aria-label={t.intro.note}>
-  <div class="vista-stage">
-    <div class="layer layer-sky">
-      <Image src={sky} alt={t.hero.pictureAlt} widths={[960, 1536]} sizes="100vw" />
-    </div>
-    <div class="layer layer-far" aria-hidden="true">
-      <Image src={far} alt="" widths={[960, 1536]} sizes="100vw" />
-    </div>
-    <div class="mist mist-1" aria-hidden="true"></div>
-    <div class="layer layer-mid" aria-hidden="true">
-      <Image src={mid} alt="" widths={[960, 1536]} sizes="100vw" />
-    </div>
-    <div class="mist mist-2" aria-hidden="true"></div>
-    <div class="layer layer-near" aria-hidden="true">
-      <Image src={near} alt="" widths={[960, 1536]} sizes="100vw" />
-    </div>
-    <div class="vista-copy">
-      <p class="vista-lines">
-        {t.intro.lines.map((line) => <span class="vista-line">{line}</span>)}
-      </p>
-      <p class="vista-note">{t.intro.note}</p>
-    </div>
-  </div>
-</section>
-
-<section class="features" aria-labelledby="features-title">
-  <h2 id="features-title" class="section-kicker">{t.features.heading}</h2>
-  <ol class="feature-list">
-    {
-      t.features.items.map((item, i) => (
-        <li class="feature">
-          <span class="feature-num" aria-hidden="true">{numerals[i]}</span>
-          <p class="feature-text"><span>{item.text}</span></p>
-          <p class="feature-detail">{item.detail}</p>
-        </li>
-      ))
-    }
-  </ol>
-</section>
-
-<section class="modules" id="modules" aria-labelledby="modules-title">
-  <div class="modules-stage">
-    <div class="wheel-wrap" aria-hidden="true">
-      <svg class="wheel" viewBox="-300 -300 600 600">
-        <defs>
-          <radialGradient id="wheel-core">
-            <stop offset="0" stop-color="#F3DDA8" stop-opacity="0.9" />
-            <stop offset="0.35" stop-color="#D7B67A" stop-opacity="0.28" />
-            <stop offset="1" stop-color="#D7B67A" stop-opacity="0" />
-          </radialGradient>
-        </defs>
-        <circle r="120" fill="url(#wheel-core)" />
-        <g class="wheel-rotor">
-          <circle class="w-line" r="290" />
-          <circle class="w-line" r="262" />
-          <circle class="w-faint" r="214" />
-          <circle class="w-dash" r="150" />
-          {ticks.map((k) => <line class:list={['w-tick', { long: k.long }]} x1={k.x1} y1={k.y1} x2={k.x2} y2={k.y2} />)}
-          {terms.map(([x, y]) => <circle class="w-term" cx={x} cy={y} r="2.2" />)}
-          {
-            branches.map((b, i) => {
-              const [x, y] = polar(i * 30 + 15, 238);
-              return (
-                <text class="w-branch" x={x} y={y} transform={`rotate(${i * 30 + 15} ${x} ${y})`}>
-                  {b}
-                </text>
-              );
-            })
-          }
-          {
-            moduleOrder.map((id, i) => {
-              const [x, y] = polar(i * 60, 150);
-              return <circle class="w-marker" data-marker={i} cx={x} cy={y} r="9" />;
-            })
-          }
-        </g>
-        <path class="w-pointer" d="M0 -246 L-9 -298 L9 -298 Z" />
-        <circle class="w-center" r="5" />
-      </svg>
-    </div>
-    <div class="modules-copy">
-      <h2 id="modules-title" class="modules-title">{t.modules.heading}</h2>
-      <ul class="module-names">
-        {
-          moduleOrder.map((id, i) => (
-            <li>
-              <button type="button" class:list={['module-name', { 'is-active': i === 0 }]} data-index={i} aria-pressed={i === 0 ? 'true' : 'false'}>
-                {t.modules.items[id].name}
-              </button>
-            </li>
-          ))
-        }
-      </ul>
-      <div class="module-cards" aria-live="polite">
-        {
-          moduleOrder.map((id, i) => (
-            <article class:list={['module-card', { 'is-active': i === 0 }]} data-card={i}>
-              <p class="module-fact">{t.modules.items[id].fact}</p>
-              <h3>{t.modules.items[id].name}</h3>
-              <p class="module-summary">{t.modules.items[id].summary}</p>
-              <span class="chip">{t.modules.status}</span>
-            </article>
-          ))
-        }
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="about" id="principles" aria-labelledby="about-title">
-  <svg class="moon" viewBox="0 0 200 200" aria-hidden="true">
-    <defs>
-      <radialGradient id="moon-glow">
-        <stop offset="0.4" stop-color="#D7B67A" stop-opacity="0.35" />
-        <stop offset="1" stop-color="#D7B67A" stop-opacity="0" />
-      </radialGradient>
-      <radialGradient id="moon-face" cx="0.42" cy="0.4">
-        <stop offset="0" stop-color="#F6E7C4" />
-        <stop offset="1" stop-color="#C9A56A" />
-      </radialGradient>
-      <mask id="moon-mask">
-        <rect x="0" y="0" width="200" height="200" fill="#fff" />
-        <circle class="moon-shadow" cx="150" cy="100" r="62" fill="#000" />
-      </mask>
-    </defs>
-    <circle class="moon-halo" cx="100" cy="100" r="98" fill="url(#moon-glow)" />
-    <circle cx="100" cy="100" r="60" fill="none" stroke="#EDE6D6" stroke-opacity="0.12" />
-    <circle cx="100" cy="100" r="60" fill="url(#moon-face)" mask="url(#moon-mask)" />
-  </svg>
-  <div class="about-inner">
-    <h2 id="about-title" class="about-title">
-      <span class="line">{t.about.line1}</span>
-      <span class="line line--accent">{t.about.line2}</span>
-    </h2>
-    <div class="about-body">
-      {
-        t.about.blocks.map((b) => (
-          <div class="about-block">
-            <h3>{b.title}</h3>
-            <p>{b.body}</p>
-          </div>
-        ))
-      }
-      <a class="btn btn-ghost magnetic" href="#begin">{t.about.action}</a>
-    </div>
-    <figure class="about-figure">
-      <Image src={stones} alt={t.about.pictureAlt} widths={[480, 800, 1024]} sizes="(min-width: 900px) 34vw, 86vw" />
+  <div class="hero-visual">
+    <Image class="drum" src={trongdong} alt="" widths={[360, 720]} sizes="(min-width: 960px) 620px, 120vw" loading="eager" />
+    <figure class="phone">
+      <Image src={shot('home')} alt={t.hero.shotAlt} widths={shotWidths} sizes="(min-width: 960px) 300px, 64vw" loading="eager" fetchpriority="high" />
     </figure>
   </div>
 </section>
 
-<section class="faq" id="faq" aria-labelledby="faq-title">
-  <div class="faq-head">
-    <svg class="hexagram" viewBox="0 0 120 130" aria-hidden="true">
-      {
-        hexagram.map((yang, i) => {
-          const y = 9 + i * 22.4;
-          return yang ? (
-            <path d={`M0 ${y} H120`} pathLength="1" />
-          ) : (
-            <path d={`M0 ${y} H50 M70 ${y} H120`} pathLength="1" />
-          );
-        })
-      }
-    </svg>
-    <h2 id="faq-title" class="faq-title">{t.faq.heading}</h2>
-  </div>
-  <div class="faq-list">
+<section id="features" class="section features" aria-labelledby="features-title">
+  <header class="section-head" data-reveal>
+    <p class="eyebrow">{t.features.eyebrow}</p>
+    <h2 id="features-title">{t.features.heading}</h2>
+    <p>{t.features.sub}</p>
+  </header>
+
+  {
+    rows.map(({ id, shot: name, icon: iconName }, i) => {
+      const f = t.features.items[id];
+      return (
+        <article class:list={['feature', { flip: i % 2 === 1 }]} id={`feature-${id}`} data-reveal>
+          <div class="feature-copy">
+            <p class="kicker">
+              <Image src={icon(iconName)} alt="" width={44} height={44} />
+              <span>{f.kicker}</span>
+            </p>
+            <h3>{f.name}</h3>
+            <p>{f.summary}</p>
+            <ul class="points">
+              {f.points.map((point) => <li>{point}</li>)}
+            </ul>
+          </div>
+          <figure class="phone">
+            <Image src={shot(name)} alt={f.shotAlt ?? ''} widths={shotWidths} sizes="(min-width: 960px) 280px, 64vw" />
+          </figure>
+        </article>
+      );
+    })
+  }
+
+  <div class="feature-cards">
     {
-      t.faq.items.map((item, i) => (
-        <details class="faq-item" open={i === 0}>
-          <summary>
-            <h3>{item.q}</h3>
-            <span class="faq-mark" aria-hidden="true" />
-          </summary>
-          <p>{item.a}</p>
-        </details>
-      ))
+      cards.map(({ id, icon: iconName }) => {
+        const f = t.features.items[id];
+        return (
+          <article class="card medallion-card" id={`feature-${id}`} data-reveal>
+            <Image src={icon(iconName)} alt="" width={72} height={72} />
+            <p class="kicker">{f.kicker}</p>
+            <h3>{f.name}</h3>
+            <p>{f.summary}</p>
+            <ul class="points">
+              {f.points.map((point) => <li>{point}</li>)}
+            </ul>
+          </article>
+        );
+      })
     }
   </div>
 </section>
 
-<section class="cta" id="begin" aria-labelledby="cta-title">
-  <div class="dawn" aria-hidden="true"><div class="sun"></div></div>
-  <div class="cta-inner">
-    <div class="cta-copy">
-      <h2 id="cta-title" class="cta-title">
-        <span class="line">{t.cta.line1}</span>
-        <span class="line line--accent">{t.cta.line2}</span>
-      </h2>
-      <p class="cta-sub">{t.cta.sub}</p>
-    </div>
-    <form
-      class="notify"
-      action={`mailto:${email}`}
-      method="post"
-      enctype="text/plain"
-      data-mail={email}
-      data-subject={t.cta.mailSubject}
-      data-body={t.cta.mailBody}
-      aria-labelledby="notify-title"
-    >
-      <h3 id="notify-title">{t.cta.dialogTitle}</h3>
-      <label class="field">
-        <span>{t.cta.emailLabel}</span>
-        <input type="email" name="email" required autocomplete="email" placeholder={t.cta.emailPlaceholder} />
-      </label>
-      <fieldset class="field">
-        <legend>{t.cta.platformLabel}</legend>
-        <div class="segmented">
-          <label><input type="radio" name="platform" value="Android" checked /><span>Android</span></label>
-          <label><input type="radio" name="platform" value="iOS" /><span>iOS</span></label>
-        </div>
-      </fieldset>
-      <button class="btn btn-gold btn-block magnetic" type="submit">{t.cta.button}</button>
-    </form>
+<section class="section extras" aria-labelledby="extras-title">
+  <header class="section-head" data-reveal>
+    <p class="eyebrow">{t.extras.eyebrow}</p>
+    <h2 id="extras-title">{t.extras.heading}</h2>
+  </header>
+  <ul class="extras-grid">
+    {
+      t.extras.items.map((item) => (
+        <li class="card" data-reveal>
+          <h3>{item.title}</h3>
+          <p>{item.body}</p>
+        </li>
+      ))
+    }
+  </ul>
+</section>
+
+<section class="principles" aria-labelledby="principles-title">
+  <div class="paper" data-reveal>
+    <span class="seal" aria-hidden="true">{t.principles.seal}</span>
+    <p class="eyebrow">{t.principles.eyebrow}</p>
+    <h2 id="principles-title">{t.principles.heading}</h2>
+    <ol>
+      {
+        t.principles.items.map((item) => (
+          <li>
+            <h3>{item.title}</h3>
+            <p>{item.body}</p>
+          </li>
+        ))
+      }
+    </ol>
   </div>
 </section>
 
-<footer class="footer" aria-labelledby="footer-title">
-  <div class="footer-top">
-    <a class="brand" href={pathFor(t)}><img src="/favicon.svg" alt="" width="28" height="28" /><span>Qelunai</span></a>
-    <div class="footer-notes">
-      {t.footer.notes.map((n) => <p>{n}</p>)}
-    </div>
-    <a class="footer-toplink" href="#main">{t.footer.top}</a>
+<section id="faq" class="section faq" aria-labelledby="faq-title">
+  <header class="section-head" data-reveal>
+    <p class="eyebrow">{t.faq.eyebrow}</p>
+    <h2 id="faq-title">{t.faq.heading}</h2>
+  </header>
+  <div class="faq-list" data-reveal>
+    {
+      t.faq.items.map((item) => (
+        <details>
+          <summary>{item.q}</summary>
+          <p set:html={rich(item.a)} />
+        </details>
+      ))
+    }
   </div>
-  <div class="footer-contact">
-    <p class="footer-label">{t.footer.contactLabel}</p>
-    <h2 id="footer-title" class="footer-mail">
-      <a href={`mailto:${email}`}><span>{mailUser}</span><wbr /><span>@{mailHost}</span></a>
-    </h2>
-  </div>
-  <div class="footer-meta">
-    <nav aria-label={t.nav.language}>
-      <ul class="footer-langs">
-        {locales.map((l) => <li><a href={pathFor(l)} hreflang={l.code} lang={l.htmlLang}>{l.nativeName}</a></li>)}
-      </ul>
-    </nav>
-    <p>{t.footer.credits}</p>
-    <p>© 2026 Qelunai. {t.footer.rights}</p>
-  </div>
-</footer>
+  <p class="faq-more"><a class="link" href={pathFor(locale, 'support')}>{t.faq.more} →</a></p>
+</section>
 
-<script>
-  import '../scripts/page';
-</script>
+<section id="download" class="download" aria-labelledby="download-title">
+  <Image class="download-art" src={sen} alt={t.download.pictureAlt} widths={[360, 780]} sizes="(min-width: 960px) 420px, 80vw" />
+  <div class="download-copy" data-reveal>
+    <h2 id="download-title">{t.download.heading}</h2>
+    <p>{t.download.sub}</p>
+    <StoreButtons locale={locale} />
+    <p class="note">{t.store.soon}</p>
+  </div>
+</section>

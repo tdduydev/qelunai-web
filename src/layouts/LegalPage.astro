@@ -1,0 +1,38 @@
+---
+import Base from './Base.astro';
+import { pathFor, type Locale, type PageId } from '../i18n';
+
+interface Props {
+  locale: Locale;
+  page: PageId;
+  title: string;
+  description: string;
+  /** Shown under the title, e.g. "Cập nhật 29/10/2026". */
+  updated?: string;
+  lead?: string;
+}
+
+const { locale, page, title, description, updated, lead } = Astro.props;
+const breadcrumb = {
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Qelunai', item: new URL(pathFor(locale), Astro.site).href },
+    { '@type': 'ListItem', position: 2, name: title, item: new URL(pathFor(locale, page), Astro.site).href },
+  ],
+};
+---
+
+<Base locale={locale} page={page} title={`${title} · Qelunai`} description={description} schema={[breadcrumb]}>
+  <article class="legal">
+    <header class="legal-head">
+      <a class="back link" href={pathFor(locale)}>← {locale.pages.backHome}</a>
+      <h1>{title}</h1>
+      {updated && <p class="updated">{updated}</p>}
+      {lead && <p class="lede">{lead}</p>}
+    </header>
+    <slot name="aside" />
+    <div class="sheet">
+      <slot />
+    </div>
+  </article>
+</Base>

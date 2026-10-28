@@ -7,6 +7,7 @@ const t = defaultLocale.notFound;
 
 <Base locale={defaultLocale} title={`${t.title} · Qelunai`} description={t.body} noindex>
   <section class="not-found" aria-labelledby="nf-title">
+    <p class="eyebrow">404</p>
     <h1 id="nf-title">{t.title}</h1>
     <p>{t.body}</p>
     <ul>
@@ -14,31 +15,3 @@ const t = defaultLocale.notFound;
     </ul>
   </section>
 </Base>
-
-<style>
-  .not-found {
-    min-height: 100svh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    gap: 24px;
-    padding: calc(var(--header-h) + 40px) var(--m) 64px;
-    color: var(--paper);
-  }
-  h1 {
-    font-family: var(--display);
-    font-weight: 500;
-    font-size: clamp(52px, 8vw, 128px);
-    line-height: 1;
-    letter-spacing: -0.02em;
-    max-width: 14ch;
-  }
-  p {
-    color: var(--paper-80);
-  }
-  ul {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 12px;
-  }
-</style>

@@ -1,0 +1,34 @@
+---
+import { rich, type Block } from '../i18n';
+
+interface Props {
+  blocks: Block[];
+}
+
+const { blocks } = Astro.props;
+---
+
+{
+  blocks.map((block) => (
+    <section>
+      <h2>{block.title}</h2>
+      {block.body.map((text) => (
+        <p set:html={rich(text)} />
+      ))}
+      {block.list && block.ordered && (
+        <ol>
+          {block.list.map((text) => (
+            <li set:html={rich(text)} />
+          ))}
+        </ol>
+      )}
+      {block.list && !block.ordered && (
+        <ul>
+          {block.list.map((text) => (
+            <li set:html={rich(text)} />
+          ))}
+        </ul>
+      )}
+    </section>
+  ))
+}

@@ -1,0 +1,41 @@
+---
+import LegalPage from '../../layouts/LegalPage.astro';
+import { email, localePaths, rich } from '../../i18n';
+
+export const getStaticPaths = localePaths;
+
+const { locale } = Astro.props;
+const t = locale.pages.support;
+const plain = (s: string) => s.replace(/\*\*/g, '');
+const schema = {
+  '@type': 'FAQPage',
+  inLanguage: locale.htmlLang,
+  mainEntity: t.faq.map((item) => ({
+    '@type': 'Question',
+    name: item.q,
+    acceptedAnswer: { '@type': 'Answer', text: plain(item.a) },
+  })),
+};
+---
+
+<LegalPage locale={locale} page="support" title={t.title} description={t.description} lead={t.lead}>
+  <section class="contact-card">
+    <h2>{t.contactTitle}</h2>
+    <p set:html={rich(t.contactBody)} />
+    <a class="btn btn-gold" href={`mailto:${email}`}>{t.contactAction}</a>
+  </section>
+  <section>
+    <h2>{t.faqTitle}</h2>
+    <div class="faq-list">
+      {
+        t.faq.map((item) => (
+          <details>
+            <summary>{item.q}</summary>
+            <p set:html={rich(item.a)} />
+          </details>
+        ))
+      }
+    </div>
+  </section>
+  <script type="application/ld+json" set:html={JSON.stringify({ '@context': 'https://schema.org', ...schema })} />
+</LegalPage>

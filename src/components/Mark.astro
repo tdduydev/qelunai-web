@@ -1,0 +1,18 @@
+---
+/** The Qelunai mark (gold ring, S-curve, two dots, handle) without the app-icon tile. */
+interface Props {
+  size?: number;
+  class?: string;
+}
+
+const { size = 32, class: className } = Astro.props;
+---
+
+<svg class={className} width={size} height={size} viewBox="72 68 370 370" aria-hidden="true" focusable="false">
+  <circle cx="242" cy="238" r="151" fill="none" stroke="currentColor" stroke-width="22"></circle>
+  <circle cx="242" cy="238" r="122" fill="none" stroke="currentColor" stroke-width="4" opacity=".35"></circle>
+  <path d="M242 131c77 0 77 107 0 107s-77 107 0 107" fill="none" stroke="currentColor" stroke-width="14" stroke-linecap="round"></path>
+  <circle cx="242" cy="185" r="20" fill="currentColor"></circle>
+  <circle cx="242" cy="292" r="20" fill="#74C8B9"></circle>
+  <path d="M345 349l73 73" stroke="currentColor" stroke-width="30" stroke-linecap="round"></path>
+</svg>

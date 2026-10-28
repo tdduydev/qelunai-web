@@ -1,11 +1,12 @@
 {
   "name": "Qelunai",
   "short_name": "Qelunai",
-  "description": "Eastern wisdom & AI: Tử vi, Bát tự, lunar calendar and I Ching, told plainly.",
+  "description": "Lịch âm, giờ hoàng đạo, Kinh Dịch, Bát tự và phong thủy trên nền sơn mài.",
+  "lang": "vi",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#0E1828",
-  "theme_color": "#0E1828",
+  "background_color": "#0D0A08",
+  "theme_color": "#0D0A08",
   "icons": [
     { "src": "/favicon.svg", "type": "image/svg+xml", "sizes": "any" },
     { "src": "/icon-512.png", "type": "image/png", "sizes": "1024x1024", "purpose": "any" }
