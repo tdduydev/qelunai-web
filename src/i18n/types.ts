@@ -1,7 +1,7 @@
 export type FeatureId = 'today' | 'licham' | 'kinhdich' | 'phongthuy' | 'giadinh' | 'thansohoc' | 'batu';
 
 /** Every page exists once per language; see `pagePaths` in `./index.ts`. */
-export type PageId = 'home' | 'privacy' | 'support' | 'deleteAccount' | 'terms';
+export type PageId = 'home' | 'privacy' | 'support' | 'deleteAccount' | 'terms' | 'testers';
 
 /** A heading and its paragraphs; `**bold**` is allowed inside. */
 export interface Block {
@@ -85,6 +85,7 @@ export interface Locale {
       mailBody: string;
     };
     terms: { title: string; description: string; updated: string; lead: string; blocks: Block[] };
+    testers: { title: string; description: string; lead: string; blocks: Block[] };
     updatedLabel: string;
     backHome: string;
   };

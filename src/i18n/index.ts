@@ -21,6 +21,7 @@ export const pageSlugs: Record<PageId, string> = {
   support: 'support/',
   deleteAccount: 'delete-account/',
   terms: 'terms/',
+  testers: 'testers/',
 };
 
 export const pages = Object.keys(pageSlugs) as PageId[];

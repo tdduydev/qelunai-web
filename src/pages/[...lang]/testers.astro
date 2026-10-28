@@ -1,0 +1,14 @@
+---
+import Blocks from '../../components/Blocks.astro';
+import LegalPage from '../../layouts/LegalPage.astro';
+import { localePaths } from '../../i18n';
+
+export const getStaticPaths = localePaths;
+
+const { locale } = Astro.props;
+const t = locale.pages.testers;
+---
+
+<LegalPage locale={locale} page="testers" title={t.title} description={t.description} lead={t.lead}>
+  <Blocks blocks={t.blocks} />
+</LegalPage>

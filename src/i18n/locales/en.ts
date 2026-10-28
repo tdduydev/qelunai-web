@@ -208,6 +208,42 @@ export default {
   },
 
   pages: {
+    testers: {
+      title: 'Test Qelunai on Android',
+      description: 'Join the Qelunai closed test on Google Play: join the tester group, accept the invite, install the app and keep it installed for 14 days.',
+      lead: 'Qelunai needs at least 12 Android users testing the app for 14 days in a row before it can be released on Google Play. Thank you for helping!',
+      blocks: [
+        {
+          title: 'Four steps to join',
+          ordered: true,
+          body: ['Use the same Google account for all four steps: the one signed in to Google Play on your phone.'],
+          list: [
+            'Open the tester group and tap **Join group**: https://groups.google.com/g/qelunai-testers',
+            'Open the invite page and tap **Become a tester**: https://play.google.com/apps/testing/com.qelunai.qelunai',
+            'Tap **Download it on Google Play** on that page, then install Qelunai like any other app.',
+            'Open the app, sign in and try it. **Keep the app installed for at least 14 days**; uninstalling early means Google does not count your test.',
+          ],
+        },
+        {
+          title: 'During the 14 days',
+          body: [],
+          list: [
+            'Open the app a few times: check today, cast a hexagram, try the compass.',
+            'Found a bug or something hard to use? Send feedback with **Send feedback** on the Qelunai Google Play page, or email support@qelunai.com.',
+            'The test build shows real Google AdMob ads. Please do not tap ads just to help the app: Google treats that as fraud.',
+          ],
+        },
+        {
+          title: 'Questions',
+          body: [
+            '**No Become a tester button?** Check that you joined the group in step 1 with the Google account on your phone, then reload the page.',
+            '**Does it cost anything?** No. The app is free and the test build sells nothing.',
+            '**My data?** Same as the released app; see the Privacy page. You can delete your account at any time in Profile > Delete account.',
+            '**Want to leave the test?** Open the invite page again and leave the program; after the 14 days you keep the app as a normal user.',
+          ],
+        },
+      ],
+    },
     updatedLabel: 'Updated',
     backHome: 'Back to home',
     privacy: {
