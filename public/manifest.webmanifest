@@ -4,8 +4,8 @@
   "description": "Eastern wisdom & AI: Tử vi, Bát tự, lunar calendar and I Ching, told plainly.",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#F7F4ED",
-  "theme_color": "#101B2C",
+  "background_color": "#0E1828",
+  "theme_color": "#0E1828",
   "icons": [
     { "src": "/favicon.svg", "type": "image/svg+xml", "sizes": "any" },
     { "src": "/icon-512.png", "type": "image/png", "sizes": "1024x1024", "purpose": "any" }
