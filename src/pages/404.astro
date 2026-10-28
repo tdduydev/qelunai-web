@@ -1,0 +1,44 @@
+---
+import Base from '../layouts/Base.astro';
+import { defaultLocale, locales, pathFor } from '../i18n';
+
+const t = defaultLocale.notFound;
+---
+
+<Base locale={defaultLocale} title={`${t.title} · Qelunai`} description={t.body} noindex>
+  <section class="chapter not-found" data-bg="var(--midnight)" data-ink="light" aria-labelledby="nf-title">
+    <h1 id="nf-title">{t.title}</h1>
+    <p>{t.body}</p>
+    <ul>
+      {locales.map((l) => <li><a class="btn btn-gold" href={pathFor(l)} lang={l.htmlLang}>{l.notFound.home}</a></li>)}
+    </ul>
+  </section>
+</Base>
+
+<style>
+  .not-found {
+    min-height: 100svh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 24px;
+    padding: calc(var(--header-h) + 40px) var(--m) 64px;
+    background: var(--midnight);
+    color: var(--ivory);
+  }
+  h1 {
+    font-size: clamp(44px, 7vw, 112px);
+    line-height: 1;
+    letter-spacing: -0.03em;
+    max-width: 14ch;
+  }
+  ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+</style>
+<script is:inline>
+  document.querySelector('.site-header').style.setProperty('--hbg', 'var(--midnight)');
+  document.querySelector('.site-header').dataset.ink = 'light';
+</script>

@@ -1,0 +1,120 @@
+---
+import '../styles/global.css';
+import { locales, defaultLocale, pathFor, type Locale } from '../i18n';
+
+interface Props {
+  locale: Locale;
+  /** Page-specific title; defaults to the locale's SEO title. */
+  title?: string;
+  description?: string;
+  /** Pages that should not be indexed, e.g. 404. Also drops hreflang alternates. */
+  noindex?: boolean;
+  /** Extra JSON-LD objects for this page. */
+  schema?: Record<string, unknown>[];
+}
+
+const { locale, title = locale.seo.title, description = locale.seo.description, noindex = false, schema = [] } = Astro.props;
+
+const site = Astro.site!;
+const canonical = new URL(pathFor(locale), site).href;
+const ogImage = new URL('/og.png', site).href;
+const email = 'hello@qelunai.com';
+
+const graph = [
+  {
+    '@type': 'Organization',
+    '@id': `${site.href}#organization`,
+    name: 'Qelunai',
+    url: site.href,
+    logo: new URL('/icon-512.png', site).href,
+    email,
+  },
+  {
+    '@type': 'WebSite',
+    '@id': `${site.href}#website`,
+    name: 'Qelunai',
+    url: site.href,
+    inLanguage: locales.map((l) => l.htmlLang),
+    publisher: { '@id': `${site.href}#organization` },
+  },
+  ...schema,
+];
+---
+
+<!doctype html>
+<html lang={locale.htmlLang} dir={locale.dir ?? 'ltr'} data-script={locale.script ?? 'latin'}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script is:inline>document.documentElement.classList.add('js');</script>
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    {!noindex && <meta name="keywords" content={locale.seo.keywords} />}
+    <meta name="robots" content={noindex ? 'noindex, follow' : 'index, follow, max-image-preview:large'} />
+    {!noindex && <link rel="canonical" href={canonical} />}
+    {
+      !noindex &&
+        locales.map((l) => <link rel="alternate" hreflang={l.code} href={new URL(pathFor(l), site).href} />)
+    }
+    {!noindex && <link rel="alternate" hreflang="x-default" href={new URL(pathFor(defaultLocale), site).href} />}
+
+    <meta name="theme-color" content="#101B2C" />
+    <meta name="color-scheme" content="light" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="/favicon.png" type="image/png" sizes="48x48" />
+    <link rel="apple-touch-icon" href="/icon-512.png" />
+    <link rel="manifest" href="/manifest.webmanifest" />
+    <link rel="preload" href="/fonts/BeVietnamPro-Bold.ttf" as="font" type="font/ttf" crossorigin />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Qelunai" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Qelunai, Eastern wisdom & AI" />
+    <meta property="og:locale" content={locale.ogLocale} />
+    {locales.filter((l) => l.code !== locale.code).map((l) => <meta property="og:locale:alternate" content={l.ogLocale} />)}
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+
+    <script type="application/ld+json" set:html={JSON.stringify({ '@context': 'https://schema.org', '@graph': graph })} />
+  </head>
+  <body>
+    <a class="skip" href="#main">{locale.nav.skip}</a>
+    <header class="site-header" data-ink="dark" style="--hbg: var(--ivory)">
+      <a class="brand" href={pathFor(locale)} aria-label="Qelunai">
+        <img src="/favicon.svg" alt="" width="32" height="32" />
+        <span>Qelunai</span>
+      </a>
+      <nav class="site-nav" aria-label="Main">
+        <a href={`${pathFor(locale)}#modules`}>{locale.nav.modules}</a>
+        <a href={`${pathFor(locale)}#principles`}>{locale.nav.principles}</a>
+        <a href={`${pathFor(locale)}#faq`}>{locale.nav.faq}</a>
+      </nav>
+      <details class="lang">
+        <summary aria-label={locale.nav.language}>{locale.code.toUpperCase()}</summary>
+        <ul data-ui>
+          {
+            locales.map((l) => (
+              <li>
+                <a href={pathFor(l)} hreflang={l.code} lang={l.htmlLang} aria-current={l.code === locale.code ? 'page' : undefined}>
+                  {l.nativeName}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </details>
+      <a class="btn btn-primary header-action" href={`${pathFor(locale)}#begin`}>{locale.nav.action}</a>
+    </header>
+    <main id="main">
+      <slot />
+    </main>
+    <slot name="footer" />
+  </body>
+</html>

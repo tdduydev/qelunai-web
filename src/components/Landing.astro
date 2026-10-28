@@ -1,0 +1,301 @@
+---
+import { Image } from 'astro:assets';
+import { locales, pathFor, type Locale, type ModuleId } from '../i18n';
+import hero from '../assets/gen/hero.png';
+import orbit from '../assets/gen/orbit.png';
+import moon from '../assets/gen/moon.png';
+import stones from '../assets/gen/stones.png';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale: t } = Astro.props;
+const email = 'hello@qelunai.com';
+const [mailUser, mailHost] = email.split('@');
+
+const moduleOrder: ModuleId[] = ['tuvi', 'batu', 'phongthuy', 'kinhdich', 'licham', 'thansohoc'];
+const discs: Record<ModuleId, string> = {
+  tuvi: 'var(--gold)',
+  batu: 'var(--jade)',
+  phongthuy: 'var(--ivory)',
+  kinhdich: 'var(--mist)',
+  licham: 'var(--gold)',
+  thansohoc: 'var(--jade)',
+};
+// On-state fill per feature band; ink is chosen in CSS from data-tone.
+const bandTones = ['jade', 'midnight', 'gold', 'surface', 'jade'];
+---
+
+<section class="chapter hero" data-bg="var(--ivory)" data-ink="dark" aria-labelledby="hero-title">
+  <div class="hero-head">
+    <h1 id="hero-title" class="hero-title hero-title--top">
+      <span class="sr-only">Qelunai: </span>
+      <span class="line">{t.hero.line1}</span>
+      <span class="line">{t.hero.line2}</span>
+    </h1>
+    <p class="hero-title hero-title--bottom" aria-hidden="true">
+      <span class="line">{t.hero.line1}</span>
+      <span class="line">{t.hero.line2}</span>
+    </p>
+  </div>
+  <p class="hero-sub">{t.hero.sub}</p>
+  <div class="hero-picture">
+    <Image src={hero} alt={t.hero.pictureAlt} widths={[768, 1536]} sizes="100vw" loading="eager" />
+  </div>
+</section>
+
+<section class="chapter intro" data-bg="var(--jade)" data-ink="light" aria-label={t.intro.note}>
+  <div class="intro-grid">
+    <p class="stair">
+      {t.intro.lines.map((line, i) => <span class="stair-line reveal" style={`--i:${i}`}>{line}</span>)}
+    </p>
+    <div class="intro-pictures">
+      <figure class="reveal" style="--i:1">
+        <Image src={moon} alt={t.intro.pictureAlts[1]} widths={[400, 800]} sizes="(min-width: 900px) 20vw, 45vw" />
+      </figure>
+      <figure class="reveal" style="--i:2">
+        <Image src={orbit} alt={t.intro.pictureAlts[0]} widths={[400, 800]} sizes="(min-width: 900px) 20vw, 45vw" />
+      </figure>
+    </div>
+    <p class="intro-note">{t.intro.note}</p>
+  </div>
+</section>
+
+<section class="chapter features" data-bg="var(--ivory)" data-ink="dark" aria-label={t.features.heading}>
+  <ul class="bands">
+    {
+      t.features.items.map((item, i) => (
+        <li class:list={['band', { 'is-on': item.on }]} data-tone={bandTones[i % bandTones.length]}>
+          <span class="band-fill" aria-hidden="true" />
+          <div class="band-inner">
+            <p class="band-text" id={`feature-${i}`}>{item.text}</p>
+            <button
+              class="switch"
+              type="button"
+              role="switch"
+              data-ui
+              aria-checked={item.on ? 'true' : 'false'}
+              aria-labelledby={`feature-${i}`}
+              aria-describedby={`feature-${i}-detail`}
+            >
+              <span class="switch-knob" aria-hidden="true" />
+              <span class="sr-only" data-on={t.features.on} data-off={t.features.off}>
+                {item.on ? t.features.on : t.features.off}
+              </span>
+            </button>
+            <p class="band-detail" id={`feature-${i}-detail`}>{item.detail}</p>
+          </div>
+        </li>
+      ))
+    }
+  </ul>
+</section>
+
+<section class="chapter showcase" id="modules" data-bg="var(--midnight)" data-ink="light" aria-labelledby="modules-title">
+  <div class="disc-stage">
+    <div class="disc" aria-hidden="true" style={`--disc:${discs.tuvi}`}></div>
+    <div class="module-cards">
+      {
+        moduleOrder.map((id, i) => (
+          <article class:list={['module-card', { 'is-active': i === 0 }]} data-card={id} data-disc={discs[id]} data-ui>
+            <span class="chip">{t.modules.status}</span>
+            <h3>{t.modules.items[id].name}</h3>
+            <p>{t.modules.items[id].summary}</p>
+            <p class="module-fact">{t.modules.items[id].fact}</p>
+          </article>
+        ))
+      }
+    </div>
+  </div>
+  <div class="showcase-list">
+    <h2 id="modules-title" class="list-heading">{t.modules.heading}</h2>
+    <ul class="module-names">
+      {
+        moduleOrder.map((id, i) => (
+          <li>
+            <button type="button" class:list={['module-name', { 'is-active': i === 0 }]} data-module={id} aria-pressed={i === 0 ? 'true' : 'false'}>
+              {t.modules.items[id].name}
+            </button>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>
+
+<section class="chapter about" id="principles" data-bg="var(--ivory)" data-ink="dark" aria-labelledby="about-title">
+  <div class="inset">
+    <h2 id="about-title" class="inset-title reveal">
+      <span class="line">{t.about.line1}</span>
+      <span class="line">{t.about.line2}</span>
+    </h2>
+    <div class="inset-blocks">
+      {
+        t.about.blocks.map((b, i) => (
+          <div class="inset-block reveal" style={`--i:${i}`}>
+            <h3>{b.title}</h3>
+            <p>{b.body}</p>
+          </div>
+        ))
+      }
+      <a class="btn btn-gold reveal" style="--i:2" href="#begin">{t.about.action}</a>
+    </div>
+    <figure class="inset-figure">
+      <Image src={stones} alt={t.about.pictureAlt} widths={[400, 800, 1024]} sizes="(min-width: 900px) 38vw, 86vw" />
+    </figure>
+  </div>
+</section>
+
+<section class="chapter faq" id="faq" data-bg="var(--gold)" data-ink="dark" aria-labelledby="faq-title">
+  <div class="faq-head">
+    <h2 id="faq-title" class="faq-title reveal">{t.faq.heading}</h2>
+  </div>
+  {
+    t.faq.items.map((item) => (
+      <div class="faq-band">
+        <h3>{item.q}</h3>
+        <p>{item.a}</p>
+      </div>
+    ))
+  }
+</section>
+
+<section class="chapter cta" id="begin" data-bg="var(--jade)" data-ink="light" aria-labelledby="cta-title">
+  <div class="cta-copy">
+    <h2 id="cta-title" class="cta-title reveal">
+      <span class="line">{t.cta.line1}</span>
+      <span class="line">{t.cta.line2}</span>
+    </h2>
+    <p class="cta-sub">{t.cta.sub}</p>
+  </div>
+  <form
+    class="dialog reveal"
+    data-ui
+    action={`mailto:${email}`}
+    method="post"
+    enctype="text/plain"
+    data-mail={email}
+    data-subject={t.cta.mailSubject}
+    data-body={t.cta.mailBody}
+    aria-labelledby="dialog-title"
+  >
+    <h3 id="dialog-title">{t.cta.dialogTitle}</h3>
+    <label class="field">
+      <span>{t.cta.emailLabel}</span>
+      <input type="email" name="email" required autocomplete="email" placeholder={t.cta.emailPlaceholder} />
+    </label>
+    <fieldset class="field">
+      <legend>{t.cta.platformLabel}</legend>
+      <div class="segmented">
+        <label><input type="radio" name="platform" value="Android" checked /><span>Android</span></label>
+        <label><input type="radio" name="platform" value="iOS" /><span>iOS</span></label>
+      </div>
+    </fieldset>
+    <button class="btn btn-primary btn-block" type="submit">{t.cta.button}</button>
+  </form>
+</section>
+
+<footer class="chapter footer" data-bg="var(--midnight)" data-ink="light" aria-labelledby="footer-title">
+  <div class="footer-top">
+    <a class="brand" href={pathFor(t)}><img src="/favicon.svg" alt="" width="28" height="28" /><span>Qelunai</span></a>
+    <div class="footer-notes">
+      {t.footer.notes.map((n) => <p>{n}</p>)}
+    </div>
+    <a class="footer-toplink" href="#main">{t.footer.top}</a>
+  </div>
+  <div class="footer-contact">
+    <p class="footer-label">{t.footer.contactLabel}</p>
+    <h2 id="footer-title" class="footer-mail">
+      <a href={`mailto:${email}`}><span>{mailUser}</span><wbr /><span>@{mailHost}</span></a>
+    </h2>
+  </div>
+  <div class="footer-meta">
+    <nav aria-label={t.nav.language}>
+      <ul class="footer-langs">
+        {locales.map((l) => <li><a href={pathFor(l)} hreflang={l.code} lang={l.htmlLang}>{l.nativeName}</a></li>)}
+      </ul>
+    </nav>
+    <p>{t.footer.credits}</p>
+    <p>© 2026 Qelunai. {t.footer.rights}</p>
+  </div>
+</footer>
+
+<script is:inline>
+  (() => {
+    const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    // The fixed header takes the colours of the chapter beneath it.
+    const header = document.querySelector('.site-header');
+    const chapters = [...document.querySelectorAll('.chapter')];
+    let ticking = false;
+    const setHeader = () => {
+      ticking = false;
+      const y = header.offsetHeight / 2;
+      const current = chapters.find((c) => {
+        const r = c.getBoundingClientRect();
+        return r.top <= y && r.bottom > y;
+      });
+      if (!current) return;
+      header.style.setProperty('--hbg', current.dataset.bg);
+      header.dataset.ink = current.dataset.ink;
+      header.dataset.tone = current.dataset.bg === 'var(--jade)' ? 'jade' : '';
+    };
+    const queue = () => ticking || ((ticking = true), requestAnimationFrame(setHeader));
+    addEventListener('scroll', queue, { passive: true });
+    addEventListener('resize', queue);
+    setHeader();
+
+    // Staggered entrances.
+    const io = new IntersectionObserver(
+      (entries) =>
+        entries.forEach((e) => {
+          if (!e.isIntersecting) return;
+          e.target.classList.add('in');
+          io.unobserve(e.target);
+        }),
+      { rootMargin: '0px 0px -6% 0px' },
+    );
+    document.querySelectorAll('.reveal').forEach((el) => (reduce ? el.classList.add('in') : io.observe(el)));
+
+    // Feature switches (buttons already answer Space and Enter).
+    document.querySelectorAll('.switch').forEach((sw) => {
+      sw.addEventListener('click', () => {
+        const on = sw.getAttribute('aria-checked') !== 'true';
+        sw.setAttribute('aria-checked', String(on));
+        const label = sw.querySelector('[data-on]');
+        label.textContent = on ? label.dataset.on : label.dataset.off;
+        sw.closest('.band').classList.toggle('is-on', on);
+      });
+    });
+
+    // Module selector swaps the card and the disc colour.
+    const disc = document.querySelector('.disc');
+    const names = document.querySelectorAll('.module-name');
+    const cards = document.querySelectorAll('.module-card');
+    names.forEach((btn) =>
+      btn.addEventListener('click', () => {
+        const id = btn.dataset.module;
+        names.forEach((b) => {
+          b.classList.toggle('is-active', b === btn);
+          b.setAttribute('aria-pressed', String(b === btn));
+        });
+        cards.forEach((c) => {
+          const active = c.dataset.card === id;
+          c.classList.toggle('is-active', active);
+          if (active) disc.style.setProperty('--disc', c.dataset.disc);
+        });
+      }),
+    );
+
+    // The notify dialog opens a pre-filled email to the team.
+    const form = document.querySelector('.dialog');
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      if (!form.reportValidity()) return;
+      const data = new FormData(form);
+      const body = form.dataset.body.replace('{email}', data.get('email')).replace('{platform}', data.get('platform'));
+      location.href = `mailto:${form.dataset.mail}?subject=${encodeURIComponent(form.dataset.subject)}&body=${encodeURIComponent(body)}`;
+    });
+  })();
+</script>

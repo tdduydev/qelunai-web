@@ -1,0 +1,7 @@
+node_modules/
+dist/
+.astro/
+.taste-skill/
+.claude/
+.env
+.DS_Store

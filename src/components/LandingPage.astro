@@ -1,0 +1,39 @@
+---
+import Base from '../layouts/Base.astro';
+import Landing from './Landing.astro';
+import { pathFor, type Locale } from '../i18n';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const url = new URL(pathFor(locale), Astro.site).href;
+
+const schema = [
+  {
+    '@type': 'MobileApplication',
+    name: 'Qelunai',
+    url,
+    description: locale.seo.description,
+    applicationCategory: 'LifestyleApplication',
+    operatingSystem: 'Android, iOS',
+    inLanguage: locale.htmlLang,
+    image: new URL('/icon-512.png', Astro.site).href,
+    publisher: { '@id': `${Astro.site!.href}#organization` },
+  },
+  {
+    '@type': 'FAQPage',
+    inLanguage: locale.htmlLang,
+    mainEntity: locale.faq.items.map((item) => ({
+      '@type': 'Question',
+      name: item.q,
+      acceptedAnswer: { '@type': 'Answer', text: item.a },
+    })),
+  },
+];
+---
+
+<Base locale={locale} schema={schema}>
+  <Landing locale={locale} />
+</Base>
