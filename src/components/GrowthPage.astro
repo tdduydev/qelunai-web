@@ -21,7 +21,7 @@ const schema=[{'@type':'FAQPage',inLanguage:locale.htmlLang,mainEntity:t.faq.map
     </header>
     {id!=='iching'&&<section class="growth-tool-section" aria-label={t.toolHeading}>
       <h2>{t.toolHeading}</h2>
-      <LunarTool localeCode={locale.code} mode={id}/>
+      <LunarTool localeCode={locale.code} mode={id==='calendar'?'calendar':'hours'}/>
     </section>}
     <div class="growth-guide">
       {t.guide.map(section=><section class="card">
@@ -42,7 +42,10 @@ const schema=[{'@type':'FAQPage',inLanguage:locale.htmlLang,mainEntity:t.faq.map
     <aside class="growth-cta">
       <h2>Qelunai</h2>
       <p>{t.ctaNote}</p>
-      <a class="btn btn-gold" href={betaHref} data-cta="beta-email" data-source={id}>{t.cta}</a>
+      <div class="stores">
+        <a class="btn btn-gold" href={pathFor(locale,'testers')} data-cta="android-beta" data-source={id}>{locale.code==='vi'?'Tham gia thử nghiệm Android':'Join Android beta'}</a>
+        <a class="store" href={betaHref} data-cta="ios-beta-email" data-source={id}>{locale.code==='vi'?'Xin mời TestFlight iOS':'Request iOS TestFlight'}</a>
+      </div>
     </aside>
   </article>
 </Base>
