@@ -319,7 +319,7 @@ export default {
           title: 'Dữ liệu bị xoá',
           body: [],
           list: [
-            'Mọi dữ liệu của tài khoản trên Cloud Firestore: hồ sơ ngày sinh, lịch sử gieo quẻ, sổ giỗ và dữ liệu đồng bộ kỹ thuật.',
+            'Mọi dữ liệu của tài khoản trên Cloud Firestore: hồ sơ ngày sinh, lịch sử gieo quẻ, sổ giỗ, lịch sử chat hỗ trợ và dữ liệu đồng bộ kỹ thuật.',
             'Tài khoản đăng nhập Firebase Authentication: email, mã người dùng, nhà cung cấp đăng nhập, mật khẩu đã băm.',
             'Bản sao dữ liệu trên máy, và các nhắc giỗ đã đặt (khi xoá trong ứng dụng).',
           ],

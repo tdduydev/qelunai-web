@@ -14,6 +14,8 @@
 - Thống kê sử dụng và báo lỗi chỉ được gửi khi bạn bật (mặc định tắt).
 - Bản miễn phí có thể có quảng cáo của Google AdMob; Qelunai Plus không có quảng cáo. Quảng cáo
   không nhận hồ sơ ngày sinh hay lịch sử gieo quẻ của bạn.
+- Chat hỗ trợ AI chỉ dùng khi đã đăng nhập và sau khi bạn đồng ý. Tin nhắn bạn gõ được gửi tới
+  Google Gemini; đừng gõ thông tin cá nhân. Chat AI không có ở EEA, Vương quốc Anh và Thụy Sĩ.
 - Không bán dữ liệu của bạn.
 
 ## Đồng ý của bạn
@@ -87,10 +89,10 @@ tiếp nếu bạn đã đăng nhập.
 ## Xoá tài khoản
 
 Vào **Hồ sơ > Xoá tài khoản** trong ứng dụng. Ứng dụng xoá theo thứ tự: toàn bộ dữ liệu của tài
-khoản trên Cloud Firestore, rồi bản sao trên máy, rồi tài khoản đăng nhập. Nếu không xoá được
-dữ liệu trên máy chủ (ví dụ mất mạng), không có gì bị xoá và ứng dụng báo để bạn thử lại. Nếu
-Firebase yêu cầu xác thực lại, dữ liệu đã được xoá; ứng dụng đưa bạn về màn hình đăng nhập để
-đăng nhập lại và xoá tài khoản lần nữa.
+khoản trên Cloud Firestore (gồm lịch sử chat hỗ trợ), rồi bản sao trên máy, rồi tài khoản đăng
+nhập. Nếu không xoá được dữ liệu trên máy chủ (ví dụ mất mạng), không có gì bị xoá và ứng dụng báo
+để bạn thử lại. Nếu Firebase yêu cầu xác thực lại, dữ liệu đã được xoá; ứng dụng đưa bạn về màn
+hình đăng nhập để đăng nhập lại và xoá tài khoản lần nữa.
 
 ## Mua trong ứng dụng (Qelunai Plus)
 
@@ -115,6 +117,32 @@ Chỉ khi bạn bật **Gửi thống kê sử dụng ẩn danh và báo lỗi**
 Các dữ liệu này không chứa họ tên, ngày sinh, giờ sinh, nội dung quẻ hay sổ giỗ, và không dùng để
 quảng cáo. Khi tắt, ứng dụng ngừng gửi ngay; báo lỗi còn trên máy lúc đó không được gửi.
 
+## Chat hỗ trợ (AI)
+
+Màn **Hỗ trợ** có chat với trợ lý AI. Chat chỉ dùng được khi bạn đã đăng nhập, và bạn phải bấm
+đồng ý trước lần dùng đầu tiên.
+
+- Để tạo câu trả lời, ứng dụng gửi tin nhắn bạn gõ (đã che email và số điện thoại) cùng phiên
+  bản ứng dụng, nền tảng và ngôn ngữ tới **Google Gemini Developer API** qua **Firebase AI
+  Logic**. Ứng dụng không gửi họ tên, ngày giờ sinh hay hồ sơ của bạn.
+- Đây là dịch vụ miễn phí của Google. Theo Điều khoản bổ sung Gemini API, Google có thể dùng nội
+  dung này để cải thiện sản phẩm, và người duyệt có thể đọc nội dung sau khi đã tách khỏi tài
+  khoản của bạn. **Đừng gõ thông tin cá nhân vào chat.**
+- Lịch sử chat được lưu trên Cloud Firestore, gắn với tài khoản của bạn. Bạn xoá được lịch sử
+  chat trong ứng dụng; lịch sử chat cũng bị xoá khi bạn xoá tài khoản.
+- Chat AI không có ở Khu vực Kinh tế châu Âu (EEA), Vương quốc Anh và Thụy Sĩ (xác định theo vùng
+  đặt trên máy). Ở đó chỉ có hỗ trợ qua email.
+
+Email hỗ trợ: support@qelunai.com
+
+Điều khoản bổ sung Gemini API: https://ai.google.dev/gemini-api/terms
+
+## Chống lạm dụng (Firebase App Check)
+
+Ứng dụng dùng **Firebase App Check** để chống lạm dụng API. Khi gọi API, ứng dụng gửi tín hiệu
+chứng thực thiết bị của Apple App Attest/DeviceCheck (iPhone) hoặc Google Play Integrity
+(Android).
+
 ## Quảng cáo
 
 Bản miễn phí có thể hiện quảng cáo của **Google AdMob** (Google LLC): một dải quảng cáo ở cuối
@@ -138,7 +166,7 @@ Cách Google dùng dữ liệu từ ứng dụng: https://policies.google.com/te
 
 - Không bán dữ liệu của bạn.
 - Không gửi hồ sơ ngày sinh, lịch sử gieo quẻ hay sổ giỗ cho Google Analytics hay cho quảng cáo.
-- Không gọi máy chủ AI bên ngoài.
+- Không gửi họ tên, ngày giờ sinh hay hồ sơ cho chat hỗ trợ AI.
 
 ## Quyền truy cập thiết bị
 
@@ -172,6 +200,9 @@ bạn có thể từ chối ra sao.
 - Usage statistics and crash reports are sent only if you turn them on (off by default).
 - The free version may show ads from Google AdMob; Qelunai Plus has no ads. Ads never receive
   your birth profiles or cast history.
+- The AI support chat works only when you are signed in and after you agree. The messages you
+  type are sent to Google Gemini; do not type personal information. AI chat is not offered in
+  the EEA, the United Kingdom or Switzerland.
 - We do not sell your data.
 
 ## Your consent
@@ -246,9 +277,9 @@ sync if you are signed in.
 ## Deleting your account
 
 Go to **Profile > Delete account** in the app. The app deletes, in this order: all of the
-account's data in Cloud Firestore, then the copy on the device, then the sign-in account. If
-the server data cannot be deleted (for example, offline), nothing is deleted and the app asks
-you to try again. If Firebase requires a recent sign-in, the data is already deleted; the app
+account's data in Cloud Firestore (including the support chat history), then the copy on the
+device, then the sign-in account. If the server data cannot be deleted (for example, offline),
+nothing is deleted and the app asks you to try again. If Firebase requires a recent sign-in, the data is already deleted; the app
 takes you to the sign-in screen so you can sign in again and delete the account once more.
 
 ## In-app purchases (Qelunai Plus)
@@ -275,6 +306,33 @@ consent**, off by default), the app sends to Google (Firebase):
 This data holds no name, birth date, birth time, cast or memorial day, and is not used for ads.
 When you turn it off, sending stops at once; crash reports still on the device are not sent.
 
+## Support chat (AI)
+
+The **Support** screen has a chat with an AI assistant. The chat works only when you are signed
+in, and you must tap to agree before using it the first time.
+
+- To create a reply, the app sends the messages you type (with email addresses and phone numbers
+  masked), along with the app version, platform and language, to the **Google Gemini Developer
+  API** through **Firebase AI Logic**. The app does not send your name, birth date and time, or
+  profiles.
+- This is a free Google service. Under the Gemini API Additional Terms, Google may use this
+  content to improve its products, and human reviewers may read it after it has been
+  disconnected from your account. **Do not type personal information into the chat.**
+- The chat history is stored in Cloud Firestore, linked to your account. You can delete it in
+  the app, and it is deleted when you delete your account.
+- AI chat is not offered in the European Economic Area (EEA), the United Kingdom or Switzerland
+  (based on the region set on the device). There, support is by email only.
+
+Support email: support@qelunai.com
+
+Gemini API Additional Terms: https://ai.google.dev/gemini-api/terms
+
+## Abuse protection (Firebase App Check)
+
+The app uses **Firebase App Check** to protect its APIs from abuse. When calling them, the app
+sends device attestation signals from Apple App Attest/DeviceCheck (iPhone) or Google Play
+Integrity (Android).
+
 ## Ads
 
 The free version may show ads from **Google AdMob** (Google LLC): a banner at the end of result
@@ -298,7 +356,7 @@ How Google uses data from apps: https://policies.google.com/technologies/partner
 
 - We do not sell your data.
 - No birth profiles, cast history or memorial days are sent to Google Analytics or to ads.
-- No external AI server calls.
+- No name, birth date and time, or profiles are sent to the AI support chat.
 
 ## Device permissions
 

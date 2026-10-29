@@ -319,7 +319,7 @@ export default {
           title: 'What gets deleted',
           body: [],
           list: [
-            'All of the account’s data on Cloud Firestore: birth profiles, cast history, memorial days and technical sync data.',
+            'All of the account’s data on Cloud Firestore: birth profiles, cast history, memorial days, support chat history and technical sync data.',
             'The Firebase Authentication account: email, user ID, sign-in provider, hashed password.',
             'The copy of your data on the device, and any memorial-day reminders (when you delete in the app).',
           ],
