@@ -210,7 +210,7 @@ export default {
   pages: {
     testers: {
       title: 'Test Qelunai on Android',
-      description: 'Join the Qelunai closed test on Google Play: send your Gmail address to be added, accept the invite, install the app and keep it installed for 14 days.',
+      description: 'Join the Qelunai closed test on Google Play: join the tester group, accept the invite, install the app and keep it installed for 14 days.',
       lead: 'Qelunai needs at least 12 Android users testing the app for 14 days in a row before it can be released on Google Play. Thank you for helping!',
       blocks: [
         {
@@ -218,7 +218,7 @@ export default {
           ordered: true,
           body: ['Use the same Google account for all four steps: the one signed in to Google Play on your phone.'],
           list: [
-            'Send that Gmail address to the person who invited you, or email support@qelunai.com, and wait until you are told you have been added to the tester list.',
+            'Open the tester group and tap **Join group**: https://groups.google.com/g/qelunai-testers',
             'Open the invite page and tap **Become a tester**: https://play.google.com/apps/testing/com.qelunai.qelunai',
             'Tap **Download it on Google Play** on that page, then install Qelunai like any other app.',
             'Open the app, sign in and try it. **Keep the app installed for at least 14 days**; uninstalling early means Google does not count your test.',
@@ -236,7 +236,8 @@ export default {
         {
           title: 'Questions',
           body: [
-            '**The page says "App not available" or shows no Become a tester button?** Your Gmail is not on the list yet, or the browser is signed in to another account. Check it is the account you sent in step 1, open the link in Chrome (not inside a chat app), then reload the page.',
+            '**The group page does not open?** Open the link in Chrome, not inside a chat app. Some office networks block groups.google.com: turn off Wi-Fi, use mobile data or your home network, and try again.',
+            '**The page says "App not available" or shows no Become a tester button?** You have not joined the group in step 1 yet, or the browser is signed in to another Google account. Check it is the account on your phone, then reload the page.',
             '**Does it cost anything?** No. The app is free and the test build sells nothing.',
             '**My data?** Same as the released app; see the Privacy page. You can delete your account at any time in Profile > Delete account.',
             '**Want to leave the test?** Open the invite page again and leave the program; after the 14 days you keep the app as a normal user.',
