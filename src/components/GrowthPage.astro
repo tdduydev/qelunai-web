@@ -1,0 +1,48 @@
+---
+import Base from '../layouts/Base.astro';
+import LunarTool from './LunarTool.astro';
+import {pathFor,type Locale} from '../i18n';
+import {growthFor,growthIds,type GrowthPageId} from '../i18n/growth';
+interface Props{locale:Locale;id:GrowthPageId}
+const {locale,id}=Astro.props;
+const t=growthFor(locale.code,id);
+const betaSubject=encodeURIComponent('[Qelunai beta] '+(locale.code==='vi'?'Xin tham gia thử nghiệm':'Request invitation'));
+const betaBody=encodeURIComponent(locale.code==='vi'?'Mình muốn tham gia thử nghiệm Qelunai trên (iOS/Android): ':'I would like to test Qelunai on (iOS/Android): ');
+const betaHref=`mailto:support@qelunai.com?subject=${betaSubject}&body=${betaBody}`;
+const schema=[{'@type':'FAQPage',inLanguage:locale.htmlLang,mainEntity:t.faq.map(({q,a})=>({'@type':'Question',name:q,acceptedAnswer:{'@type':'Answer',text:a}}))}];
+---
+<Base locale={locale} page={id} title={t.title} description={t.description} schema={schema}>
+  <article class="growth-page">
+    <a href={pathFor(locale)} class="back link">{locale.pages.backHome}</a>
+    <header class="growth-hero">
+      <p class="eyebrow">{t.eyebrow}</p>
+      <h1>{t.title.split(' | ')[0]}</h1>
+      <p>{t.intro}</p>
+    </header>
+    {id!=='iching'&&<section class="growth-tool-section" aria-label={t.toolHeading}>
+      <h2>{t.toolHeading}</h2>
+      <LunarTool localeCode={locale.code} mode={id}/>
+    </section>}
+    <div class="growth-guide">
+      {t.guide.map(section=><section class="card">
+        <h2>{section.heading}</h2>
+        {section.paragraphs.map(p=><p>{p}</p>)}
+      </section>)}
+    </div>
+    <section class="growth-faq" aria-label="FAQ">
+      <h2>{locale.faq.heading}</h2>
+      {t.faq.map(q=><details><summary>{q.q}</summary><p>{q.a}</p></details>)}
+    </section>
+    <section class="growth-more">
+      <h2>{locale.code==='vi'?'Khám phá thêm':'Explore more'}</h2>
+      <div class="growth-links">
+        {growthIds.filter(x=>x!==id).map(x=><a class="card" href={pathFor(locale,x)}>{growthFor(locale.code,x).short} →</a>)}
+      </div>
+    </section>
+    <aside class="growth-cta">
+      <h2>Qelunai</h2>
+      <p>{t.ctaNote}</p>
+      <a class="btn btn-gold" href={betaHref} data-cta="beta-email" data-source={id}>{t.cta}</a>
+    </aside>
+  </article>
+</Base>
