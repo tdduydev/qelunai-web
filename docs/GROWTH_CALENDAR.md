@@ -3,7 +3,7 @@
 ## Scope
 - Localized, indexable landing pages `/lich-am/`, `/gio-hoang-dao/`, `/kinh-dich/` plus /en/ mirrors.
 - Date input is calculated client-side for 1900–2100 in Vietnam civil UTC+7. No server/API/analytics calls for date computation.
-- Beta CTA is a **mailto invitation**, not a misleading store download. Store links remain absent until public listings exist.
+- Beta CTA links to the already-existing **/testers/** Android enrollment guide (Google Group → opt-in → Play test) and a mailto request for iOS TestFlight. Neither falsely claims public store availability.
 - Canonical, hreflang, FAQ structured data and sitemap derive from existing Astro infrastructure.
 
 ## Methodology and sources
@@ -20,6 +20,6 @@ Fixtures: Tết 2023–2027; 29/10/2026 = 20/9/2026 Bính Tý, 6 auspicious hour
 
 ## Next steps after review
 1. Connect Google Search Console, submit the generated `/sitemap.xml`.
-2. Replace beta email with real App Store and Play Store listing links after public launch.
+2. Replace testing links with real public App Store and Play Store listing links after public launch.
 3. Instrument privacy-reviewed, opt-in conversion analytics rather than assuming mailto clicks are measurable conversions.
 4. Add public educational content with citations and human editorial review. No fake forecasts.
