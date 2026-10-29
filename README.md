@@ -63,3 +63,13 @@ Every page at `/<code>/...`, the language switch, hreflang tags and sitemap entr
 ## Deploy
 
 Pages is set to build from GitHub Actions and the custom domain comes from `public/CNAME`. Pushing to `main` builds and publishes; the workflow can also be run by hand from the Actions tab.
+
+## Organic growth / website tools
+
+- `/lich-am/` — free Vietnam UTC+7 lunar calendar date conversion (client-side).
+- `/gio-hoang-dao/` — traditional auspicious-hour chart.
+- `/kinh-dich/` — sourced educational I Ching article.
+- English counterparts at `/en/...` (auto-added to sitemap and hreflang).
+- The site uses email invitations for beta access until actual public store links exist.
+
+Run `npm run check` locally (Node calendar tests + Astro build). See `docs/GROWTH_CALENDAR.md` for method and limitations.
