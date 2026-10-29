@@ -236,8 +236,7 @@ export default {
         {
           title: 'Câu hỏi thường gặp',
           body: [
-            '**Không mở được trang nhóm?** Mở link bằng Chrome (không mở trong Zalo hay Messenger). Một số mạng công ty chặn groups.google.com: tắt Wi-Fi, dùng 4G hoặc mạng ở nhà rồi thử lại.',
-            '**Trang báo "App not available" hoặc không thấy nút Trở thành người thử nghiệm?** Bạn chưa vào nhóm ở bước 1, hoặc trình duyệt đang đăng nhập tài khoản Google khác. Kiểm tra đúng tài khoản đang dùng trên điện thoại, rồi tải lại trang.',
+            '**Trang báo "App not available" hoặc không thấy nút Trở thành người thử nghiệm?** Bạn chưa vào nhóm ở bước 1, hoặc trình duyệt đang đăng nhập tài khoản Google khác. Kiểm tra đúng tài khoản đang dùng trên điện thoại, mở link bằng Chrome (không mở trong Zalo hay Messenger), rồi tải lại trang.',
             '**Có tốn tiền không?** Không. Ứng dụng miễn phí, bản thử không bán gì.',
             '**Dữ liệu của tôi?** Như bản chính thức, xem trang Quyền riêng tư. Bạn có thể xoá tài khoản bất cứ lúc nào trong Hồ sơ > Xoá tài khoản.',
             '**Muốn rời chương trình thử?** Mở lại trang nhận lời mời và chọn rời chương trình; sau 14 ngày bạn vẫn giữ ứng dụng như người dùng thường.',

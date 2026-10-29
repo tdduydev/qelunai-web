@@ -236,8 +236,7 @@ export default {
         {
           title: 'Questions',
           body: [
-            '**The group page does not open?** Open the link in Chrome, not inside a chat app. Some office networks block groups.google.com: turn off Wi-Fi, use mobile data or your home network, and try again.',
-            '**The page says "App not available" or shows no Become a tester button?** You have not joined the group in step 1 yet, or the browser is signed in to another Google account. Check it is the account on your phone, then reload the page.',
+            '**The page says "App not available" or shows no Become a tester button?** You have not joined the group in step 1 yet, or the browser is signed in to another Google account. Check it is the account on your phone, open the link in Chrome (not inside a chat app), then reload the page.',
             '**Does it cost anything?** No. The app is free and the test build sells nothing.',
             '**My data?** Same as the released app; see the Privacy page. You can delete your account at any time in Profile > Delete account.',
             '**Want to leave the test?** Open the invite page again and leave the program; after the 14 days you keep the app as a normal user.',
