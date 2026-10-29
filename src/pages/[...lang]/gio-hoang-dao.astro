@@ -1,0 +1,7 @@
+---
+import GrowthPage from '../../components/GrowthPage.astro';
+import {localePaths} from '../../i18n';
+export const getStaticPaths=localePaths;
+const {locale}=Astro.props;
+---
+<GrowthPage locale={locale} id="hours"/>
