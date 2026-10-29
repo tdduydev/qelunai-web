@@ -70,6 +70,6 @@ Pages is set to build from GitHub Actions and the custom domain comes from `publ
 - `/gio-hoang-dao/` — traditional auspicious-hour chart.
 - `/kinh-dich/` — sourced educational I Ching article.
 - English counterparts at `/en/...` (auto-added to sitemap and hreflang).
-- The site uses email invitations for beta access until actual public store links exist.
+- The site routes Android users through the existing `/testers/` guide and iOS users to request TestFlight by email, until public store links exist.
 
 Run `npm run check` locally (Node calendar tests + Astro build). See `docs/GROWTH_CALENDAR.md` for method and limitations.
