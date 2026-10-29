@@ -21,6 +21,9 @@ export const pageSlugs: Record<PageId, string> = {
   support: 'support/',
   deleteAccount: 'delete-account/',
   terms: 'terms/',
+  calendar: 'lich-am/',
+  hours: 'gio-hoang-dao/',
+  iching: 'kinh-dich/',
   testers: 'testers/',
 };
 

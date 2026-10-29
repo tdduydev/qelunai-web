@@ -9,7 +9,9 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "sync:privacy": "node scripts/sync-privacy.mjs"
+    "sync:privacy": "node scripts/sync-privacy.mjs",
+    "test:calendar": "node --test test/calendar.test.mjs",
+    "check": "npm run test:calendar && npm run build"
   },
   "dependencies": {
     "astro": "^7.4.2",

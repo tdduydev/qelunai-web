@@ -1,0 +1,64 @@
+---
+import { growthFor } from '../i18n/growth';
+interface Props { localeCode:string; mode:'calendar'|'hours'; }
+const {localeCode,mode}=Astro.props;
+const t=growthFor(localeCode,mode);
+---
+<div class="lunar-tool card" data-lunar-tool data-mode={mode} data-lang={localeCode}>
+  <label for={`lunar-date-${mode}`}>{t.dateLabel}</label>
+  <div class="tool-input-row">
+    <input type="date" id={`lunar-date-${mode}`} min="1900-01-01" max="2100-12-31" required />
+    <button class="btn btn-gold" type="button" data-action="convert">{t.submit}</button>
+  </div>
+  <p class="note">{t.today}</p>
+  <div class="tool-result" role="status" aria-live="polite" data-result>
+    <p class="note">{t.method}</p>
+  </div>
+  <div hidden data-i18n={JSON.stringify(t)}></div>
+</div>
+<script>
+  import { solarToLunar, canChiDay, canChiYear, goodHours } from '../lib/vn-calendar.mjs';
+  document.querySelectorAll<HTMLElement>('[data-lunar-tool]').forEach((root) => {
+    const input=root.querySelector<HTMLInputElement>('input[type="date"]')!;
+    const result=root.querySelector<HTMLElement>('[data-result]')!;
+    const action=root.querySelector<HTMLButtonElement>('[data-action="convert"]')!;
+    const labels=JSON.parse(root.querySelector<HTMLElement>('[data-i18n]')!.dataset.i18n ?? '{}');
+    const lang=root.dataset.lang==='en'?'en-US':'vi-VN';
+    const parts=new Intl.DateTimeFormat('en-US',{timeZone:'Asia/Ho_Chi_Minh',year:'numeric',month:'2-digit',day:'2-digit'}).formatToParts(new Date());
+    const n=(part:string)=>parts.find(p=>p.type===part)?.value||'01';
+    input.value=`${n('year')}-${n('month')}-${n('day')}`;
+    const labelValue=(label:string,value:string)=>{const p=document.createElement('p');const b=document.createElement('strong');b.textContent=label+': ';p.append(b,document.createTextNode(value));result.append(p);};
+    const render=()=>{
+      result.replaceChildren();
+      try{
+        const match=/^(\d{4})-(\d{2})-(\d{2})$/.exec(input.value);
+        if(!match)throw new RangeError('Date');
+        const y=Number(match[1]),m=Number(match[2]),d=Number(match[3]);
+        const l=solarToLunar(y,m,d);
+        const dateLabel=new Intl.DateTimeFormat(lang,{day:'numeric',month:'long',year:'numeric',timeZone:'UTC'}).format(new Date(Date.UTC(y,m-1,d)));
+        const h=document.createElement('h2');h.textContent=`${labels.result} · ${dateLabel}`;result.append(h);
+        labelValue(labels.dayLabel,String(l.day));labelValue(labels.monthLabel,`${l.month}${l.isLeapMonth?' · '+labels.leap:''}`);
+        labelValue(labels.yearLabel,`${l.year} · ${canChiYear(l.year)}`);
+        labelValue(labels.canChi,canChiDay(y,m,d));
+        const hs=goodHours(y,m,d);
+        if(root.dataset.mode==='hours'){
+          const heading=document.createElement('h3');heading.textContent=labels.goodHours;result.append(heading);
+          const list=document.createElement('ul');list.className='hours-grid';
+          for(const hour of hs){
+            const item=document.createElement('li');item.className=hour.good?'hour-good':'hour-ordinary';
+            const time=(v:number)=>String(v).padStart(2,'0')+':00';
+            item.textContent=`${hour.branch} · ${time(hour.from)}–${time(hour.to)} · ${hour.name}`;
+            list.append(item);
+          }
+          result.append(list);
+        }else{
+          labelValue(labels.goodHours,hs.filter(x=>x.good).map(x=>x.branch).join(', '));
+        }
+        const note=document.createElement('p');note.className='note';note.textContent=labels.method;result.append(note);
+      }catch{const error=document.createElement('p');error.className='tool-error';error.textContent=labels.error;result.append(error);}
+    };
+    action.addEventListener('click',render);
+    input.addEventListener('change',render);
+    render();
+  });
+</script>
