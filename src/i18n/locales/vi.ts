@@ -210,15 +210,15 @@ export default {
   pages: {
     testers: {
       title: 'Thử Qelunai trên Android',
-      description: 'Tham gia thử nghiệm kín Qelunai trên Google Play: vào nhóm tester, bấm nhận lời mời, cài ứng dụng và giữ máy cài trong 14 ngày.',
+      description: 'Tham gia thử nghiệm kín Qelunai trên Google Play: gửi Gmail để được thêm vào danh sách, bấm nhận lời mời, cài ứng dụng và giữ máy cài trong 14 ngày.',
       lead: 'Qelunai cần ít nhất 12 người dùng Android thử ứng dụng trong 14 ngày liền trước khi được phát hành trên Google Play. Cảm ơn bạn đã giúp!',
       blocks: [
         {
           title: 'Bốn bước tham gia',
           ordered: true,
-          body: ['Dùng cùng một tài khoản Google cho cả bốn bước, và là tài khoản đang đăng nhập Google Play trên điện thoại.'],
+          body: ['Dùng cùng một tài khoản Google cho cả bốn bước: tài khoản đang đăng nhập Google Play trên điện thoại.'],
           list: [
-            'Vào nhóm tester và bấm **Tham gia nhóm**: https://groups.google.com/g/qelunai-testers',
+            'Gửi địa chỉ Gmail đó cho người mời bạn, hoặc email tới support@qelunai.com, và chờ báo đã thêm bạn vào danh sách thử nghiệm.',
             'Mở trang nhận lời mời và bấm **Trở thành người thử nghiệm**: https://play.google.com/apps/testing/com.qelunai.qelunai',
             'Bấm **Tải xuống trên Google Play** ở trang đó, rồi cài Qelunai như ứng dụng bình thường.',
             'Mở ứng dụng, đăng nhập và dùng thử. **Giữ ứng dụng trên máy ít nhất 14 ngày**; gỡ sớm thì Google không tính lượt thử.',
@@ -236,7 +236,7 @@ export default {
         {
           title: 'Câu hỏi thường gặp',
           body: [
-            '**Không thấy nút Trở thành người thử nghiệm?** Kiểm tra bạn đã vào nhóm ở bước 1 bằng đúng tài khoản Google đang dùng trên điện thoại, rồi tải lại trang.',
+            '**Trang báo "App not available" hoặc không thấy nút Trở thành người thử nghiệm?** Gmail của bạn chưa có trong danh sách, hoặc trình duyệt đang đăng nhập tài khoản khác. Kiểm tra đúng tài khoản đã gửi ở bước 1, mở link bằng Chrome (không mở trong Zalo hay Messenger), rồi tải lại trang.',
             '**Có tốn tiền không?** Không. Ứng dụng miễn phí, bản thử không bán gì.',
             '**Dữ liệu của tôi?** Như bản chính thức, xem trang Quyền riêng tư. Bạn có thể xoá tài khoản bất cứ lúc nào trong Hồ sơ > Xoá tài khoản.',
             '**Muốn rời chương trình thử?** Mở lại trang nhận lời mời và chọn rời chương trình; sau 14 ngày bạn vẫn giữ ứng dụng như người dùng thường.',
