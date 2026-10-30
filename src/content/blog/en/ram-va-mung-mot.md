@@ -35,11 +35,15 @@ Each lunar month starts on the day of the **new moon** (điểm Sóc). That is w
 
 The average time between two new moons is about 29.53 days. Since a month must have a whole number of days, a lunar month has 29 days (a short month) or 30 days (a full month). Which months are short and which are full follows no fixed pattern; it depends on when the real new moons happen.
 
+![Lacquer painting: a gold Sun on the left sends rays to the right; on the right is a blue Earth with a thin orbit around it. The Moon is drawn twice on the orbit: between the Sun and the Earth it is dark, with only a bright rim on the Sun's side; on the far side of the Earth it is a bright full disc](../../../assets/blog/ram-va-mung-mot/soc-va-vong.webp "Mùng một (the new moon): the Moon lies between the Sun and the Earth and turns its dark side to us. Rằm: the Moon is on the far side, and the face we see is almost fully lit. Not to scale.")
+
 ## Rằm is the 15th
 
 **Rằm** is the 15th day of the lunar month. The full moon falls roughly halfway between two new moons, so the night of rằm is usually bright with a nearly round moon. Still, the full moon is worked out from the Moon's real position, while rằm is just a way of counting days, so the night of rằm and the "fullest moon" night do not always match.
 
 A few rằm days in the year have their own names, such as rằm of the first month or rằm of the seventh month. This article only covers the monthly rằm and mùng một.
+
+![Lacquer painting of nine gold moons in a row on black: from left to right a dark moon with only a rim, a crescent lit on the right, the right half lit, a nearly full moon, a full moon in the middle, then the lit part shrinking to the left until a dark moon at the end of the row](../../../assets/blog/ram-va-mung-mot/tuan-trang.webp "One lunar month as seen from Vietnam, left to right: mùng một (no moon visible), the Moon growing lit from the right, the full moon around rằm in the middle, the Moon waning with its left side lit, then mùng một of the next month.")
 
 ## Why the Vietnamese calendar sometimes differs from others
 
@@ -63,6 +67,8 @@ Customs differ from region to region and family to family. Below is a summary of
 The sources share one small note worth remembering: if your parents are still alive, the person praying usually says "Tổ khảo, Tổ tỷ" instead of "Hiển khảo, Hiển tỷ" in the prayer to the ancestors.
 
 The shorter version on Báo Quốc tế uses fewer titles, while the versions on VietNamNet, VTC News and Infonet follow the same main outline. None of them is "the only correct version". If your family has its own way of praying handed down by your grandparents, keep it.
+
+![Lacquer painting of a red altar table: on the left a vase of pink lotus, in the middle a bronze incense burner with three burning sticks, in front a teapot and two small cups, on the right a footed plate of bananas, a pomelo and mandarins](../../../assets/blog/ram-va-mung-mot/huong-hoa-tra-qua.webp "The four things every prayer text mentions: incense, flowers, tea and fruit.")
 
 ## A few notes
 

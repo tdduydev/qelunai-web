@@ -54,6 +54,8 @@ For example, a house facing south sits north, so it is a **Khảm house**.
 
 One point often causes confusion: many popular Vietnamese websites talk about the "house direction" (the way the front faces) without saying whether they mean sitting or facing. When you read a lookup table, check whether it uses sitting or facing before comparing.
 
+![Lacquer painting of a house with a red tiled roof seen from above, inside a walled yard. The front door and a brick yard with a lotus pot are at the bottom of the picture; a gold arrow points down from the front door, and a red arrow points up from the back of the house. In the top right corner is an eight-pointed compass rose with a red top point](../../../assets/blog/huong-nha-bat-trach/toa-va-huong.webp "The gold arrow is the facing direction (where the front looks out); the red arrow is the sitting direction (the back of the house). The red point of the compass is north: this house faces south and sits north, so it is a Khảm house.")
+
 ## East group and West group houses
 
 The eight house types fall into two groups:
@@ -73,6 +75,19 @@ In each house type, the eight directions around the house are linked to eight st
 Phục Vị is always on the sitting side itself. For example, for a Khảm house (sitting north), Chinese sources such as the article on Sohu give: Sinh Khí in the southeast, Thiên Y in the east, Diên Niên in the south, Phục Vị in the north; Họa Hại in the west, Ngũ Quỷ in the northeast, Lục Sát in the northwest, Tuyệt Mệnh in the southwest.
 
 The eight-sector table for all eight house types in the Qelunai app has been checked, all 64 cells, against two separate Chinese sources.
+
+![Lacquer painting of a round disc split into eight equal sectors around a small roof at the centre; a red triangle at the top edge marks north. Clockwise from the top sector: gold, black, gold, gold, gold, black, black, black](../../../assets/blog/huong-nha-bat-trach/tam-cung-kham-trach.webp "The eight sectors of a Khảm house (sitting north), with north at the top. Gold sectors are good, black sectors are bad.")
+
+Clockwise from the top sector (under the red triangle):
+
+- North: Phục Vị (good)
+- Northeast: Ngũ Quỷ (bad)
+- East: Thiên Y (good)
+- Southeast: Sinh Khí (good)
+- South: Diên Niên (good)
+- Southwest: Tuyệt Mệnh (bad)
+- West: Họa Hại (bad)
+- Northwest: Lục Sát (bad)
 
 ## What books often suggest for the layout
 

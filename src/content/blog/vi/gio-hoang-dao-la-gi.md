@@ -36,6 +36,8 @@ Lịch truyền thống chia một ngày đêm thành 12 khung giờ. Mỗi khun
 
 Ở Việt Nam, các khung giờ này tính theo giờ Việt Nam (UTC+7), giống cách lịch Việt tính ngày âm. Giờ Tý vắt qua nửa đêm. Khoảng 23:00–24:00 thuộc giờ Tý của ngày đang xem hay của ngày hôm sau thì mỗi trường phái nói một khác, chưa có cách hiểu thống nhất.
 
+![Tranh sơn mài vòng tròn chia mười hai ô, mỗi ô một con giáp bằng vàng: chuột ở dưới cùng, theo chiều kim đồng hồ là trâu, hổ, mèo, rồng, rắn, ngựa ở trên cùng, dê, khỉ, gà, chó, lợn. Nửa trên màu vàng có mặt trời, nửa dưới đỏ sẫm có trăng khuyết](../../../assets/blog/gio-hoang-dao-la-gi/vong-12-gio.webp "Mười hai giờ địa chi xếp như mặt đồng hồ: giờ Tý (chuột, nửa đêm) ở dưới cùng, giờ Ngọ (ngựa, giữa trưa) ở trên cùng. Theo chiều kim đồng hồ từ Tý: Sửu, Dần, Mão (ở Việt Nam là con mèo), Thìn, Tỵ, Ngọ, Mùi, Thân, Dậu, Tuất, Hợi.")
+
 ## Mười hai vị thần, sáu tốt sáu xấu
 
 Mỗi khung giờ được gán một trong 12 "trực thần", luôn theo đúng thứ tự này:
@@ -54,6 +56,8 @@ Mỗi khung giờ được gán một trong 12 "trực thần", luôn theo đún
 12. Câu Trận (hắc đạo)
 
 Sáu thần được gọi là **hoàng đạo** (đường vàng), sáu thần còn lại là **hắc đạo** (đường đen). Khung giờ rơi vào thần hoàng đạo thì gọi là giờ hoàng đạo. Vì vậy ngày nào cũng có đúng sáu giờ hoàng đạo và sáu giờ hắc đạo.
+
+![Vòng mười hai ô sơn mài, sáu ô dát vàng và sáu ô sơn đen viền đỏ son; một viên ngọc đỏ đánh dấu ô bắt đầu ở trên cùng, mũi tên vàng chỉ chiều kim đồng hồ](../../../assets/blog/gio-hoang-dao-la-gi/vong-12-than.webp "Mười hai thần theo đúng thứ tự trong danh sách trên, bắt đầu từ ô dưới viên ngọc đỏ (Thanh Long) và đi theo chiều kim đồng hồ. Ô vàng là thần hoàng đạo, ô đen là thần hắc đạo.")
 
 ## Vì sao mỗi ngày một khác?
 

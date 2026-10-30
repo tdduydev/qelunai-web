@@ -54,6 +54,8 @@ Ví dụ: nhà nhìn ra Nam thì tọa Bắc, là **Khảm trạch**.
 
 Cần lưu ý một điểm hay gây nhầm: nhiều trang tiếng Việt phổ thông nói về "hướng nhà" (hướng mặt tiền) mà không nói rõ là tọa hay hướng. Khi đọc một bảng tra, bạn nên xem bảng đó dùng tọa hay hướng trước khi so.
 
+![Tranh sơn mài nhìn từ trên xuống một ngôi nhà mái ngói đỏ trong sân có tường bao. Cửa chính và sân gạch có chậu sen ở phía dưới hình; một mũi tên vàng từ cửa chính chỉ xuống dưới, một mũi tên đỏ từ lưng nhà chỉ lên trên. Góc trên bên phải là la bàn tám cánh, cánh trên cùng màu đỏ](../../../assets/blog/huong-nha-bat-trach/toa-va-huong.webp "Mũi tên vàng là hướng (phía mặt tiền nhìn ra), mũi tên đỏ là tọa (phía lưng nhà). Cánh đỏ của la bàn chỉ phía Bắc: ngôi nhà này nhìn ra Nam, tọa Bắc, là Khảm trạch.")
+
 ## Đông tứ trạch và Tây tứ trạch
 
 Tám trạch chia làm hai nhóm:
@@ -73,6 +75,19 @@ Trong mỗi trạch, tám phương quanh nhà được gắn với tám sao:
 Phục Vị luôn nằm ở chính phía tọa. Ví dụ với Khảm trạch (tọa Bắc), các tài liệu Trung Quốc như bài trên Sohu ghi: Sinh Khí ở Đông Nam, Thiên Y ở Đông, Diên Niên ở Nam, Phục Vị ở Bắc; Họa Hại ở Tây, Ngũ Quỷ ở Đông Bắc, Lục Sát ở Tây Bắc, Tuyệt Mệnh ở Tây Nam.
 
 Bảng tám cung của cả tám trạch trong ứng dụng Qelunai đã được đối chiếu đủ 64 ô với hai nguồn tiếng Trung riêng biệt.
+
+![Tranh sơn mài đĩa tròn chia tám ô bằng nhau quanh một mái nhà nhỏ ở tâm; tam giác đỏ ở mép trên chỉ phía Bắc. Theo chiều kim đồng hồ từ ô trên cùng: vàng, đen, vàng, vàng, vàng, đen, đen, đen](../../../assets/blog/huong-nha-bat-trach/tam-cung-kham-trach.webp "Tám cung của Khảm trạch (tọa Bắc), phía Bắc ở trên. Ô vàng là cung tốt, ô đen là cung xấu.")
+
+Đi theo chiều kim đồng hồ từ ô trên cùng (dưới tam giác đỏ):
+
+- Bắc: Phục Vị (tốt)
+- Đông Bắc: Ngũ Quỷ (xấu)
+- Đông: Thiên Y (tốt)
+- Đông Nam: Sinh Khí (tốt)
+- Nam: Diên Niên (tốt)
+- Tây Nam: Tuyệt Mệnh (xấu)
+- Tây: Họa Hại (xấu)
+- Tây Bắc: Lục Sát (xấu)
 
 ## Sách thường gợi ý bố trí ra sao
 

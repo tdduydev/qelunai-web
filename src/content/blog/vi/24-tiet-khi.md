@@ -33,6 +33,8 @@ Mốc 0° là **Xuân phân**. Từ đó cứ thêm 15° lại sang tiết sau: 
 
 Do bám theo Mặt Trời, tiết khí gần như rơi vào cùng ngày dương lịch mỗi năm, chỉ xê dịch một ngày. Đó là lý do Lập xuân thường vào ngày 4 hoặc 5 tháng 2.
 
+![Tranh sơn mài Mặt Trời vàng ở giữa, quanh là một quỹ đạo có 24 chấm cách đều, bốn chấm đỏ ở trên, dưới, trái và phải; một Trái Đất nhỏ nằm trên quỹ đạo; bốn góc là cành mai, hoa sen, bông lúa và cành cây phủ sương giá](../../../assets/blog/24-tiet-khi/vong-24-tiet-khi.webp "24 tiết khí là 24 điểm cách nhau 15° trên vòng một năm; bốn chấm đỏ là Xuân phân, Hạ chí, Thu phân và Đông chí. Hình vẽ Trái Đất đi quanh Mặt Trời; nhìn từ Trái Đất, ta thấy Mặt Trời đi một vòng trên hoàng đạo.")
+
 ## 24 tiết khí theo bốn mùa
 
 Tên mỗi tiết khí là một câu mô tả ngắn về thời tiết hoặc mùa màng:
@@ -43,6 +45,8 @@ Tên mỗi tiết khí là một câu mô tả ngắn về thời tiết hoặc 
 - **Mùa đông:** Lập đông (bắt đầu đông), Tiểu tuyết (tuyết nhỏ), Đại tuyết (tuyết lớn), Đông chí (giữa đông, đêm dài nhất ở Bắc bán cầu), Tiểu hàn (rét nhẹ), Đại hàn (rét lớn).
 
 Các tên này đặt theo khí hậu nơi lịch ra đời. Thời tiết từng vùng ở Việt Nam có thể khác: miền Nam không có tuyết vào Tiểu tuyết hay Đại tuyết. Với nhà nông, các mốc như Lập xuân vẫn là lúc chuẩn bị nông cụ, đất đai cho vụ mới.
+
+![Bốn tấm tranh sơn mài như bộ tứ bình: mùa xuân hoa mai vàng, người cày ruộng với trâu dưới mưa phùn; mùa hè đầm sen và lúa non dưới mặt trời vàng; mùa thu gặt lúa chín trong sương; mùa đông cành cây phủ sương trắng bên mái nhà tranh](../../../assets/blog/24-tiet-khi/bon-mua.webp "Từ trái sang phải: xuân, hạ, thu, đông. Mỗi mùa có sáu tiết khí.")
 
 ## Bốn mốc có thể kiểm chứng
 

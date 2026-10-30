@@ -35,11 +35,15 @@ Mỗi tháng âm bắt đầu vào ngày có **điểm Sóc**. Đó là lúc M�
 
 Khoảng cách trung bình giữa hai lần Sóc là chừng 29,53 ngày. Vì một tháng phải có số ngày tròn, nên tháng âm có 29 ngày (tháng thiếu) hoặc 30 ngày (tháng đủ). Tháng nào thiếu, tháng nào đủ không theo một quy luật cố định mà tuỳ vào thời điểm Sóc thật.
 
+![Tranh sơn mài: Mặt Trời vàng bên trái chiếu những tia sáng sang phải; bên phải là Trái Đất xanh với một vòng quỹ đạo mảnh. Mặt Trăng được vẽ hai lần trên vòng: ở giữa Mặt Trời và Trái Đất thì tối, chỉ còn viền sáng phía Mặt Trời; ở phía bên kia Trái Đất thì sáng tròn](../../../assets/blog/ram-va-mung-mot/soc-va-vong.webp "Mùng một (điểm Sóc): Mặt Trăng nằm giữa Mặt Trời và Trái Đất, quay mặt tối về phía ta. Rằm: Mặt Trăng ở phía đối diện, mặt hướng về ta được chiếu sáng gần trọn. Hình không theo tỉ lệ.")
+
 ## Rằm là ngày 15
 
 **Rằm** là ngày 15 của tháng âm. Trăng tròn rơi vào khoảng giữa hai lần Sóc, nên đêm rằm thường là đêm trăng sáng và gần tròn. Tuy vậy, trăng tròn được tính theo vị trí thật của Mặt Trăng, còn rằm chỉ là cách đếm ngày, nên đêm rằm và đêm "trăng tròn nhất" không phải lúc nào cũng trùng nhau.
 
 Trong năm có vài ngày rằm lớn được nhắc tên riêng, như rằm tháng Giêng hay rằm tháng Bảy. Bài này chỉ nói về rằm và mùng một hằng tháng.
+
+![Tranh sơn mài chín vầng trăng vàng xếp thành một hàng trên nền đen: từ trái sang phải là trăng tối chỉ còn viền, trăng lưỡi liềm sáng bên phải, nửa phải sáng, trăng gần tròn, trăng tròn ở giữa, rồi phần sáng thu dần về bên trái cho tới trăng tối ở cuối hàng](../../../assets/blog/ram-va-mung-mot/tuan-trang.webp "Một tháng âm nhìn từ Việt Nam, từ trái sang phải: mùng một (không thấy trăng), trăng lớn dần sáng từ phía bên phải, trăng tròn quanh rằm ở giữa, trăng khuyết dần còn sáng phía bên trái, rồi tới mùng một tháng sau.")
 
 ## Vì sao lịch Việt có khi lệch lịch nước khác?
 
@@ -63,6 +67,8 @@ Phong tục mỗi vùng, mỗi nhà một khác. Phần dưới đây tóm tắt
 Các nguồn có một ghi chú nhỏ đáng nhớ: nếu cha mẹ còn sống, người khấn thường đọc "Tổ khảo, Tổ tỷ" thay cho "Hiển khảo, Hiển tỷ" trong bài khấn gia tiên.
 
 Bản rút gọn trên Báo Quốc tế ít danh hiệu hơn, còn các bản trên VietNamNet, VTC News và Infonet giống nhau về mạch chính. Không có bản nào là "bản duy nhất đúng". Nếu nhà bạn có cách khấn riêng do ông bà truyền lại, cứ giữ cách đó.
+
+![Tranh sơn mài bàn thờ sơn đỏ: bên trái bình hoa sen hồng, ở giữa lư hương đồng cắm ba nén hương đang cháy, phía trước là ấm trà và hai chén nhỏ, bên phải đĩa quả có chuối, bưởi và quýt](../../../assets/blog/ram-va-mung-mot/huong-hoa-tra-qua.webp "Bốn thứ các bài khấn đều nhắc: hương, hoa, trà, quả.")
 
 ## Một vài lưu ý
 

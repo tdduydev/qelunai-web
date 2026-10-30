@@ -36,6 +36,8 @@ The traditional calendar splits a day and night into 12 time slots. Each lasts a
 
 In Vietnam these slots follow Vietnam time (UTC+7), the same way the Vietnamese calendar works out lunar dates. The Tý hour spans midnight. Whether 23:00–24:00 belongs to the Tý hour of the day you are looking at or of the next day depends on the school; there is no single agreed reading.
 
+![Lacquer painting of a round dial split into twelve parts, each holding one gold zodiac animal: the rat at the bottom, then clockwise the buffalo, tiger, cat, dragon, snake, the horse at the top, goat, monkey, rooster, dog and pig. The upper half is gold with a sun, the lower half dark red with a crescent moon](../../../assets/blog/gio-hoang-dao-la-gi/vong-12-gio.webp "The twelve earthly-branch hours laid out like a clock face: Tý (rat, midnight) at the bottom, Ngọ (horse, noon) at the top. Clockwise from Tý: Sửu, Dần, Mão (a cat in Vietnam, not a rabbit), Thìn, Tỵ, Ngọ, Mùi, Thân, Dậu, Tuất, Hợi.")
+
 ## Twelve spirits, six good and six bad
 
 Each slot is given one of 12 "duty spirits" (trực thần), always in this order:
@@ -54,6 +56,8 @@ Each slot is given one of 12 "duty spirits" (trực thần), always in this orde
 12. Câu Trận (hắc đạo)
 
 Six spirits are called **hoàng đạo** ("yellow path"), the other six **hắc đạo** ("black path"). A slot that falls on a hoàng đạo spirit is an auspicious hour. So every day has exactly six hoàng đạo hours and six hắc đạo hours.
+
+![A ring of twelve lacquer tiles, six in gold leaf and six in black lacquer edged with vermilion; a red pearl marks the starting tile at the top and a gold arrow points clockwise](../../../assets/blog/gio-hoang-dao-la-gi/vong-12-than.webp "The twelve spirits in the order of the list above, starting at the tile under the red pearl (Thanh Long) and going clockwise. Gold tiles are hoàng đạo spirits, black tiles are hắc đạo spirits.")
 
 ## Why does each day differ?
 

@@ -33,6 +33,8 @@ The 0° mark is **Xuân phân** (Spring Equinox). Every further 15° starts the 
 
 Because they follow the Sun, solar terms fall on almost the same Gregorian date every year, shifting by a day at most. That is why Lập xuân is usually on 4 or 5 February.
 
+![Lacquer painting of a gold Sun in the centre, ringed by an orbit with 24 evenly spaced dots, four of them red at the top, bottom, left and right; a small Earth sits on the orbit; the corners hold apricot blossom, a lotus, rice ears and a frosted branch](../../../assets/blog/24-tiet-khi/vong-24-tiet-khi.webp "The 24 solar terms are 24 points 15° apart around one year; the four red dots are the March equinox, June solstice, September equinox and December solstice. The picture shows the Earth going round the Sun; seen from the Earth, the Sun goes once round the ecliptic.")
+
 ## The 24 solar terms by season
 
 Each name is a short description of the weather or the farming season:
@@ -43,6 +45,8 @@ Each name is a short description of the weather or the farming season:
 - **Winter:** Lập đông (start of winter), Tiểu tuyết (minor snow), Đại tuyết (major snow), Đông chí (midwinter, the longest night in the Northern Hemisphere), Tiểu hàn (minor cold), Đại hàn (major cold).
 
 The names reflect the climate where the calendar was born. Weather in different parts of Vietnam can be quite different: the south gets no snow at Tiểu tuyết or Đại tuyết. For farmers, markers like Lập xuân are still the time to get tools and land ready for the new crop.
+
+![Four lacquer panels like a folding screen: spring with yellow apricot blossom and a farmer ploughing with a buffalo in drizzle; summer with a lotus pond and young rice under a gold sun; autumn with ripe rice harvested in the mist; winter with frosted branches beside a thatched house](../../../assets/blog/24-tiet-khi/bon-mua.webp "Left to right: spring, summer, autumn, winter. Each season has six solar terms.")
 
 ## Four dates you can check
 
