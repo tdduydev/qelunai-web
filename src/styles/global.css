@@ -74,7 +74,7 @@
   --radius: 16px;
 }
 
-/* Chinese and Korean (only the privacy pages): the brand fonts have no Han or
+/* Chinese and Korean: the brand fonts have no Han or
    Hangul, so those glyphs come from system fonts; nothing extra is downloaded. */
 :lang(zh-Hans) {
   --cjk: 'PingFang SC', 'Hiragino Sans GB', 'Noto Sans SC', 'Noto Sans CJK SC', 'Microsoft YaHei', sans-serif;

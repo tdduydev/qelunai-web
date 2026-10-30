@@ -60,6 +60,63 @@ const en:Record<GrowthPageId,Content>={
  cta:'Explore I Ching in Qelunai',method:'Educational cultural reference only.',dateLabel:'',submit:'',result:'',dayLabel:'',monthLabel:'',yearLabel:'',leap:'',canChi:'',goodHours:'',error:'',today:'',ctaNote:'The app is currently in private testing.'
  }
 };
-const byCode:Record<string,Record<GrowthPageId,Content>>={vi,en};
+const viStems=['Giáp','Ất','Bính','Đinh','Mậu','Kỷ','Canh','Tân','Nhâm','Quý'];
+const viBranches=['Tý','Sửu','Dần','Mão','Thìn','Tỵ','Ngọ','Mùi','Thân','Dậu','Tuất','Hợi'];
+const viSpirits=['Thanh Long','Minh Đường','Thiên Hình','Chu Tước','Kim Quỹ','Kim Đường','Bạch Hổ','Ngọc Đường','Thiên Lao','Huyền Vũ','Tư Mệnh','Câu Trận'];
+/** Pairs the Vietnamese names with this language's, in the same order; the Han and Hangul forms follow the app's `lib/l10n/terms.dart`. */
+const termsFrom=(stems:string,branches:string,spirits:string[])=>Object.fromEntries([...viStems.map((v,i)=>[v,[...stems][i]]),...viBranches.map((v,i)=>[v,[...branches][i]]),...viSpirits.map((v,i)=>[v,spirits[i]])]);
+const zhTerms=termsFrom('甲乙丙丁戊己庚辛壬癸','子丑寅卯辰巳午未申酉戌亥',['青龙','明堂','天刑','朱雀','金匮','宝光','白虎','玉堂','天牢','玄武','司命','勾陈']);
+const koTerms=termsFrom('갑을병정무기경신임계','자축인묘진사오미신유술해',['청룡','명당','천형','주작','금궤','보광','백호','옥당','천뢰','현무','사명','구진']);
+const zhTool={dayLabel:'农历日',monthLabel:'农历月',yearLabel:'农历年',leap:'闰月',canChi:'日干支',error:'日期无效，或年份不在 1900–2100 之间。',today:'今天（越南时间）',terms:zhTerms,gap:'',list:'、'};
+const zh:Record<GrowthPageId,Content>={
+ calendar:{
+  title:'今日越南农历与公历转农历 | Qelunai',description:'免费按 UTC+7 查询越南农历。查看农历日期、闰月、干支和黄道时辰，无需登录。',eyebrow:'免费工具 · 越南农历',short:'农历',intro:'把公历日期换算成越南阴阳历（UTC+7）。结果在你的浏览器中计算，所选日期不会发送到服务器。',toolHeading:'换算公历日期',guide:[
+   {heading:'越南农历如何运作？',paragraphs:['每个农历月从朔日（新月）开始。闰月按太阳黄经的规则安排。由于民用时区不同，越南农历和中国农历的日期有时会相差一天。','本工具采用天文近似算法，并用 2023–2027 年的若干日期核对过。朔日临近午夜的日期，请再用权威的天文历法核实。']},
+   {heading:'手机应用还有什么？',paragraphs:['Qelunai 提供月历、初一和十五提醒、家庭忌日和主屏幕小组件。目前应用仅对受邀测试者开放。']}
+  ],faq:[{q:'使用哪个时区？',a:'越南民用时间 UTC+7，而不是中国农历所用的 UTC+8。'},{q:'需要登录吗？',a:'不需要。你选择的日期只留在浏览器中。'}],
+  cta:'申请参加测试',method:'方法：近似的 Meeus 天文算法，加上农历月和闰月规则。适用年份 1900–2100；边界日期请另行核实。',dateLabel:'公历日期',submit:'换算',result:'结果',goodHours:'黄道时辰',ctaNote:'Qelunai 正在封闭测试。测试申请通过邮件发送。',...zhTool
+ },
+ hours:{
+  title:'今日越南黄道时辰 | Qelunai',description:'查看所选日期的十二个传统时辰和六个黄道时辰。免费，无需账户。',eyebrow:'免费工具 · 传统时辰',short:'黄道时辰',intro:'了解按地支划分的十二个时辰（每个两小时）及其传统名称。这些是文化上的分类，并非有科学依据的预测。',toolHeading:'查找传统黄道时辰',guide:[
+   {heading:'子时从几点开始？',paragraphs:['子时从 23:00 到 01:00，丑时从 01:00 到 03:00，依此类推。对于一天是否在 23:00 交替，各派说法不一。']},
+   {heading:'应该如何看待这些结果？',paragraphs:['黄道时辰是传统历法文化的一部分，并不保证事情成功。请优先考虑实际安全和有依据的决定。']}
+  ],faq:[{q:'黄道时辰有几个？',a:'按这里采用的传统体系，十二个时辰中有六个。'},{q:'这些是预测吗？',a:'不是。它们只是对传统历法惯例的说明。'}],
+  cta:'在手机上试用 Qelunai',method:'规则：按日支排列的十二位传统值神，从青龙到勾陈。并非科学预测。',dateLabel:'公历日期',submit:'查看时辰',result:'时辰',goodHours:'黄道时辰',ctaNote:'通过邮件申请参加测试。无需提供出生资料。',...zhTool
+ },
+ iching:{
+  title:'什么是易经？六十四卦与掷钱起卦 | Qelunai',description:'通俗介绍易经：八卦、六十四卦、阴爻与阳爻，以及三枚硬币起卦。',eyebrow:'学习资料 · 易经',short:'易经',intro:'了解六十四卦如何构成，以及一种常见的掷钱起卦方法。Qelunai 把易经视为文化和哲学传统，而不是预言。',guide:[
+   {heading:'八卦与六十四卦',paragraphs:['一个经卦由三条阴爻或阳爻组成。两个经卦相叠成为一个六爻的别卦，共有六十四种组合。爻从下往上数。','现代的译本和解读可能仍受版权保护。Qelunai 使用原创的讲解和获得授权的参考资料。']},
+   {heading:'三枚硬币起卦法',paragraphs:['把三枚硬币掷六次，从下往上记录每次得到的爻。根据所用的惯例，动爻会变出一个之卦。','Qelunai 应用提供起卦、记录和讲解。本网站只介绍方法，不会编造解卦结果。']},
+   {heading:'用来反思，而非定论',paragraphs:['易经作为文化和哲学遗产很有价值。它不能代替医疗、财务或法律方面的专业建议。']}
+  ],faq:[{q:'一共有多少卦？',a:'六十四卦，每卦六爻。'},{q:'为什么要掷六次硬币？',a:'每掷一次得到一爻，从下往上组成一卦的六爻。'}],
+  cta:'在 Qelunai 中了解易经',method:'仅作文化教育参考。',dateLabel:'',submit:'',result:'',dayLabel:'',monthLabel:'',yearLabel:'',leap:'',canChi:'',goodHours:'',error:'',today:'',ctaNote:'应用目前处于封闭测试阶段。'
+ }
+};
+const koTool={dayLabel:'음력 일',monthLabel:'음력 월',yearLabel:'음력 연도',leap:'윤달',canChi:'일진',error:'날짜가 잘못되었거나 연도가 1900–2100 범위를 벗어났습니다.',today:'오늘(베트남 시간)',terms:koTerms,gap:'',list:', '};
+const ko:Record<GrowthPageId,Content>={
+ calendar:{
+  title:'오늘의 베트남 음력과 양력→음력 변환 | Qelunai',description:'UTC+7 기준 베트남 음력을 무료로 조회하세요. 음력 날짜, 윤달, 간지, 황도시를 로그인 없이 볼 수 있습니다.',eyebrow:'무료 도구 · 베트남 음력',short:'음력',intro:'양력 날짜를 베트남 음력(UTC+7)으로 바꿉니다. 계산은 브라우저에서 이루어지며 고른 날짜는 서버로 보내지 않습니다.',toolHeading:'양력 날짜 변환',guide:[
+   {heading:'베트남 음력은 어떻게 정해지나요?',paragraphs:['음력 한 달은 삭(새달)에서 시작합니다. 윤달은 태양 황경 규칙에 따라 둡니다. 사용하는 표준시가 달라서 베트남 음력과 중국 음력의 날짜가 하루 차이 날 때가 있습니다.','이 도구는 천문 근사 계산을 쓰며 2023–2027년의 여러 날짜로 검증했습니다. 삭이 자정 무렵인 날짜는 공신력 있는 천문 역법으로 다시 확인하세요.']},
+   {heading:'모바일 앱에는 무엇이 더 있나요?',paragraphs:['Qelunai는 월 달력, 초하루와 보름 알림, 가족 기일, 홈 화면 위젯을 제공합니다. 앱은 현재 초대받은 테스터만 쓸 수 있습니다.']}
+  ],faq:[{q:'어느 시간대를 쓰나요?',a:'중국 음력의 UTC+8이 아니라 베트남 표준시 UTC+7을 씁니다.'},{q:'로그인이 필요한가요?',a:'아니요. 고른 날짜는 브라우저 안에만 남습니다.'}],
+  cta:'베타 참여 신청',method:'방법: Meeus 천문 근사 계산과 음력 월·윤달 규칙. 1900–2100년 대상이며, 경계에 있는 날짜는 따로 확인하세요.',dateLabel:'양력 날짜',submit:'변환',result:'결과',goodHours:'황도시',ctaNote:'Qelunai는 비공개 테스트 중입니다. 베타 신청은 이메일로 보냅니다.',...koTool
+ },
+ hours:{
+  title:'오늘의 베트남 황도시 | Qelunai',description:'고른 날짜의 전통 12시진과 황도시 6개를 확인하세요. 무료이며 계정이 필요 없습니다.',eyebrow:'무료 도구 · 전통 시진',short:'황도시',intro:'지지에 따라 두 시간씩 나눈 12시진과 그 전통 이름을 알아보세요. 이는 문화적 분류이며 과학적으로 입증된 예측이 아닙니다.',toolHeading:'전통 황도시 찾기',guide:[
+   {heading:'자시는 몇 시에 시작하나요?',paragraphs:['자시는 23:00부터 01:00까지, 축시는 01:00부터 03:00까지이며, 이런 식으로 이어집니다. 하루가 23:00에 바뀌는지에 대해서는 학파마다 견해가 다릅니다.']},
+   {heading:'결과는 어떻게 받아들여야 하나요?',paragraphs:['황도시는 전통 역법 문화의 일부일 뿐, 일이 잘된다는 보장이 아닙니다. 실제 안전과 근거 있는 판단을 먼저 생각하세요.']}
+  ],faq:[{q:'황도시는 몇 개인가요?',a:'여기서 쓰는 전통 체계에서는 12시진 가운데 6개입니다.'},{q:'예언인가요?',a:'아니요. 전통 역법의 관습을 설명한 것입니다.'}],
+  cta:'모바일에서 Qelunai 써 보기',method:'규칙: 일지에 따라 배열한 전통 12신, 청룡에서 구진까지. 과학적 예측이 아닙니다.',dateLabel:'양력 날짜',submit:'시진 보기',result:'시진',goodHours:'황도시',ctaNote:'이메일로 베타 참여를 신청하세요. 출생 정보는 필요 없습니다.',...koTool
+ },
+ iching:{
+  title:'주역이란? 64괘와 동전 괘 뽑기 | Qelunai',description:'주역을 쉽게 소개합니다: 팔괘, 64괘, 음효와 양효, 동전 세 개로 괘 뽑기.',eyebrow:'배움터 · 주역',short:'주역',intro:'64괘가 어떻게 이루어지는지, 흔히 쓰는 동전 괘 뽑기 방법은 어떤지 알아보세요. Qelunai는 주역을 예언이 아닌 문화와 철학의 전통으로 다룹니다.',guide:[
+   {heading:'팔괘와 64괘',paragraphs:['소성괘 하나는 음효 또는 양효 세 개로 이루어집니다. 소성괘 두 개를 겹치면 효가 여섯인 대성괘가 되며, 모두 64가지입니다. 효는 아래에서부터 셉니다.','현대의 번역과 풀이는 아직 저작권이 있을 수 있습니다. Qelunai는 직접 쓴 설명과 사용 허가를 받은 참고 자료를 씁니다.']},
+   {heading:'동전 세 개로 괘 뽑기',paragraphs:['동전 세 개를 여섯 번 던지고, 나온 효를 아래에서부터 기록합니다. 따르는 관습에 따라 동효는 변괘를 만듭니다.','Qelunai 앱은 괘 뽑기, 기록, 풀이를 제공합니다. 이 웹사이트는 방법만 소개하며 풀이 결과를 지어내지 않습니다.']},
+   {heading:'판정이 아니라 돌아보기',paragraphs:['주역은 문화와 철학의 유산으로서 가치가 있습니다. 의료, 재무, 법률에 관한 전문적인 조언을 대신하지 않습니다.']}
+  ],faq:[{q:'괘는 모두 몇 개인가요?',a:'64괘이며, 괘마다 효가 여섯 개입니다.'},{q:'왜 동전을 여섯 번 던지나요?',a:'한 번 던질 때마다 괘의 여섯 효 가운데 하나가 아래에서 위로 정해집니다.'}],
+  cta:'Qelunai에서 주역 알아보기',method:'문화 교육용 참고 자료입니다.',dateLabel:'',submit:'',result:'',dayLabel:'',monthLabel:'',yearLabel:'',leap:'',canChi:'',goodHours:'',error:'',today:'',ctaNote:'앱은 현재 비공개 테스트 중입니다.'
+ }
+};
+const byCode:Record<string,Record<GrowthPageId,Content>>={vi,en,zh,ko};
 export function growthFor(code:string,id:GrowthPageId):Content { return (byCode[code]??vi)[id]; }
 export const growthIds:GrowthPageId[]=['calendar','hours','iching'];

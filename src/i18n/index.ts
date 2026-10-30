@@ -1,8 +1,6 @@
-import { policyLocales } from './policy-locales';
-import type { Locale, PageId, PolicyLocale } from './types';
+import type { Locale, PageId } from './types';
 
-export type { Block, FeatureId, Locale, PageId, PolicyLocale } from './types';
-export { policyLocales };
+export type { Block, FeatureId, Locale, PageId } from './types';
 
 export const defaultLocaleCode = 'vi';
 
@@ -55,27 +53,27 @@ export function localePaths() {
 /** One language version of a page: hreflang tags, the language menu and the sitemap list these. */
 export interface Alternate {
   code: string;
-  /** hreflang code: the URL code for full languages, `htmlLang` for privacy-only ones. */
+  /** hreflang code (BCP 47), the same as `<html lang>`, e.g. `zh-Hans`. */
   hreflang: string;
   htmlLang: string;
   ogLocale: string;
   nativeName: string;
+  menuLabel: string;
   href: string;
 }
 
-/** Every language version of `page`; the privacy page also has the privacy-only languages. */
+/** Every language version of `page`. */
 export function alternatesFor(page: PageId): Alternate[] {
-  const full = locales.map((l) => ({ ...pick(l), hreflang: l.code, href: pathFor(l, page) }));
-  if (page !== 'privacy') return full;
-  return [...full, ...policyLocales.map((l) => ({ ...pick(l), hreflang: l.htmlLang, href: pathFor(l.code, page) }))];
+  return locales.map(({ code, htmlLang, ogLocale, nativeName, menuLabel }) => ({
+    code,
+    hreflang: htmlLang,
+    htmlLang,
+    ogLocale,
+    nativeName,
+    menuLabel,
+    href: pathFor(code, page),
+  }));
 }
-
-const pick = ({ code, htmlLang, ogLocale, nativeName }: Locale | PolicyLocale) => ({ code, htmlLang, ogLocale, nativeName });
-
-export const isPolicyOnly = (locale: Locale | PolicyLocale): locale is PolicyLocale => !('pages' in locale);
-
-/** Home page for a language; privacy-only languages have none and use the English one. */
-export const homeFor = (locale: Locale | PolicyLocale) => pathFor(isPolicyOnly(locale) ? 'en' : locale);
 
 /** `**bold**` to `<strong>`, the support address and bare URLs to links, after escaping. */
 export function rich(text: string): string {
@@ -84,6 +82,7 @@ export function rich(text: string): string {
     .replace(/</g, '&lt;')
     .replace(/>/g, '&gt;')
     .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
-    .replace(/https?:\/\/[^\s<]+[^\s<.,;:)]/g, (url) => `<a href="${url}" rel="noopener">${url}</a>`)
+    // URLs are ASCII; stopping at the first other character keeps Chinese and Korean text after a URL out of the link.
+    .replace(/https?:\/\/[^\s<\u0080-\uffff]+[^\s<.,;:)\u0080-\uffff]/g, (url) => `<a href="${url}" rel="noopener">${url}</a>`)
     .replace(/support@qelunai\.com/g, `<a href="mailto:${email}">${email}</a>`);
 }

@@ -10,7 +10,7 @@ const t = locale.pages.deleteAccount;
 const mailto = `mailto:${email}?subject=${encodeURIComponent(t.mailSubject)}&body=${encodeURIComponent(t.mailBody)}`;
 ---
 
-<LegalPage locale={locale} page="deleteAccount" title={t.title} description={t.description} lead={t.lead}>
+<LegalPage locale={locale} page="deleteAccount" title={t.title} description={t.description} lead={t.lead} notice={locale.pages.translationNotice}>
   <Blocks blocks={t.blocks.slice(0, 2)} />
   <p><a class="btn btn-gold" href={mailto}>{t.mailAction}</a></p>
   <Blocks blocks={t.blocks.slice(2)} />

@@ -117,32 +117,9 @@ export interface Locale {
     testers: { title: string; description: string; lead: string; blocks: Block[] };
     updatedLabel: string;
     backHome: string;
-    /** On the legal pages of a translated language: the Vietnamese or English text controls. */
+    /** On the terms and delete-account pages of a translated language: the Vietnamese or English text controls. The translated privacy text carries its own line. */
     translationNotice?: string;
   };
 
   notFound: { title: string; body: string; home: string };
-}
-
-/** A language that only has the privacy page; see `./policy-locales.ts`. */
-export interface PolicyLocale {
-  /** URL segment, e.g. `zh` for `/zh/privacy/`. */
-  code: string;
-  /** Value of `<html lang>` and the hreflang code (BCP 47), e.g. `zh-Hans`. */
-  htmlLang: string;
-  ogLocale: string;
-  nativeName: string;
-  /** Position in the language menu after the full languages; lower comes first. */
-  order: number;
-  skip: string;
-  /** Label of the home link and the header navigation. */
-  home: string;
-  /** Label of the language menu. */
-  language: string;
-  title: string;
-  description: string;
-  onThisPage: string;
-  contact: string;
-  /** Footer text before the links to the Vietnamese and English home pages. */
-  homeLinks: string;
 }

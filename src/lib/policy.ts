@@ -32,7 +32,7 @@ const inline = (s: string) =>
   escape(s)
     .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
     .replace(/(^|[^*])\*([^*\s][^*]*?)\*(?!\*)/g, '$1<em>$2</em>')
-    .replace(/https?:\/\/[^\s<]+[^\s<.,;:)]/g, (url) => `<a href="${url}" rel="noopener">${url}</a>`);
+    .replace(/https?:\/\/[^\s<\u0080-\uffff]+[^\s<.,;:)\u0080-\uffff]/g, (url) => `<a href="${url}" rel="noopener">${url}</a>`);
 
 /** Latin letters lose their accents; Han and Hangul stay (NFC rejoins the Hangul syllables NFD split). */
 const slug = (s: string) =>
