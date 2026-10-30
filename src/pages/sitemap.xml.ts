@@ -1,10 +1,11 @@
 import type { APIRoute } from 'astro';
-import { locales, defaultLocale, pages, pathFor } from '../i18n';
+import { locales, defaultLocale, noindexPages, pages, pathFor } from '../i18n';
 
 export const GET: APIRoute = ({ site }) => {
   const abs = (p: string) => new URL(p, site).href;
   const lastmod = new Date().toISOString().slice(0, 10);
   const urls = pages
+    .filter((page) => !noindexPages.includes(page))
     .flatMap((page) => {
       const alternates = [
         ...locales.map((l) => `    <xhtml:link rel="alternate" hreflang="${l.code}" href="${abs(pathFor(l, page))}"/>`),

@@ -25,9 +25,13 @@ export const pageSlugs: Record<PageId, string> = {
   hours: 'gio-hoang-dao/',
   iching: 'kinh-dich/',
   testers: 'testers/',
+  download: 'tai/',
 };
 
 export const pages = Object.keys(pageSlugs) as PageId[];
+
+/** Pages marked `noindex` and left out of the sitemap, e.g. the store redirect behind the share-card QR code. */
+export const noindexPages: PageId[] = ['download'];
 
 export function pathFor(locale: Locale | string, page: PageId = 'home'): string {
   const code = typeof locale === 'string' ? locale : locale.code;

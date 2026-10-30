@@ -1,0 +1,37 @@
+---
+import Base from '../../layouts/Base.astro';
+import { localePaths, pathFor } from '../../i18n';
+import { downloadFor } from '../../i18n/download';
+import { storeUrls } from '../../lib/store-pick.mjs';
+
+export const getStaticPaths = localePaths;
+
+const { locale } = Astro.props;
+const t = downloadFor(locale.code);
+---
+
+<Base locale={locale} page="download" title={t.title} description={t.description} noindex>
+  <article class="legal">
+    <header class="legal-head">
+      <a class="back link" href={pathFor(locale)}>← {locale.pages.backHome}</a>
+      <p class="eyebrow">{t.eyebrow}</p>
+      <h1>{t.heading}</h1>
+      <p class="lede">{t.lead}</p>
+    </header>
+    <div class="sheet">
+      <div class="stores">
+        <a class="store" href={storeUrls['app-store']} rel="noopener"><span><small>{t.getOn}</small>App Store</span></a>
+        <a class="store" href={storeUrls['google-play']} rel="noopener"><span><small>{t.getOn}</small>Google Play</span></a>
+      </div>
+      <noscript><p class="note">{t.noscript}</p></noscript>
+      <p class="note">{t.note}</p>
+    </div>
+  </article>
+</Base>
+
+<script>
+  import { pickStore, storeUrls } from '../../lib/store-pick.mjs';
+
+  const store = pickStore(navigator.userAgent, navigator.maxTouchPoints);
+  if (store) location.replace(storeUrls[store]);
+</script>

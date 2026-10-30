@@ -33,7 +33,9 @@ Node 22 or newer.
 | `src/styles/global.css` | Tokens and all styles |
 | `src/assets/sonmai/` | Lacquer art and feature medallions from the app |
 | `src/assets/shots/<lang>/` | Screenshots of the real app, optimised at build time |
-| `src/pages/sitemap.xml.ts`, `robots.txt.ts` | Generated from the page and locale lists |
+| `src/pages/[...lang]/tai.astro`, `src/i18n/download.ts` | Download page behind the share-card QR code (see below) |
+| `src/lib/store-pick.mjs` | Store URLs and the user-agent store chooser used by `/tai/` |
+| `src/pages/sitemap.xml.ts`, `robots.txt.ts` | Generated from the page and locale lists; pages in `noindexPages` are left out |
 | `public/` | `CNAME`, `app-ads.txt`, favicons, fonts, `og.png`, web manifest |
 
 ## Privacy policy
@@ -50,6 +52,10 @@ and commit the updated file. Vietnamese comes before the `---` line, English aft
 ## Store links
 
 When the listings are live, replace the `href="#"` of every element with `data-store-link="app-store"` or `data-store-link="google-play"` (in `StoreButtons.astro` and `Footer.astro`).
+
+## Download page (`/tai/`)
+
+`https://qelunai.com/tai/` (Vietnamese) and `https://qelunai.com/en/tai/` (English) are the single link for the QR code on the app's share card. On load, a small script calls `pickStore` and uses `location.replace` to send iPhone, iPad, iPod and iPadOS (Mac user agent with touch) to the App Store, and Android to Google Play. Desktops, unknown devices and browsers without JavaScript stay on the page, which shows plain links to both stores. No tracking. The page is `noindex` and not in the sitemap. Store URLs live in `src/lib/store-pick.mjs`; tests: `npm run test:store`.
 
 ## Add a language
 
@@ -72,4 +78,4 @@ Pages is set to build from GitHub Actions and the custom domain comes from `publ
 - English counterparts at `/en/...` (auto-added to sitemap and hreflang).
 - The site routes Android users through the existing `/testers/` guide and iOS users to request TestFlight by email, until public store links exist.
 
-Run `npm run check` locally (Node calendar tests + Astro build). See `docs/GROWTH_CALENDAR.md` for method and limitations.
+Run `npm run check` locally (Node calendar and store-chooser tests + Astro build). See `docs/GROWTH_CALENDAR.md` for method and limitations.
