@@ -111,11 +111,41 @@ sources:                         # nên có; hiện ở cuối bài
 - Bài có `date` ở tương lai chỉ hiện từ lần deploy đầu tiên sau ngày đó (site tĩnh), và **không** tự gửi thông báo; muốn báo thì gửi tay (xem dưới).
 - Nội dung Markdown: dùng `##`/`###`, danh sách, **đậm**, *nghiêng*, link, trích dẫn, bảng. Feed cho app chỉ giữ các thẻ trong `docs/blog-contract.md`; bảng được đổi thành từng dòng `ô · ô`, link tương đối thành link tuyệt đối.
 - Ảnh bìa: tỉ lệ khoảng 1.91:1, nên 1200×630, JPEG hoặc WebP, tối đa 200 KB, để trong `src/assets/blog/`. Trang tự tạo bản 1200×630 cho thẻ chia sẻ và feed; test báo lỗi nếu ảnh feed quá 200 KB.
+- Hình trong bài: để ở `src/assets/blog/<slug>/`, chèn bằng Markdown có chú thích trong nháy: `![Mô tả đủ ý cho người không xem được ảnh](../../../assets/blog/<slug>/vong-12-gio.webp "Chú thích hiện dưới hình")`. Một đoạn chỉ chứa một hình có chú thích sẽ thành `<figure>` + `<figcaption>` (plugin `src/lib/figures.mjs`), có `width/height`, cả trên trang lẫn feed (URL tuyệt đối). Bốn ngôn ngữ dùng chung file hình, mỗi bản tự viết `alt` và chú thích bằng ngôn ngữ của bài. Hình không có chú thích thì nằm trong `<p>` như thường.
+- Cuối mỗi bài (trang và feed) tự có dòng "Hình minh hoạ do AI vẽ" (`blog.aiArt` trong `src/i18n/locales/`).
 - Bản `zh` và `ko` của các bài mẫu là **bản dịch máy, cần người bản ngữ duyệt**.
 
 Xem trước: `npm run dev` rồi mở <http://localhost:4321/blog/>. Kiểm tra đầy đủ: `npm run check`.
 
 Đăng bài: merge vào `main`. Workflow deploy build lại site, sau đó workflow thông báo chạy. Có thể viết ngay trên github.com: mở thư mục `src/content/blog/vi/` → **Add file → Create new file**, đặt tên `<slug>.md`; ảnh bìa tải lên `src/assets/blog/` bằng **Add file → Upload files**. Nên tạo nhánh và Pull Request để xem lại trước khi merge.
+
+## Vẽ hình cho bài mới bằng Codex
+
+Ảnh bìa và hình trong bài đều vẽ bằng Codex (ChatGPT imagegen), không tự vẽ bằng code, không lấy ảnh trên mạng.
+
+- **Phong cách:** tranh sơn mài Việt Nam, nền sơn đen, đỏ son, vàng lá, vỏ trứng, nét vàng mảnh; cho Codex xem ảnh bìa của chính bài đó làm mẫu.
+- **Không chữ trong hình:** không chữ, số, chữ Hán, nhãn, triện, chữ ký. Bốn ngôn ngữ dùng chung một hình, nên chữ và nhãn để ở chú thích hoặc văn bản bài. Sơ đồ cần nhãn mới hiểu thì vẽ không nhãn rồi giải thích bằng danh sách ngay dưới hình (ví dụ "đi theo chiều kim đồng hồ từ ô trên cùng: …").
+- **Cỡ:** hình trong bài rộng 1200 px (thường 1200×800), WebP ≤ 150 KB; ảnh bìa 1200×630, ≤ 200 KB. Khi build, Astro nén lại hình trong bài (chất lượng `FIGURE_QUALITY` trong `src/lib/figures.mjs`); test báo lỗi nếu bản phát hành quá 150 KB. Hình nhiều hoạ tiết li ti (rạn, hạt, lá dày) khó nén: vẽ lại, dặn Codex dùng mảng màu sơn mài phẳng, ít chi tiết nhỏ.
+
+Chạy trong một thư mục tạm ngoài repo, mỗi lệnh một hình:
+
+```sh
+mkdir -p /tmp/qelunai-blog-art/<slug>-1 && cd /tmp/qelunai-blog-art/<slug>-1
+cat > prompt.txt <<'TXT'
+Draw <mô tả hình, nói rõ số lượng và thứ tự, ví dụ "exactly 12 segments, clockwise from the top: …">.
+
+Style: Vietnamese lacquer painting (sơn mài), matching the attached reference image: deep black lacquer
+background, vermilion red, gold leaf and eggshell textures, fine gold lines. Landscape 3:2.
+ABSOLUTELY NO text, letters, numbers, Chinese characters, labels, signatures, seals or watermarks.
+Use image generation and save the final image as ./out.png in the current directory.
+TXT
+codex exec --skip-git-repo-check --sandbox workspace-write \
+  -i <repo>/src/assets/blog/<slug>.jpg - < prompt.txt
+# thu nhỏ và nén vào repo
+sips -Z 1200 out.png --out small.png && cwebp -q 78 -m 6 small.png -o <repo>/src/assets/blog/<slug>/<tên>.webp
+```
+
+Mở từng hình ra xem trước khi đưa vào bài: không có chữ lạ, không méo, nội dung đúng (đếm số ô, số con giáp, thứ tự, chiều sáng của trăng…), không có gì nhạy cảm. Sai thì sửa prompt và vẽ lại, hoặc bỏ hình. Codex hết hạn mức thì để bài không có hình, không thay bằng hình tự vẽ.
 
 ## Thông báo bài mới
 

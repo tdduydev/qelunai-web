@@ -139,6 +139,8 @@ export interface Locale {
     sources: string;
     /** Short line under every post: cultural reference, not professional advice. */
     disclaimer: string;
+    /** Under every post: the cover and figures are drawn by AI, as the app labels its art. */
+    aiArt: string;
     backToList: string;
     rss: string;
     /** Above the app buttons at the end of a post. */

@@ -1,3 +1,4 @@
+import type { ImageMetadata } from 'astro';
 import { getCollection, type CollectionEntry } from 'astro:content';
 import { getImage } from 'astro:assets';
 import { defaultLocaleCode, locales, pathFor, type Alternate } from '../i18n';
@@ -88,12 +89,40 @@ export async function feedFor(lang: string, site: URL, title: string) {
       return {
         ...p,
         url,
-        html: sanitizeFeedHtml((p.entry.rendered?.html ?? '') + sourcesHtml(p, lang), url),
+        html: sanitizeFeedHtml((await bodyHtml(p)) + sourcesHtml(p, lang) + aiArtHtml(lang), url),
         image: abs((await coverImage(p)).src),
       };
     }),
   );
   return buildFeed({ lang, title, homeUrl: abs(blogPath(lang)), feedUrl: abs(`/feeds/blog-${lang}.json`), posts, now });
+}
+
+/** Images under src/assets/blog/, keyed like `/src/assets/blog/<slug>/<name>.webp`. */
+const assets = import.meta.glob<{ default: ImageMetadata }>('/src/assets/blog/**/*.{jpg,jpeg,png,webp}', { eager: true });
+
+/**
+ * The post body for the feed. `rendered.html` leaves each local image as an
+ * `<img __ASTRO_IMAGE_="{json}">` placeholder that only the page resolves; here
+ * each one becomes the same optimised WebP the page uses.
+ */
+async function bodyHtml(p: Post): Promise<string> {
+  const html = p.entry.rendered?.html ?? '';
+  const images = await Promise.all(
+    [...html.matchAll(/<img __ASTRO_IMAGE_="([^"]*)"[^>]*>/g)].map(async ([tag, json]) => {
+      const props = JSON.parse(json.replace(/&(?:quot|#x22);/g, '"').replace(/&(?:apos|#39|#x27);/g, "'").replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&(?:amp|#x26|#38);/g, '&'));
+      const file = new URL(props.src, `file:///${p.entry.filePath}`).pathname;
+      const meta = assets[file]?.default;
+      if (!meta) throw new Error(`${p.entry.filePath}: image ${props.src} is not under src/assets/blog/`);
+      const img = await getImage({ src: meta, quality: props.quality });
+      return [tag, `<img src="${escape(img.src)}" alt="${escape(props.alt ?? '')}" width="${meta.width}" height="${meta.height}">`];
+    }),
+  );
+  return images.reduce((s, [tag, img]) => s.replace(tag, img), html);
+}
+
+/** "Hình minh hoạ do AI vẽ" under every post, page and feed alike. */
+function aiArtHtml(lang: string): string {
+  return `<p><em>${escape(locales.find((l) => l.code === lang)!.blog.aiArt)}</em></p>`;
 }
 
 /** Language of a source title: as given, else Vietnamese if it has Vietnamese letters, English if plain ASCII, else the post's own. */

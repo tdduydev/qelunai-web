@@ -1381,6 +1381,24 @@ li {
   color: var(--text-muted);
 }
 
+.post-body figure {
+  margin: 24px 0;
+}
+
+.post-body figure img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius);
+}
+
+.post-body figcaption {
+  margin-top: 8px;
+  font-size: 14px;
+  color: var(--text-muted);
+}
+
 .post-body hr {
   margin: 32px 0;
   border: 0;

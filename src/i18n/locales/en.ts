@@ -452,6 +452,7 @@ export default {
     tags: 'Topics',
     sources: 'Sources',
     disclaimer: 'Articles are cultural reference, not professional advice.',
+    aiArt: 'Illustrations drawn by AI.',
     backToList: 'All articles',
     rss: 'Follow via RSS',
     cta: 'See the lunar calendar, auspicious hours and more in the Qelunai app.',

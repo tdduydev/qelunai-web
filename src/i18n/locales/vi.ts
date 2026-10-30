@@ -452,6 +452,7 @@ export default {
     tags: 'Chủ đề',
     sources: 'Nguồn tham khảo',
     disclaimer: 'Bài viết mang tính tham khảo văn hoá, không phải lời khuyên chuyên môn.',
+    aiArt: 'Hình minh hoạ do AI vẽ.',
     backToList: 'Tất cả bài viết',
     rss: 'Theo dõi qua RSS',
     cta: 'Xem lịch âm, giờ hoàng đạo và nhiều hơn nữa trong ứng dụng Qelunai.',

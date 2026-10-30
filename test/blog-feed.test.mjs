@@ -116,6 +116,39 @@ test('built feeds follow the contract', { skip: !built && 'no dist/; run npm run
   }
 });
 
+test('every feed image has alt text and an https URL to a file in dist/ of at most 150 KB, figures have captions', { skip: !built && 'no dist/; run npm run build' }, () => {
+  for (const lang of langs) {
+    for (const item of feeds[lang].items) {
+      const where = `${lang}/${item.id}`;
+      for (const [img] of item.content_html.matchAll(/<img\b[^>]*>/g)) {
+        const src = img.match(/\ssrc="([^"]*)"/)?.[1] ?? '';
+        const alt = img.match(/\salt="([^"]*)"/)?.[1] ?? '';
+        assert.ok(alt.trim(), `${where}: empty alt in ${img}`);
+        assert.match(src, /^https:\/\/qelunai\.com\/.+\.(jpe?g|webp|png)$/, `${where}: ${src}`);
+        const file = new URL(src.slice('https://qelunai.com/'.length), dist);
+        assert.ok(existsSync(file), `${where}: ${src} not built`);
+        assert.ok(statSync(file).size <= 150 * 1024, `${where}: ${src} over 150 KB`);
+        assert.doesNotMatch(alt, /&amp;[a-z#\d]+;/i, `${where}: double-escaped alt ${alt}`);
+        assert.match(img, /\swidth="\d+"/, `${where}: no width in ${img}`);
+        assert.match(img, /\sheight="\d+"/, `${where}: no height in ${img}`);
+      }
+      for (const [figure] of item.content_html.matchAll(/<figure>[\s\S]*?<\/figure>/g)) {
+        assert.match(figure, /^<figure><img [^>]+><figcaption>[^<]+<\/figcaption><\/figure>$/, `${where}: ${figure}`);
+      }
+    }
+  }
+});
+
+test('posts in every language show the same figures, in the same order', { skip: !built && 'no dist/; run npm run build' }, () => {
+  const images = (item) => [...item.content_html.matchAll(/<img\s[^>]*src="([^"]*)"/g)].map((m) => m[1]);
+  for (const item of feeds.vi.items) {
+    for (const lang of langs.slice(1)) {
+      const other = feeds[lang].items.find((i) => i.id === item.id);
+      if (other) assert.deepEqual(images(other), images(item), `${lang}/${item.id}`);
+    }
+  }
+});
+
 test('feeds hold exactly the published posts in src/content/blog, same id in every language', { skip: !built && 'no dist/; run npm run build' }, () => {
   for (const lang of langs) {
     const dir = new URL(`${lang}/`, content);

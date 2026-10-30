@@ -426,6 +426,7 @@ export default {
     tags: '主题',
     sources: '参考来源',
     disclaimer: '文章仅供文化参考，不构成专业建议。',
+    aiArt: '插图由 AI 绘制。',
     backToList: '全部文章',
     rss: '通过 RSS 订阅',
     cta: '在 Qelunai 应用中查看农历、黄道吉时等更多内容。',

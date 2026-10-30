@@ -426,6 +426,7 @@ export default {
     tags: '주제',
     sources: '참고 출처',
     disclaimer: '이 글은 문화적 참고용이며 전문적인 조언이 아닙니다.',
+    aiArt: '삽화는 AI로 그렸습니다.',
     backToList: '모든 글',
     rss: 'RSS로 구독',
     cta: 'Qelunai 앱에서 음력, 황도길시 등을 확인해 보세요.',
