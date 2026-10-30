@@ -1,10 +1,10 @@
 ---
 import { growthFor } from '../i18n/growth';
-interface Props { localeCode:string; mode:'calendar'|'hours'; }
-const {localeCode,mode}=Astro.props;
+interface Props { localeCode:string; intl:string; mode:'calendar'|'hours'; }
+const {localeCode,intl,mode}=Astro.props;
 const t=growthFor(localeCode,mode);
 ---
-<div class="lunar-tool card" data-lunar-tool data-mode={mode} data-lang={localeCode}>
+<div class="lunar-tool card" data-lunar-tool data-mode={mode} data-lang={intl}>
   <label for={`lunar-date-${mode}`}>{t.dateLabel}</label>
   <div class="tool-input-row">
     <input type="date" id={`lunar-date-${mode}`} min="1900-01-01" max="2100-12-31" required />
@@ -23,7 +23,10 @@ const t=growthFor(localeCode,mode);
     const result=root.querySelector<HTMLElement>('[data-result]')!;
     const action=root.querySelector<HTMLButtonElement>('[data-action="convert"]')!;
     const labels=JSON.parse(root.querySelector<HTMLElement>('[data-i18n]')!.dataset.i18n ?? '{}');
-    const lang=root.dataset.lang==='en'?'en-US':'vi-VN';
+    const lang=root.dataset.lang||'vi';
+    // Stem, branch and spirit names come in Vietnamese; zh and ko map them to Han and Hangul.
+    const term=(s:string)=>labels.terms?.[s]??s;
+    const canChi=(s:string)=>s.split(' ').map(term).join(labels.gap??' ');
     const parts=new Intl.DateTimeFormat('en-US',{timeZone:'Asia/Ho_Chi_Minh',year:'numeric',month:'2-digit',day:'2-digit'}).formatToParts(new Date());
     const n=(part:string)=>parts.find(p=>p.type===part)?.value||'01';
     input.value=`${n('year')}-${n('month')}-${n('day')}`;
@@ -38,8 +41,8 @@ const t=growthFor(localeCode,mode);
         const dateLabel=new Intl.DateTimeFormat(lang,{day:'numeric',month:'long',year:'numeric',timeZone:'UTC'}).format(new Date(Date.UTC(y,m-1,d)));
         const h=document.createElement('h2');h.textContent=`${labels.result} · ${dateLabel}`;result.append(h);
         labelValue(labels.dayLabel,String(l.day));labelValue(labels.monthLabel,`${l.month}${l.isLeapMonth?' · '+labels.leap:''}`);
-        labelValue(labels.yearLabel,`${l.year} · ${canChiYear(l.year)}`);
-        labelValue(labels.canChi,canChiDay(y,m,d));
+        labelValue(labels.yearLabel,`${l.year} · ${canChi(canChiYear(l.year))}`);
+        labelValue(labels.canChi,canChi(canChiDay(y,m,d)));
         const hs=goodHours(y,m,d);
         if(root.dataset.mode==='hours'){
           const heading=document.createElement('h3');heading.textContent=labels.goodHours;result.append(heading);
@@ -47,12 +50,12 @@ const t=growthFor(localeCode,mode);
           for(const hour of hs){
             const item=document.createElement('li');item.className=hour.good?'hour-good':'hour-ordinary';
             const time=(v:number)=>String(v).padStart(2,'0')+':00';
-            item.textContent=`${hour.branch} · ${time(hour.from)}–${time(hour.to)} · ${hour.name}`;
+            item.textContent=`${term(hour.branch)} · ${time(hour.from)}–${time(hour.to)} · ${term(hour.name)}`;
             list.append(item);
           }
           result.append(list);
         }else{
-          labelValue(labels.goodHours,hs.filter(x=>x.good).map(x=>x.branch).join(', '));
+          labelValue(labels.goodHours,hs.filter(x=>x.good).map(x=>term(x.branch)).join(labels.list??', '));
         }
         const note=document.createElement('p');note.className='note';note.textContent=labels.method;result.append(note);
       }catch{const error=document.createElement('p');error.className='tool-error';error.textContent=labels.error;result.append(error);}

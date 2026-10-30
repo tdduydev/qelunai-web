@@ -2,11 +2,10 @@
 import { pathFor, type Locale } from '../i18n';
 interface Props {locale:Locale;class?:string}
 const {locale,class:className}=Astro.props;
-const vi=locale.code==='vi';
-const subject=encodeURIComponent('[Qelunai iOS beta] '+(vi?'Xin dùng thử':'Request access'));
+const subject=encodeURIComponent('[Qelunai iOS beta] '+locale.beta.iosSubject);
 const href=`mailto:support@qelunai.com?subject=${subject}`;
 ---
 <div class:list={['stores',className]}>
-  <a class="btn btn-gold" href={pathFor(locale,'testers')} data-cta="android-beta" data-source="store-buttons">{vi?'Thử trên Android':'Android beta'}</a>
-  <a class="store" href={href} data-cta="ios-beta-email" data-source="store-buttons">{vi?'Đăng ký iOS TestFlight':'Request iOS TestFlight'}</a>
+  <a class="btn btn-gold" href={pathFor(locale,'testers')} data-cta="android-beta" data-source="store-buttons">{locale.beta.android}</a>
+  <a class="store" href={href} data-cta="ios-beta-email" data-source="store-buttons">{locale.beta.ios}</a>
 </div>

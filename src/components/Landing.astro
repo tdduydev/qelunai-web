@@ -54,12 +54,12 @@ const shotWidths = [260, 340, 520];
 </section>
 
 <section class="growth-landing section" aria-labelledby="growth-tools-title">
-  <p class="eyebrow">{locale.code==='vi'?'Dùng ngay trên website':'Try on the website'}</p>
-  <h2 id="growth-tools-title">{locale.code==='vi'?'Công cụ miễn phí — không cần đăng nhập':'Free tools — no sign-in required'}</h2>
+  <p class="eyebrow">{t.tools.eyebrow}</p>
+  <h2 id="growth-tools-title">{t.tools.heading}</h2>
   <div class="growth-links">
-    <a class="card" href={pathFor(locale,'calendar')}>{locale.code==='vi'?'Lịch âm và đổi ngày':'Vietnamese lunar calendar'} →</a>
-    <a class="card" href={pathFor(locale,'hours')}>{locale.code==='vi'?'Tra giờ hoàng đạo':'Traditional auspicious hours'} →</a>
-    <a class="card" href={pathFor(locale,'iching')}>{locale.code==='vi'?'Tìm hiểu Kinh Dịch':'Learn the I Ching'} →</a>
+    <a class="card" href={pathFor(locale,'calendar')}>{t.tools.calendar} →</a>
+    <a class="card" href={pathFor(locale,'hours')}>{t.tools.hours} →</a>
+    <a class="card" href={pathFor(locale,'iching')}>{t.tools.iching} →</a>
   </div>
 </section>
 

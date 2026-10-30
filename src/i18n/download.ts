@@ -20,6 +20,7 @@ const en: Content = {
   note: 'Scan the QR code with your phone camera, or open this link on the device you want to install on.',
   noscript: 'JavaScript is off, so this page cannot pick a store for you; choose one above.',
 };
+const byCode: Record<string, Content> = { vi, en };
 export function downloadFor(code: string): Content {
-  return code === 'vi' ? vi : en;
+  return byCode[code] ?? en;
 }

@@ -29,9 +29,9 @@ const year = new Date().getFullYear();
         <ul>
           <li><a href={`${pathFor(locale)}#features`}>{locale.nav.features}</a></li>
           <li><a href={`${pathFor(locale)}#faq`}>{locale.nav.faq}</a></li>
-          <li><a href={pathFor(locale,'calendar')}>{locale.code==='vi'?'Lịch âm miễn phí':'Free lunar calendar'}</a></li>
-          <li><a href={pathFor(locale,'hours')}>{locale.code==='vi'?'Giờ hoàng đạo':'Auspicious hours'}</a></li>
-          <li><a href={pathFor(locale,'iching')}>{locale.code==='vi'?'Kinh Dịch':'I Ching'}</a></li>
+          <li><a href={pathFor(locale,'calendar')}>{locale.tools.footerCalendar}</a></li>
+          <li><a href={pathFor(locale,'hours')}>{locale.tools.footerHours}</a></li>
+          <li><a href={pathFor(locale,'iching')}>{locale.tools.footerIching}</a></li>
         </ul>
       </div>
       <div>

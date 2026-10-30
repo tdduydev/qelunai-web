@@ -117,7 +117,7 @@ const graph = [
       {
         full && (
           <nav class="site-nav" aria-label={full.nav.home}>
-            <a href={pathFor(full, 'calendar')}>{full.code === 'vi' ? 'Lịch âm' : 'Lunar calendar'}</a>
+            <a href={pathFor(full, 'calendar')}>{full.nav.calendar}</a>
             <a href={`${home}#features`}>{full.nav.features}</a>
             <a href={`${home}#faq`}>{full.nav.faq}</a>
             <a href={pathFor(full, 'support')} aria-current={page === 'support' ? 'page' : undefined}>{full.nav.support}</a>

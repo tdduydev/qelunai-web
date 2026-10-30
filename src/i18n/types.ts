@@ -29,12 +29,41 @@ export interface Locale {
   nativeName: string;
   /** Position in the language menu; lower comes first. */
   order: number;
+  /** Short label in the language menu, e.g. `VI`, `中文`. */
+  menuLabel: string;
 
   seo: { title: string; description: string; keywords: string; ogAlt: string };
 
-  nav: { features: string; faq: string; support: string; action: string; language: string; skip: string; home: string };
+  nav: { calendar: string; features: string; faq: string; support: string; action: string; language: string; skip: string; home: string };
 
   store: { appStore: string; googlePlay: string; getOn: string; soon: string };
+
+  /** Beta sign-up buttons: Android goes to the testers page, iOS opens an email. */
+  beta: {
+    android: string;
+    ios: string;
+    /** Email subject of the iOS button, after `[Qelunai iOS beta] `. */
+    iosSubject: string;
+    /** The same two buttons on the tool pages, and their email. */
+    joinAndroid: string;
+    requestIos: string;
+    /** After `[Qelunai beta] `. */
+    subject: string;
+    body: string;
+  };
+
+  /** Links to the free web tools on the landing page, footer and tool pages. */
+  tools: {
+    eyebrow: string;
+    heading: string;
+    calendar: string;
+    hours: string;
+    iching: string;
+    explore: string;
+    footerCalendar: string;
+    footerHours: string;
+    footerIching: string;
+  };
 
   hero: { eyebrow: string; title: string; accent: string; sub: string; shotAlt: string };
 
@@ -88,6 +117,8 @@ export interface Locale {
     testers: { title: string; description: string; lead: string; blocks: Block[] };
     updatedLabel: string;
     backHome: string;
+    /** On the legal pages of a translated language: the Vietnamese or English text controls. */
+    translationNotice?: string;
   };
 
   notFound: { title: string; body: string; home: string };

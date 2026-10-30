@@ -6,6 +6,7 @@ export default {
   ogLocale: 'vi_VN',
   nativeName: 'Tiếng Việt',
   order: 0,
+  menuLabel: 'VI',
 
   seo: {
     title: 'Qelunai: lịch âm, giờ hoàng đạo, Kinh Dịch, Bát tự và phong thủy',
@@ -17,6 +18,7 @@ export default {
   },
 
   nav: {
+    calendar: 'Lịch âm',
     features: 'Tính năng',
     faq: 'Hỏi đáp',
     support: 'Hỗ trợ',
@@ -27,6 +29,28 @@ export default {
   },
 
   store: { appStore: 'App Store', googlePlay: 'Google Play', getOn: 'Tải trên', soon: 'Sắp có trên App Store và Google Play.' },
+
+  beta: {
+    android: 'Thử trên Android',
+    ios: 'Đăng ký iOS TestFlight',
+    iosSubject: 'Xin dùng thử',
+    joinAndroid: 'Tham gia thử nghiệm Android',
+    requestIos: 'Xin mời TestFlight iOS',
+    subject: 'Xin tham gia thử nghiệm',
+    body: 'Mình muốn tham gia thử nghiệm Qelunai trên (iOS/Android): ',
+  },
+
+  tools: {
+    eyebrow: 'Dùng ngay trên website',
+    heading: 'Công cụ miễn phí — không cần đăng nhập',
+    calendar: 'Lịch âm và đổi ngày',
+    hours: 'Tra giờ hoàng đạo',
+    iching: 'Tìm hiểu Kinh Dịch',
+    explore: 'Khám phá thêm',
+    footerCalendar: 'Lịch âm miễn phí',
+    footerHours: 'Giờ hoàng đạo',
+    footerIching: 'Kinh Dịch',
+  },
 
   hero: {
     eyebrow: 'Lịch âm · Kinh Dịch · Bát tự · Phong thủy',

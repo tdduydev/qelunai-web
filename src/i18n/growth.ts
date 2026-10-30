@@ -1,6 +1,8 @@
 /** New SEO tools and explanatory guides. User-facing copy is localized here. */
 export type GrowthPageId = 'calendar' | 'hours' | 'iching';
-type Content = {title:string;description:string;eyebrow:string;intro:string;toolHeading?:string;guide:{heading:string;paragraphs:string[]}[];faq:{q:string;a:string}[];short:string;cta:string;method:string;dateLabel:string;submit:string;result:string;dayLabel:string;monthLabel:string;yearLabel:string;leap:string;canChi:string;goodHours:string;error:string;today:string;ctaNote:string};
+type Content = {title:string;description:string;eyebrow:string;intro:string;toolHeading?:string;guide:{heading:string;paragraphs:string[]}[];faq:{q:string;a:string}[];short:string;cta:string;method:string;dateLabel:string;submit:string;result:string;dayLabel:string;monthLabel:string;yearLabel:string;leap:string;canChi:string;goodHours:string;error:string;today:string;ctaNote:string;
+ /** Vietnamese stem, branch and spirit names to this language's; `gap` joins a stem and branch, `list` joins the good hours. */
+ terms?:Record<string,string>;gap?:string;list?:string};
 const vi:Record<GrowthPageId,Content>={
  calendar:{
   title:'Lịch âm hôm nay và đổi ngày dương sang âm | Qelunai',
@@ -58,5 +60,6 @@ const en:Record<GrowthPageId,Content>={
  cta:'Explore I Ching in Qelunai',method:'Educational cultural reference only.',dateLabel:'',submit:'',result:'',dayLabel:'',monthLabel:'',yearLabel:'',leap:'',canChi:'',goodHours:'',error:'',today:'',ctaNote:'The app is currently in private testing.'
  }
 };
-export function growthFor(code:string,id:GrowthPageId):Content { return (code==='en'?en:vi)[id]; }
+const byCode:Record<string,Record<GrowthPageId,Content>>={vi,en};
+export function growthFor(code:string,id:GrowthPageId):Content { return (byCode[code]??vi)[id]; }
 export const growthIds:GrowthPageId[]=['calendar','hours','iching'];

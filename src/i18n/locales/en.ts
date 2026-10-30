@@ -6,6 +6,7 @@ export default {
   ogLocale: 'en_US',
   nativeName: 'English',
   order: 1,
+  menuLabel: 'EN',
 
   seo: {
     title: 'Qelunai: Vietnamese lunar calendar, auspicious hours, I Ching, Four Pillars and feng shui',
@@ -17,6 +18,7 @@ export default {
   },
 
   nav: {
+    calendar: 'Lunar calendar',
     features: 'Features',
     faq: 'FAQ',
     support: 'Support',
@@ -27,6 +29,28 @@ export default {
   },
 
   store: { appStore: 'App Store', googlePlay: 'Google Play', getOn: 'Get it on', soon: 'Coming to the App Store and Google Play.' },
+
+  beta: {
+    android: 'Android beta',
+    ios: 'Request iOS TestFlight',
+    iosSubject: 'Request access',
+    joinAndroid: 'Join Android beta',
+    requestIos: 'Request iOS TestFlight',
+    subject: 'Request invitation',
+    body: 'I would like to test Qelunai on (iOS/Android): ',
+  },
+
+  tools: {
+    eyebrow: 'Try on the website',
+    heading: 'Free tools — no sign-in required',
+    calendar: 'Vietnamese lunar calendar',
+    hours: 'Traditional auspicious hours',
+    iching: 'Learn the I Ching',
+    explore: 'Explore more',
+    footerCalendar: 'Free lunar calendar',
+    footerHours: 'Auspicious hours',
+    footerIching: 'I Ching',
+  },
 
   hero: {
     eyebrow: 'Lunar calendar · I Ching · Four Pillars · Feng shui',
