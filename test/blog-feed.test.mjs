@@ -17,7 +17,7 @@ const post = (slug, date, extra = {}) => ({
 const now = new Date('2026-10-31T00:00:00+07:00');
 
 /** Every tag in `html` with its attribute names. */
-const tagsIn = (html) => [...html.matchAll(/<\/?([a-zA-Z][\w-]*)([^>]*)>/g)].map((m) => ({ name: m[1].toLowerCase(), attrs: [...m[2].matchAll(/([^\s=/]+)\s*=/g)].map((a) => a[1].toLowerCase()), raw: m[0] }));
+const tagsIn = (html) => [...html.matchAll(/<\/?([a-zA-Z][\w-]*)([^>]*)>/g)].map((m) => ({ name: m[1].toLowerCase(), attrs: [...m[2].replace(/"[^"]*"|'[^']*'/g, '""').matchAll(/([^\s=/]+)\s*=/g)].map((a) => a[1].toLowerCase()), raw: m[0] }));
 
 /** Fails unless `html` keeps to the contract: allowed tags and attributes only, absolute https links and images. */
 function assertContractHtml(html, where) {

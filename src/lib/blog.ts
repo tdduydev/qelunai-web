@@ -109,5 +109,5 @@ function sourcesHtml(p: Post, lang: string): string {
   const sources = p.entry.data.sources;
   if (!sources.length) return '';
   const heading = locales.find((l) => l.code === lang)!.blog.sources;
-  return `<h2>${escape(heading)}</h2><ul>${sources.map((s) => `<li><a href="${escape(s.url)}">${escape(s.title)}</a></li>`).join('')}</ul>`;
+  return `<h2>${escape(heading)}</h2><ul>${sources.map((s) => `<li>${s.url ? `<a href="${escape(s.url)}">${escape(s.title)}</a>` : escape(s.title)}</li>`).join('')}</ul>`;
 }

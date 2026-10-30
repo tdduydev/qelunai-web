@@ -52,7 +52,7 @@ const schema = [
     keywords: post.tags.join(', '),
     author: { '@type': 'Organization', name: 'Qelunai', url: abs('/') },
     publisher: { '@type': 'Organization', name: 'Qelunai', url: abs('/') },
-    ...(d.sources.length ? { citation: d.sources.map((s) => ({ '@type': 'CreativeWork', name: s.title, url: s.url })) } : {}),
+    ...(d.sources.length ? { citation: d.sources.map((s) => ({ '@type': 'CreativeWork', name: s.title, ...(s.url ? { url: s.url } : {}) })) } : {}),
   },
   {
     '@type': 'BreadcrumbList',
@@ -104,7 +104,11 @@ const schema = [
             <ul>
               {d.sources.map((s) => (
                 <li>
-                  <a href={s.url} rel="noopener"><cite lang={sourceLang(s, locale.code)}>{s.title}</cite></a>
+                  {s.url ? (
+                    <a href={s.url} rel="noopener"><cite lang={sourceLang(s, locale.code)}>{s.title}</cite></a>
+                  ) : (
+                    <cite lang={sourceLang(s, locale.code)}>{s.title}</cite>
+                  )}
                 </li>
               ))}
             </ul>

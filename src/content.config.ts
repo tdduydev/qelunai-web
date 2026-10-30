@@ -40,7 +40,8 @@ const blog = defineCollection({
         .array(
           z.object({
             title: z.string().min(1),
-            url: z.url({ protocol: /^https?$/ }),
+            /** Leave out for a book, or a page whose address was not kept. */
+            url: z.url({ protocol: /^https?$/ }).optional(),
             /** Language of the title, when it differs from the post's; guessed if left out. */
             lang: z.string().optional(),
           }),
