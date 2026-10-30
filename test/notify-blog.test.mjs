@@ -39,6 +39,7 @@ function fakeFetch(feeds, fcm = () => ({ status: 200, body: { name: 'projects/qe
     const list = feeds[lang] ?? [[]];
     const i = Math.min(served[lang] ?? 0, list.length - 1);
     served[lang] = (served[lang] ?? 0) + 1;
+    if (typeof list[i] === 'number') return { ok: false, status: list[i], headers: new Headers({ 'cf-mitigated': 'challenge', 'cf-ray': 'r1' }) };
     return { ok: true, status: 200, json: async () => ({ items: list[i] }) };
   };
   return { fetch, calls };
@@ -148,6 +149,27 @@ test('run: waits for the live feed, fails the language that never appears', asyn
   assert.equal(calls.fcm[0].body.message.data.lang, 'vi');
   assert.equal(calls.feeds.filter((c) => c.url.includes('blog-en')).length, 10);
   assert.ok(sleeps.every((ms) => ms === 30_000));
+});
+
+test('run: feed blocked (HTTP 403) on every try after a deploy: sends from the local file', async () => {
+  const log = [];
+  const { fetch, calls } = fakeFetch({ vi: [403], en: [[], 403] });
+  const failed = await run(['--from', 'a', '--to', 'b'], {
+    git: () => 'src/content/blog/vi/moi.md\nsrc/content/blog/en/moi.md\n',
+    readPost,
+    fetch,
+    sleep: async () => {},
+    now: () => now,
+    log: (l) => log.push(l),
+    token: 'tok',
+  });
+  // en answered once without the post, so it may not be live: still a failure.
+  assert.equal(failed, 1);
+  assert.equal(calls.fcm.length, 1);
+  assert.deepEqual(calls.fcm[0].body.message.data, { type: 'blog', id: 'moi', lang: 'vi', url: 'https://qelunai.com/blog/moi/' });
+  assert.equal(calls.fcm[0].body.message.notification.title, 'Bài mới: thử');
+  assert.ok(log.some((l) => l.includes('cf-mitigated=challenge')));
+  assert.ok(log.some((l) => l.includes('vi/moi: live feed blocked')));
 });
 
 test('run: no new posts is a quiet success; FCM errors count as failures', async () => {

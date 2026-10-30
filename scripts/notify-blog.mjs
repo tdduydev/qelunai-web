@@ -107,24 +107,33 @@ export function message(item, lang) {
 
 /**
  * The live feed item of `slug`, polled until GitHub Pages serves the new
- * build: `attempts` tries, `delayMs` apart. Null if it never shows up.
+ * build: `attempts` tries, `delayMs` apart. `item` is null if it never shows
+ * up; `blocked` is true when every try got HTTP 403, which Cloudflare in front
+ * of qelunai.com answers to some GitHub runner addresses (seen 2026-10-31).
  */
 export async function liveItem(lang, slug, { fetch = globalThis.fetch, sleep, attempts = 10, delayMs = 30_000, log = console.log } = {}) {
   const url = `${site}/feeds/blog-${lang}.json`;
+  let blocked = true;
   for (let i = 1; i <= attempts; i++) {
     try {
       const res = await fetch(`${url}?t=${Date.now()}`, { headers: { 'User-Agent': userAgent, 'Cache-Control': 'no-cache' } });
       if (res.ok) {
+        blocked = false;
         const item = (await res.json()).items?.find((it) => it.id === slug);
-        if (item) return item;
+        if (item) return { item, blocked };
         log(`${lang}/${slug}: not in the live feed yet (try ${i}/${attempts})`);
-      } else log(`${url}: HTTP ${res.status} (try ${i}/${attempts})`);
+      } else {
+        if (res.status !== 403) blocked = false;
+        const cf = ['cf-mitigated', 'cf-ray'].map((h) => `${h}=${res.headers?.get?.(h) ?? '-'}`).join(' ');
+        log(`${url}: HTTP ${res.status} ${cf} (try ${i}/${attempts})`);
+      }
     } catch (e) {
+      blocked = false;
       log(`${url}: ${e.message} (try ${i}/${attempts})`);
     }
     if (i < attempts) await sleep(delayMs);
   }
-  return null;
+  return { item: null, blocked };
 }
 
 export async function send(body, token, { fetch = globalThis.fetch } = {}) {
@@ -193,10 +202,13 @@ export async function run(argv, deps = {}) {
   let failed = 0;
   for (const post of posts) {
     for (const lang of post.langs) {
-      let item = await liveItem(lang, post.slug, { fetch: d.fetch, sleep: d.sleep, log: d.log, ...(args.dryRun ? { attempts: 1 } : {}) });
-      if (!item && args.dryRun) {
+      const live = await liveItem(lang, post.slug, { fetch: d.fetch, sleep: d.sleep, log: d.log, ...(args.dryRun ? { attempts: 1 } : {}) });
+      let item = live.item;
+      // Blocked on every try: the run follows a successful deploy (or is a
+      // manual resend), so the post is on Pages; build the message from the file.
+      if (!item && (args.dryRun || live.blocked)) {
         const fm = post.fm[lang];
-        d.log(`${lang}/${post.slug}: not live yet; dry run uses the local file`);
+        d.log(`${lang}/${post.slug}: ${args.dryRun ? 'not live yet; dry run uses the local file' : 'live feed blocked (HTTP 403); using the local file'}`);
         item = { id: post.slug, title: fm.title, summary: fm.summary, url: `${site}${lang === 'vi' ? '' : `/${lang}`}/blog/${post.slug}/` };
       }
       if (!item) {

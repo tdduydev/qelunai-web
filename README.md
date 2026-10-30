@@ -151,7 +151,7 @@ Mở từng hình ra xem trước khi đưa vào bài: không có chữ lạ, kh
 
 `.github/workflows/notify-blog.yml` chạy sau mỗi lần workflow "Deploy to GitHub Pages" chạy xong thành công cho một lần push vào `main`. `scripts/notify-blog.mjs` tìm các file bài **được thêm mới** trong commit vừa deploy (`git diff --diff-filter=A HEAD^ HEAD`; với merge commit là cả nhánh được merge). Sửa bài cũ không gửi lại. Bài bị bỏ qua nếu `draft: true`, `notify: false` hoặc `date` còn ở tương lai.
 
-- Trước khi gửi, script đợi feed thật `https://qelunai.com/feeds/blog-<lang>.json` có bài (thử 10 lần, cách 30 giây), rồi lấy tiêu đề và `summary` từ feed.
+- Trước khi gửi, script đợi feed thật `https://qelunai.com/feeds/blog-<lang>.json` có bài (thử 10 lần, cách 30 giây), rồi lấy tiêu đề và `summary` từ feed. Nếu cả 10 lần đều bị HTTP 403 (Cloudflare chặn một số địa chỉ máy chủ GitHub, gặp ngày 31/10/2026) thì lấy tiêu đề và `summary` từ file bài trong repo rồi gửi, vì workflow chỉ chạy sau khi deploy đã thành công.
 - Gửi qua FCM HTTP v1, mỗi (bài, ngôn ngữ) một lần, với condition `'blog' in topics && 'lang_<lang>' in topics`; ngôn ngữ chưa có bản dịch thì không gửi. Payload theo `docs/blog-contract.md` (kênh Android `push_news`, `thread-id` iOS `blog`).
 - Mỗi lần chạy tối đa 3 bài, mới nhất trước; các bài còn lại chỉ ghi log, gửi tay nếu cần.
 - Không muốn gửi thông báo cho một bài: đặt `notify: false` trước khi merge.
