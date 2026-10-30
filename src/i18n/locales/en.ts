@@ -210,8 +210,8 @@ export default {
   pages: {
     testers: {
       title: 'Test Qelunai on Android',
-      description: 'Join the Qelunai closed test on Google Play: join the tester group, accept the invite, install the app and keep it installed for 14 days.',
-      lead: 'Qelunai needs at least 12 Android users testing the app for 14 days in a row before it can be released on Google Play. Thank you for helping!',
+      description: 'Join the Qelunai closed test on Google Play: join the tester group, accept the invite, install the app and stay in the test for at least 14 days.',
+      lead: 'Qelunai needs at least 12 Android users who stay in the test for 14 days in a row before it can be released on Google Play. Thank you for helping!',
       blocks: [
         {
           title: 'Four steps to join',
@@ -221,7 +221,7 @@ export default {
             'Open the tester group and tap **Join group**: https://groups.google.com/g/qelunai-testers',
             'Open the invite page and tap **Become a tester**: https://play.google.com/apps/testing/com.qelunai.qelunai',
             'Tap **Download it on Google Play** on that page, then install Qelunai like any other app.',
-            'Open the app, sign in and try it. **Keep the app installed for at least 14 days**; uninstalling early means Google does not count your test.',
+            'Open the app, sign in and try it. **Stay in the test for at least 14 days**: do not leave the group or the testing program. If you leave early, Google does not count your test; if you leave and rejoin, the 14 days start again. Please keep the app installed during this time.',
           ],
         },
         {
@@ -239,7 +239,7 @@ export default {
             '**The page says "App not available" or shows no Become a tester button?** You have not joined the group in step 1 yet, or the browser is signed in to another Google account. Check it is the account on your phone, open the link in Chrome (not inside a chat app), then reload the page.',
             '**Does it cost anything?** No. The app is free and the test build sells nothing.',
             '**My data?** Same as the released app; see the Privacy page. You can delete your account at any time in Profile > Delete account.',
-            '**Want to leave the test?** Open the invite page again and leave the program; after the 14 days you keep the app as a normal user.',
+            '**Want to leave the test?** Please wait until the 14 days are over, then open the invite page again and leave the program; you keep the app as a normal user.',
           ],
         },
       ],

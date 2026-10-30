@@ -210,8 +210,8 @@ export default {
   pages: {
     testers: {
       title: 'Thử Qelunai trên Android',
-      description: 'Tham gia thử nghiệm kín Qelunai trên Google Play: vào nhóm tester, bấm nhận lời mời, cài ứng dụng và giữ máy cài trong 14 ngày.',
-      lead: 'Qelunai cần ít nhất 12 người dùng Android thử ứng dụng trong 14 ngày liền trước khi được phát hành trên Google Play. Cảm ơn bạn đã giúp!',
+      description: 'Tham gia thử nghiệm kín Qelunai trên Google Play: vào nhóm tester, bấm nhận lời mời, cài ứng dụng và ở lại chương trình thử ít nhất 14 ngày.',
+      lead: 'Qelunai cần ít nhất 12 người dùng Android ở trong chương trình thử liên tục 14 ngày trước khi được phát hành trên Google Play. Cảm ơn bạn đã giúp!',
       blocks: [
         {
           title: 'Bốn bước tham gia',
@@ -221,7 +221,7 @@ export default {
             'Vào nhóm tester và bấm **Tham gia nhóm**: https://groups.google.com/g/qelunai-testers',
             'Mở trang nhận lời mời và bấm **Trở thành người thử nghiệm**: https://play.google.com/apps/testing/com.qelunai.qelunai',
             'Bấm **Tải xuống trên Google Play** ở trang đó, rồi cài Qelunai như ứng dụng bình thường.',
-            'Mở ứng dụng, đăng nhập và dùng thử. **Giữ ứng dụng trên máy ít nhất 14 ngày**; gỡ sớm thì Google không tính lượt thử.',
+            'Mở ứng dụng, đăng nhập và dùng thử. **Ở lại chương trình thử ít nhất 14 ngày**: đừng rời nhóm, đừng bấm rời chương trình. Rời sớm thì Google không tính lượt thử; rời rồi vào lại thì Google đếm lại 14 ngày từ đầu. Nhờ bạn giữ ứng dụng trên máy trong thời gian này.',
           ],
         },
         {
@@ -239,7 +239,7 @@ export default {
             '**Trang báo "App not available" hoặc không thấy nút Trở thành người thử nghiệm?** Bạn chưa vào nhóm ở bước 1, hoặc trình duyệt đang đăng nhập tài khoản Google khác. Kiểm tra đúng tài khoản đang dùng trên điện thoại, mở link bằng Chrome (không mở trong Zalo hay Messenger), rồi tải lại trang.',
             '**Có tốn tiền không?** Không. Ứng dụng miễn phí, bản thử không bán gì.',
             '**Dữ liệu của tôi?** Như bản chính thức, xem trang Quyền riêng tư. Bạn có thể xoá tài khoản bất cứ lúc nào trong Hồ sơ > Xoá tài khoản.',
-            '**Muốn rời chương trình thử?** Mở lại trang nhận lời mời và chọn rời chương trình; sau 14 ngày bạn vẫn giữ ứng dụng như người dùng thường.',
+            '**Muốn rời chương trình thử?** Nhờ bạn đợi đủ 14 ngày, rồi mở lại trang nhận lời mời và chọn rời chương trình; bạn vẫn giữ ứng dụng như người dùng thường.',
           ],
         },
       ],
