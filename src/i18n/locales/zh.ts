@@ -21,6 +21,7 @@ export default {
     features: '功能',
     faq: '常见问题',
     support: '帮助',
+    blog: '文章',
     action: '下载应用',
     language: '语言',
     skip: '跳到正文',
@@ -409,6 +410,25 @@ export default {
         },
       ],
     },
+  },
+
+  blog: {
+    title: '文章',
+    description: 'Qelunai 关于越南农历、黄道吉时、二十四节气、风水与民俗的文章：通俗讲解，附参考来源。',
+    eyebrow: 'Qelunai 札记',
+    lead: '关于农历与越南民俗的短文，附有参考来源，方便延伸阅读。',
+    feedTitle: 'Qelunai – 文章',
+    empty: '暂无文章，请稍后再来。',
+    readMore: '阅读',
+    minutes: '阅读约 {n} 分钟',
+    published: '发布于',
+    updated: '更新于',
+    tags: '主题',
+    sources: '参考来源',
+    disclaimer: '文章仅供文化参考，不构成专业建议。',
+    backToList: '全部文章',
+    rss: '通过 RSS 订阅',
+    cta: '在 Qelunai 应用中查看农历、黄道吉时等更多内容。',
   },
 
   notFound: {

@@ -22,6 +22,7 @@ export default {
     features: 'Tính năng',
     faq: 'Hỏi đáp',
     support: 'Hỗ trợ',
+    blog: 'Bài viết',
     action: 'Tải ứng dụng',
     language: 'Ngôn ngữ',
     skip: 'Bỏ qua, tới nội dung',
@@ -435,6 +436,25 @@ export default {
         },
       ],
     },
+  },
+
+  blog: {
+    title: 'Bài viết',
+    description: 'Bài viết của Qelunai về lịch âm, giờ hoàng đạo, tiết khí, phong thủy và phong tục Việt: giải thích dễ hiểu, có nguồn tham khảo.',
+    eyebrow: 'Sổ tay Qelunai',
+    lead: 'Những điều nên biết về lịch âm và phong tục Việt, viết gọn, có nguồn để bạn đọc thêm.',
+    feedTitle: 'Qelunai – Bài viết',
+    empty: 'Chưa có bài viết nào. Bạn quay lại sau nhé.',
+    readMore: 'Đọc bài',
+    minutes: '{n} phút đọc',
+    published: 'Đăng ngày',
+    updated: 'Cập nhật',
+    tags: 'Chủ đề',
+    sources: 'Nguồn tham khảo',
+    disclaimer: 'Bài viết mang tính tham khảo văn hoá, không phải lời khuyên chuyên môn.',
+    backToList: 'Tất cả bài viết',
+    rss: 'Theo dõi qua RSS',
+    cta: 'Xem lịch âm, giờ hoàng đạo và nhiều hơn nữa trong ứng dụng Qelunai.',
   },
 
   notFound: {

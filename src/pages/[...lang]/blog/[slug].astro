@@ -1,0 +1,128 @@
+---
+import { Image } from 'astro:assets';
+import { render } from 'astro:content';
+import Base from '../../../layouts/Base.astro';
+import StoreButtons from '../../../components/StoreButtons.astro';
+import { defaultLocaleCode, locales, pathFor, type Alternate } from '../../../i18n';
+import { blogPath, coverImage, defaultAlternate, postsFor, sourceLang, translationsOf } from '../../../lib/blog';
+
+export async function getStaticPaths() {
+  const paths = await Promise.all(
+    locales.map(async (locale) =>
+      (await postsFor(locale.code)).map((post) => ({
+        params: { lang: locale.code === defaultLocaleCode ? undefined : locale.code, slug: post.slug },
+        props: { locale, post },
+      })),
+    ),
+  );
+  return paths.flat();
+}
+
+const { locale, post } = Astro.props;
+const t = locale.blog;
+const d = post.entry.data;
+const { Content } = await render(post.entry);
+const abs = (path: string) => new URL(path, Astro.site).href;
+const path = blogPath(locale.code, post.slug);
+const versions = await translationsOf(post.slug);
+// The language menu: a missing translation sends readers to that language's article list.
+const menu: Alternate[] = locales.map(({ code, htmlLang, ogLocale, nativeName, menuLabel }) => ({
+  code,
+  hreflang: htmlLang,
+  htmlLang,
+  ogLocale,
+  nativeName,
+  menuLabel,
+  href: versions.find((v) => v.code === code)?.href ?? pathFor(code, 'blog'),
+}));
+const cover = await coverImage(post);
+const day = new Intl.DateTimeFormat(locale.htmlLang, { dateStyle: 'long', timeZone: 'Asia/Ho_Chi_Minh' });
+const modified = post.updated ?? post.date;
+const schema = [
+  {
+    '@type': 'BlogPosting',
+    headline: post.title,
+    description: post.summary,
+    image: abs(cover.src),
+    datePublished: post.date.toISOString(),
+    dateModified: modified.toISOString(),
+    inLanguage: locale.htmlLang,
+    url: abs(path),
+    mainEntityOfPage: abs(path),
+    keywords: post.tags.join(', '),
+    author: { '@type': 'Organization', name: 'Qelunai', url: abs('/') },
+    publisher: { '@type': 'Organization', name: 'Qelunai', url: abs('/') },
+    ...(d.sources.length ? { citation: d.sources.map((s) => ({ '@type': 'CreativeWork', name: s.title, url: s.url })) } : {}),
+  },
+  {
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Qelunai', item: abs(pathFor(locale)) },
+      { '@type': 'ListItem', position: 2, name: t.title, item: abs(blogPath(locale.code)) },
+      { '@type': 'ListItem', position: 3, name: post.title, item: abs(path) },
+    ],
+  },
+];
+---
+
+<Base
+  locale={locale}
+  page="blog"
+  title={`${post.title} · Qelunai`}
+  description={post.summary}
+  schema={schema}
+  path={path}
+  alternates={versions}
+  xDefault={defaultAlternate(versions).href}
+  menu={menu}
+  image={{ ...cover, alt: d.coverAlt }}
+  article={{ published: post.date.toISOString(), modified: modified.toISOString(), tags: post.tags }}
+  rss={{ href: `${blogPath(locale.code)}rss.xml`, title: t.feedTitle }}
+>
+  <article class="post">
+    <header class="post-head">
+      <a class="back link" href={blogPath(locale.code)}>← {t.backToList}</a>
+      <h1>{post.title}</h1>
+      <p class="post-meta">
+        {t.published} <time datetime={post.date.toISOString()}>{day.format(post.date)}</time>
+        {post.updated && (
+          <>
+            {' · '}{t.updated} <time datetime={post.updated.toISOString()}>{day.format(post.updated)}</time>
+          </>
+        )}
+        {' · '}{t.minutes.replace('{n}', String(post.readingMinutes))}
+      </p>
+      <p class="lede">{post.summary}</p>
+    </header>
+    <Image class="post-cover" src={d.cover} alt={d.coverAlt} width={1200} height={630} fit="cover" format="webp" quality={76} loading="eager" />
+    <div class="sheet post-body">
+      <Content />
+      {
+        d.sources.length > 0 && (
+          <section class="post-sources">
+            <h2>{t.sources}</h2>
+            <ul>
+              {d.sources.map((s) => (
+                <li>
+                  <a href={s.url} rel="noopener"><cite lang={sourceLang(s, locale.code)}>{s.title}</cite></a>
+                </li>
+              ))}
+            </ul>
+          </section>
+        )
+      }
+      <p class="post-disclaimer">{t.disclaimer}</p>
+      {
+        post.tags.length > 0 && (
+          <p class="post-tags">
+            <span>{t.tags}:</span> {post.tags.map((tag) => <span class="tag">{tag}</span>)}
+          </p>
+        )
+      }
+    </div>
+    <aside class="blog-cta">
+      <p>{t.cta}</p>
+      <StoreButtons locale={locale} />
+    </aside>
+  </article>
+</Base>

@@ -22,6 +22,7 @@ export default {
     features: 'Features',
     faq: 'FAQ',
     support: 'Support',
+    blog: 'Articles',
     action: 'Get the app',
     language: 'Language',
     skip: 'Skip to content',
@@ -435,6 +436,25 @@ export default {
         },
       ],
     },
+  },
+
+  blog: {
+    title: 'Articles',
+    description: 'Qelunai articles on the Vietnamese lunar calendar, auspicious hours, solar terms, feng shui and customs: plain explanations with sources.',
+    eyebrow: 'Qelunai notebook',
+    lead: 'Short reads on the lunar calendar and Vietnamese customs, with sources for further reading.',
+    feedTitle: 'Qelunai – Articles',
+    empty: 'No articles yet. Please check back soon.',
+    readMore: 'Read',
+    minutes: '{n} min read',
+    published: 'Published',
+    updated: 'Updated',
+    tags: 'Topics',
+    sources: 'Sources',
+    disclaimer: 'Articles are cultural reference, not professional advice.',
+    backToList: 'All articles',
+    rss: 'Follow via RSS',
+    cta: 'See the lunar calendar, auspicious hours and more in the Qelunai app.',
   },
 
   notFound: {
