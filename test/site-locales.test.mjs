@@ -10,8 +10,16 @@ const site = 'https://qelunai.com/';
 
 /** URL prefix and `<html lang>` (also the hreflang code) of each language. */
 const langs = { vi: ['', 'vi'], en: ['en/', 'en'], zh: ['zh/', 'zh-Hans'], ko: ['ko/', 'ko'] };
-const indexable = ['', 'privacy/', 'support/', 'delete-account/', 'terms/', 'lich-am/', 'gio-hoang-dao/', 'kinh-dich/', 'testers/'];
+const indexable = ['', 'privacy/', 'support/', 'delete-account/', 'terms/', 'lich-am/', 'gio-hoang-dao/', 'kinh-dich/', 'testers/', 'blog/'];
 const noindex = ['tai/'];
+
+/** Published posts per language, from the built JSON feeds: slug → URL path. */
+const posts = Object.fromEntries(
+  Object.entries(langs).map(([code, [prefix]]) => [
+    code,
+    new Map(JSON.parse(read(`feeds/blog-${code}.json`)).items.map((item) => [item.id, `${prefix}blog/${item.id}/`])),
+  ]),
+);
 
 const htmlFiles = (dir = '') =>
   readdirSync(new URL(dir, dist), { withFileTypes: true }).flatMap((e) =>
@@ -25,7 +33,7 @@ const unescape = (s) =>
  * What a reader sees: text nodes plus the title, meta description and social
  * text, alt, title and aria-label. Scripts, styles and data attributes are
  * left out, and so are the language menu links, which name each language in
- * its own tongue.
+ * its own tongue, and cited titles marked with their own `lang`.
  */
 function visibleText(html) {
   const meta = [...html.matchAll(/<meta (?:name|property)="(?:description|keywords|og:title|og:description|og:image:alt|twitter:title|twitter:description)" content="([^"]*)"/g)].map((m) => m[1]);
@@ -33,7 +41,8 @@ function visibleText(html) {
     .replace(/<script\b[\s\S]*?<\/script>/g, ' ')
     .replace(/<style\b[\s\S]*?<\/style>/g, ' ')
     .replace(/<head>[\s\S]*?<\/head>/, (head) => (head.match(/<title>[\s\S]*?<\/title>/) ?? [''])[0])
-    .replace(/<a [^>]*\bhreflang="[^"]*"[^>]*>[\s\S]*?<\/a>/g, ' ');
+    .replace(/<a [^>]*\bhreflang="[^"]*"[^>]*>[\s\S]*?<\/a>/g, ' ')
+    .replace(/<cite lang="[^"]*">[\s\S]*?<\/cite>/g, ' ');
   const attrs = [...body.matchAll(/\s(?:alt|title|aria-label)="([^"]*)"/g)].map((m) => m[1]);
   const text = body.replace(/<[^>]+>/g, '\n');
   return unescape([text, ...attrs, ...meta].join('\n'));
@@ -93,13 +102,46 @@ test('/tai/ stays noindex in every language and out of the sitemap', () => {
   }
 });
 
-test('the sitemap has every indexable page in all four languages, with alternates', () => {
+/** Language versions of a post: [code, path] for each language it is published in. */
+const versionsOf = (slug) => Object.entries(posts).flatMap(([code, m]) => (m.has(slug) ? [[code, m.get(slug)]] : []));
+
+test('the sitemap has every indexable page in all four languages and every post in its languages, with alternates', () => {
   const xml = read('sitemap.xml');
-  const locs = [...xml.matchAll(/<loc>([^<]+)<\/loc>/g)].map((m) => m[1]).sort();
-  const want = Object.values(langs).flatMap(([prefix]) => indexable.map((page) => `${site}${prefix}${page}`)).sort();
+  const urls = [...xml.matchAll(/<url>([\s\S]*?)<\/url>/g)].map((m) => m[1]);
+  const locs = urls.map((u) => u.match(/<loc>([^<]+)<\/loc>/)[1]).sort();
+  const want = [
+    ...Object.values(langs).flatMap(([prefix]) => indexable.map((page) => `${site}${prefix}${page}`)),
+    ...Object.values(posts).flatMap((m) => [...m.values()].map((path) => `${site}${path}`)),
+  ].sort();
   assert.deepEqual(locs, want);
-  for (const lang of [...Object.values(langs).map(([, l]) => l), 'x-default']) {
-    assert.equal(xml.split(`hreflang="${lang}"`).length - 1, locs.length, `hreflang ${lang} on every url`);
+  for (const url of urls) {
+    const loc = url.match(/<loc>([^<]+)<\/loc>/)[1];
+    const links = [...url.matchAll(/hreflang="([^"]+)" href="([^"]+)"/g)].map((m) => `${m[1]} ${m[2]}`).sort();
+    const slug = loc.match(/blog\/([^/]+)\/$/)?.[1];
+    const versions = slug ? versionsOf(slug) : Object.entries(langs).map(([code, [prefix]]) => [code, `${prefix}${loc.slice(site.length).replace(/^(en|zh|ko)\//, '')}`]);
+    const xDefault = (versions.find(([code]) => code === 'vi') ?? versions[0])[1];
+    const expected = [...versions.map(([code, path]) => `${langs[code][1]} ${site}${path}`), `x-default ${site}${xDefault}`].sort();
+    assert.deepEqual(links, expected, loc);
+  }
+});
+
+test('posts link only to the languages they are written in; the menu sends the rest to their article list', () => {
+  const slugs = new Set(Object.values(posts).flatMap((m) => [...m.keys()]));
+  for (const slug of slugs) {
+    const versions = versionsOf(slug);
+    for (const [, path] of versions) {
+      const html = read(`${path}index.html`);
+      const links = [...html.matchAll(/<link rel="alternate" hreflang="([^"]+)" href="([^"]+)">/g)].map((m) => `${m[1]} ${m[2]}`).sort();
+      const xDefault = (versions.find(([code]) => code === 'vi') ?? versions[0])[1];
+      assert.deepEqual(links, [...versions.map(([code, p]) => `${langs[code][1]} ${site}${p}`), `x-default ${site}${xDefault}`].sort(), path);
+      assert.ok(html.includes(`<link rel="canonical" href="${site}${path}">`), `${path}: canonical`);
+      assert.match(html, /<meta property="og:type" content="article">/, path);
+      assert.match(html, /"@type":"BlogPosting"/, path);
+      for (const [code, [prefix, lang]] of Object.entries(langs)) {
+        const target = posts[code].get(slug) ?? `${prefix}blog/`;
+        assert.ok(html.includes(`<a href="/${target}" hreflang="${lang}"`), `${path}: menu link ${lang}`);
+      }
+    }
   }
 });
 

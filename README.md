@@ -38,6 +38,12 @@ Node 22 or newer.
 | `src/lib/store-pick.mjs` | Store URLs and the user-agent store chooser used by `/tai/` |
 | `src/pages/sitemap.xml.ts`, `robots.txt.ts` | Generated from the page and locale lists; pages in `noindexPages` are left out |
 | `public/` | `CNAME`, `app-ads.txt`, favicons, fonts, `og.png`, web manifest |
+| `src/content/blog/<lang>/<slug>.md` | Blog posts (see "Viết bài"); schema in `src/content.config.ts` |
+| `src/assets/blog/` | Post covers |
+| `src/lib/blog.ts`, `src/lib/blog-core.mjs` | Post lists, translations, covers, the JSON feed and its HTML sanitiser |
+| `src/pages/[...lang]/blog/` | `/blog/` list, post pages, `rss.xml` |
+| `src/pages/feeds/blog-[lang].json.ts` | JSON feed the app reads (`docs/blog-contract.md`) |
+| `scripts/notify-blog.mjs`, `.github/workflows/notify-blog.yml` | Push notification for new posts (see "Thông báo bài mới") |
 
 ## Privacy policy
 
@@ -71,6 +77,95 @@ When the listings are live, replace the `href="#"` of every element with `data-s
 Every page at `/<code>/...`, the language switch, hreflang tags and sitemap entries are generated from the files in `locales/`. Vietnamese is the default at `/`; change `defaultLocaleCode` in `src/i18n/index.ts` to move it. A new full language also needs its own privacy text in `src/content/` and `src/lib/policy.ts`; without one it shows the English policy.
 
 Chinese (`zh`, `lang="zh-Hans"`) and Korean (`ko`) are AI translations of the English copy, with terms taken from the app's `lib/l10n/` and `docs/release/SUBMISSION.md`; they have not been reviewed by native speakers. They have no screenshots of their own: the store images for those languages are framed composites, not raw app screens, so the pages use the Vietnamese shots. Chinese and Korean text uses system fonts (PingFang SC / Noto Sans SC, Apple SD Gothic Neo / Noto Sans KR); no extra font is downloaded.
+
+## Viết bài
+
+Mỗi bài là một file Markdown `src/content/blog/<ngôn ngữ>/<slug>.md`, ví dụ `src/content/blog/vi/gio-hoang-dao-la-gi.md`.
+
+- `slug` (tên file) viết thường, không dấu, nối bằng `-`, và **giống nhau ở mọi ngôn ngữ** của cùng một bài: app và thông báo dùng nó làm mã bài. Bản dịch đặt cùng tên trong `en/`, `zh/`, `ko/`. Không bắt buộc dịch đủ; trang chỉ khai hreflang cho các bản có thật.
+- Bài hiện ở `/blog/<slug>/` (tiếng Việt), `/en/blog/<slug>/`, `/zh/blog/<slug>/`, `/ko/blog/<slug>/`, trong danh sách `/…/blog/`, sitemap, RSS (`/…/blog/rss.xml`) và feed cho app `/feeds/blog-<lang>.json`.
+
+Đầu file (frontmatter):
+
+```yaml
+---
+title: Giờ hoàng đạo là gì và đọc thế nào cho đúng
+summary: Tối đa 200 ký tự. Hiện ở danh sách, thẻ chia sẻ và làm nội dung thông báo.
+date: 2026-10-31                 # giờ Việt Nam; hoặc 2026-10-31T07:00:00+07:00
+updated: 2026-11-05              # tuỳ chọn, khi sửa nội dung đáng kể
+cover: ../../../assets/blog/gio-hoang-dao-la-gi.jpg
+coverAlt: Mô tả ảnh bìa cho người không xem được ảnh
+tags: [giờ hoàng đạo, lịch âm]
+appRoute: /xem-ngay              # tuỳ chọn: route go_router của tính năng liên quan, app hiện nút "Mở tính năng"
+draft: true                      # tuỳ chọn: không đăng
+notify: false                    # tuỳ chọn: đăng nhưng không gửi thông báo
+sources:                         # nên có; hiện ở cuối bài
+  - title: Hồ Ngọc Đức, "Vietnamese Calendar"
+    url: https://honguyenviet.com/amlich/vncal_en.html
+  - title: Jean Meeus, Astronomical Algorithms (sách, không cần url)
+---
+```
+
+- Giá trị có dấu `: ` (hai chấm và dấu cách) phải đặt trong nháy: `title: 'Rằm và mùng một: vì sao…'`.
+- `sources[].lang` (tuỳ chọn) là ngôn ngữ của tên nguồn khi khác ngôn ngữ bài; bỏ trống thì trang tự đoán.
+- Bài có `date` ở tương lai chỉ hiện từ lần deploy đầu tiên sau ngày đó (site tĩnh), và **không** tự gửi thông báo; muốn báo thì gửi tay (xem dưới).
+- Nội dung Markdown: dùng `##`/`###`, danh sách, **đậm**, *nghiêng*, link, trích dẫn, bảng. Feed cho app chỉ giữ các thẻ trong `docs/blog-contract.md`; bảng được đổi thành từng dòng `ô · ô`, link tương đối thành link tuyệt đối.
+- Ảnh bìa: tỉ lệ khoảng 1.91:1, nên 1200×630, JPEG hoặc WebP, tối đa 200 KB, để trong `src/assets/blog/`. Trang tự tạo bản 1200×630 cho thẻ chia sẻ và feed; test báo lỗi nếu ảnh feed quá 200 KB.
+- Hình trong bài: để ở `src/assets/blog/<slug>/`, chèn bằng Markdown có chú thích trong nháy: `![Mô tả đủ ý cho người không xem được ảnh](../../../assets/blog/<slug>/vong-12-gio.webp "Chú thích hiện dưới hình")`. Một đoạn chỉ chứa một hình có chú thích sẽ thành `<figure>` + `<figcaption>` (plugin `src/lib/figures.mjs`), có `width/height`, cả trên trang lẫn feed (URL tuyệt đối). Bốn ngôn ngữ dùng chung file hình, mỗi bản tự viết `alt` và chú thích bằng ngôn ngữ của bài. Hình không có chú thích thì nằm trong `<p>` như thường.
+- Cuối mỗi bài (trang và feed) tự có dòng "Hình minh hoạ do AI vẽ" (`blog.aiArt` trong `src/i18n/locales/`).
+- Bản `zh` và `ko` của các bài mẫu là **bản dịch máy, cần người bản ngữ duyệt**.
+
+Xem trước: `npm run dev` rồi mở <http://localhost:4321/blog/>. Kiểm tra đầy đủ: `npm run check`.
+
+Đăng bài: merge vào `main`. Workflow deploy build lại site, sau đó workflow thông báo chạy. Có thể viết ngay trên github.com: mở thư mục `src/content/blog/vi/` → **Add file → Create new file**, đặt tên `<slug>.md`; ảnh bìa tải lên `src/assets/blog/` bằng **Add file → Upload files**. Nên tạo nhánh và Pull Request để xem lại trước khi merge.
+
+## Vẽ hình cho bài mới bằng Codex
+
+Ảnh bìa và hình trong bài đều vẽ bằng Codex (ChatGPT imagegen), không tự vẽ bằng code, không lấy ảnh trên mạng.
+
+- **Phong cách:** tranh sơn mài Việt Nam, nền sơn đen, đỏ son, vàng lá, vỏ trứng, nét vàng mảnh; cho Codex xem ảnh bìa của chính bài đó làm mẫu.
+- **Không chữ trong hình:** không chữ, số, chữ Hán, nhãn, triện, chữ ký. Bốn ngôn ngữ dùng chung một hình, nên chữ và nhãn để ở chú thích hoặc văn bản bài. Sơ đồ cần nhãn mới hiểu thì vẽ không nhãn rồi giải thích bằng danh sách ngay dưới hình (ví dụ "đi theo chiều kim đồng hồ từ ô trên cùng: …").
+- **Cỡ:** hình trong bài rộng 1200 px (thường 1200×800), WebP ≤ 150 KB; ảnh bìa 1200×630, ≤ 200 KB. Khi build, Astro nén lại hình trong bài (chất lượng `FIGURE_QUALITY` trong `src/lib/figures.mjs`); test báo lỗi nếu bản phát hành quá 150 KB. Hình nhiều hoạ tiết li ti (rạn, hạt, lá dày) khó nén: vẽ lại, dặn Codex dùng mảng màu sơn mài phẳng, ít chi tiết nhỏ.
+
+Chạy trong một thư mục tạm ngoài repo, mỗi lệnh một hình:
+
+```sh
+mkdir -p /tmp/qelunai-blog-art/<slug>-1 && cd /tmp/qelunai-blog-art/<slug>-1
+cat > prompt.txt <<'TXT'
+Draw <mô tả hình, nói rõ số lượng và thứ tự, ví dụ "exactly 12 segments, clockwise from the top: …">.
+
+Style: Vietnamese lacquer painting (sơn mài), matching the attached reference image: deep black lacquer
+background, vermilion red, gold leaf and eggshell textures, fine gold lines. Landscape 3:2.
+ABSOLUTELY NO text, letters, numbers, Chinese characters, labels, signatures, seals or watermarks.
+Use image generation and save the final image as ./out.png in the current directory.
+TXT
+codex exec --skip-git-repo-check --sandbox workspace-write \
+  -i <repo>/src/assets/blog/<slug>.jpg - < prompt.txt
+# thu nhỏ và nén vào repo
+sips -Z 1200 out.png --out small.png && cwebp -q 78 -m 6 small.png -o <repo>/src/assets/blog/<slug>/<tên>.webp
+```
+
+Mở từng hình ra xem trước khi đưa vào bài: không có chữ lạ, không méo, nội dung đúng (đếm số ô, số con giáp, thứ tự, chiều sáng của trăng…), không có gì nhạy cảm. Sai thì sửa prompt và vẽ lại, hoặc bỏ hình. Codex hết hạn mức thì để bài không có hình, không thay bằng hình tự vẽ.
+
+## Thông báo bài mới
+
+`.github/workflows/notify-blog.yml` chạy sau mỗi lần workflow "Deploy to GitHub Pages" chạy xong thành công cho một lần push vào `main`. `scripts/notify-blog.mjs` tìm các file bài **được thêm mới** trong commit vừa deploy (`git diff --diff-filter=A HEAD^ HEAD`; với merge commit là cả nhánh được merge). Sửa bài cũ không gửi lại. Bài bị bỏ qua nếu `draft: true`, `notify: false` hoặc `date` còn ở tương lai.
+
+- Trước khi gửi, script đợi feed thật `https://qelunai.com/feeds/blog-<lang>.json` có bài (thử 10 lần, cách 30 giây), rồi lấy tiêu đề và `summary` từ feed.
+- Gửi qua FCM HTTP v1, mỗi (bài, ngôn ngữ) một lần, với condition `'blog' in topics && 'lang_<lang>' in topics`; ngôn ngữ chưa có bản dịch thì không gửi. Payload theo `docs/blog-contract.md` (kênh Android `push_news`, `thread-id` iOS `blog`).
+- Mỗi lần chạy tối đa 3 bài, mới nhất trước; các bài còn lại chỉ ghi log, gửi tay nếu cần.
+- Không muốn gửi thông báo cho một bài: đặt `notify: false` trước khi merge.
+
+Gửi tay hoặc gửi lại: Actions → **Notify new blog posts** → **Run workflow**, nhập `slug`, chọn `lang` (`all` hoặc một ngôn ngữ). `dry_run` bật sẵn: chỉ in payload ra log, không gửi; bỏ chọn để gửi thật. Gửi tay bỏ qua `notify: false` nhưng vẫn không gửi bài nháp hay bài chưa tới ngày. Chạy thử trên máy: `node scripts/notify-blog.mjs --slug <slug> --dry-run`.
+
+Xác thực bằng Workload Identity Federation, không dùng khoá JSON. Biến của repo (Settings → Secrets and variables → Actions → Variables):
+
+| Biến | Giá trị |
+| --- | --- |
+| `GCP_WIF_PROVIDER` | `projects/253342915563/locations/global/workloadIdentityPools/github/providers/qelunai-web` |
+| `GCP_BLOG_PUSH_SA` | `blog-push@qelunai.iam.gserviceaccount.com` (vai trò Firebase Cloud Messaging API Admin) |
+
+Provider chỉ nhận token của repo `tdduydev/qelunai-web` với ref `refs/heads/main`, nên chỉ chạy từ `main` mới gửi được. Thiếu một trong hai biến thì workflow in cảnh báo và kết thúc thành công, không gửi gì. Test của script không cần mạng: `npm run test:notify`.
 
 ## Deploy
 

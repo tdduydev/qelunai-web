@@ -26,6 +26,7 @@ export const pageSlugs: Record<PageId, string> = {
   iching: 'kinh-dich/',
   testers: 'testers/',
   download: 'tai/',
+  blog: 'blog/',
 };
 
 export const pages = Object.keys(pageSlugs) as PageId[];

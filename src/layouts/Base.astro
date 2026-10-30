@@ -2,7 +2,7 @@
 import '../styles/global.css';
 import Footer from '../components/Footer.astro';
 import Mark from '../components/Mark.astro';
-import { alternatesFor, email, locales, defaultLocale, pathFor, type Locale, type PageId } from '../i18n';
+import { alternatesFor, email, locales, defaultLocale, pathFor, type Alternate, type Locale, type PageId } from '../i18n';
 
 interface Props {
   locale: Locale;
@@ -15,17 +15,29 @@ interface Props {
   noindex?: boolean;
   /** Extra JSON-LD objects for this page. */
   schema?: Record<string, unknown>[];
+  /** Pages not in `pageSlugs` (a blog post): its own path, its language versions (hreflang), x-default and language menu. */
+  path?: string;
+  alternates?: Alternate[];
+  xDefault?: string;
+  menu?: Alternate[];
+  /** Social card image, root-relative; defaults to `/og.png`. */
+  image?: { src: string; width: number; height: number; alt: string };
+  /** Open Graph `article` with these times and tags instead of `website`. */
+  article?: { published: string; modified: string; tags: string[] };
+  /** RSS feed of this page, root-relative. */
+  rss?: { href: string; title: string };
 }
 
 const { locale, page = 'home', noindex = false, schema = [] } = Astro.props;
 const { title = locale.seo.title, description = locale.seo.description } = Astro.props;
 const nav = locale.nav;
-const alternates = alternatesFor(page);
+const { path = pathFor(locale, page), alternates = alternatesFor(page), image, article, rss } = Astro.props;
+const { xDefault = pathFor(defaultLocale, page), menu = alternates } = Astro.props;
 
 const site = Astro.site!;
 const abs = (path: string) => new URL(path, site).href;
-const canonical = abs(pathFor(locale, page));
-const ogImage = abs('/og.png');
+const canonical = abs(path);
+const ogImage = abs(image?.src ?? '/og.png');
 const home = pathFor(locale);
 
 const graph = [
@@ -72,7 +84,8 @@ const graph = [
     <meta name="robots" content={noindex ? 'noindex, follow' : 'index, follow, max-image-preview:large'} />
     {!noindex && <link rel="canonical" href={canonical} />}
     {!noindex && alternates.map((l) => <link rel="alternate" hreflang={l.hreflang} href={abs(l.href)} />)}
-    {!noindex && <link rel="alternate" hreflang="x-default" href={abs(pathFor(defaultLocale, page))} />}
+    {!noindex && <link rel="alternate" hreflang="x-default" href={abs(xDefault)} />}
+    {rss && <link rel="alternate" type="application/rss+xml" title={rss.title} href={abs(rss.href)} />}
 
     <meta name="theme-color" content="#0D0A08" />
     <meta name="color-scheme" content="dark" />
@@ -83,21 +96,25 @@ const graph = [
     <link rel="preload" href="/fonts/BeVietnamPro-Regular.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="preload" href="/fonts/PlayfairDisplay-Variable.woff2" as="font" type="font/woff2" crossorigin />
 
-    <meta property="og:type" content="website" />
+    <meta property="og:type" content={article ? 'article' : 'website'} />
     <meta property="og:site_name" content="Qelunai" />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
     <meta property="og:image" content={ogImage} />
-    <meta property="og:image:width" content="1200" />
-    <meta property="og:image:height" content="630" />
-    <meta property="og:image:alt" content={locale.seo.ogAlt} />
+    <meta property="og:image:width" content={String(image?.width ?? 1200)} />
+    <meta property="og:image:height" content={String(image?.height ?? 630)} />
+    <meta property="og:image:alt" content={image?.alt ?? locale.seo.ogAlt} />
     <meta property="og:locale" content={locale.ogLocale} />
     {alternates.filter((l) => l.code !== locale.code).map((l) => <meta property="og:locale:alternate" content={l.ogLocale} />)}
+    {article && <meta property="article:published_time" content={article.published} />}
+    {article && <meta property="article:modified_time" content={article.modified} />}
+    {article?.tags.map((t) => <meta property="article:tag" content={t} />)}
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={ogImage} />
+    <meta name="twitter:image:alt" content={image?.alt ?? locale.seo.ogAlt} />
 
     <script type="application/ld+json" set:html={JSON.stringify({ '@context': 'https://schema.org', '@graph': graph })} />
   </head>
@@ -112,11 +129,12 @@ const graph = [
         <a href={pathFor(locale, 'calendar')}>{nav.calendar}</a>
         <a href={`${home}#features`}>{nav.features}</a>
         <a href={`${home}#faq`}>{nav.faq}</a>
+        <a href={pathFor(locale, 'blog')} aria-current={page === 'blog' ? 'page' : undefined}>{nav.blog}</a>
         <a href={pathFor(locale, 'support')} aria-current={page === 'support' ? 'page' : undefined}>{nav.support}</a>
       </nav>
       <ul class="lang" aria-label={nav.language}>
         {
-          alternates.map((l) => (
+          menu.map((l) => (
             <li>
               <a
                 href={l.href}

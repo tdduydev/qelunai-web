@@ -1,7 +1,7 @@
 export type FeatureId = 'today' | 'licham' | 'kinhdich' | 'phongthuy' | 'giadinh' | 'thansohoc' | 'batu';
 
 /** Every page exists once per language; see `pagePaths` in `./index.ts`. */
-export type PageId = 'home' | 'privacy' | 'support' | 'deleteAccount' | 'terms' | 'testers' | 'calendar' | 'hours' | 'iching' | 'download';
+export type PageId = 'home' | 'privacy' | 'support' | 'deleteAccount' | 'terms' | 'testers' | 'calendar' | 'hours' | 'iching' | 'download' | 'blog';
 
 /** A heading and its paragraphs; `**bold**` is allowed inside. */
 export interface Block {
@@ -34,7 +34,7 @@ export interface Locale {
 
   seo: { title: string; description: string; keywords: string; ogAlt: string };
 
-  nav: { calendar: string; features: string; faq: string; support: string; action: string; language: string; skip: string; home: string };
+  nav: { calendar: string; features: string; faq: string; support: string; blog: string; action: string; language: string; skip: string; home: string };
 
   store: { appStore: string; googlePlay: string; getOn: string; soon: string };
 
@@ -119,6 +119,32 @@ export interface Locale {
     backHome: string;
     /** On the terms and delete-account pages of a translated language: the Vietnamese or English text controls. The translated privacy text carries its own line. */
     translationNotice?: string;
+  };
+
+  /** The blog list, post pages, RSS and JSON feed. */
+  blog: {
+    title: string;
+    description: string;
+    eyebrow: string;
+    lead: string;
+    /** Title of the JSON feed and RSS channel, e.g. "Qelunai – Bài viết". */
+    feedTitle: string;
+    empty: string;
+    readMore: string;
+    /** "{n} phút đọc". */
+    minutes: string;
+    published: string;
+    updated: string;
+    tags: string;
+    sources: string;
+    /** Short line under every post: cultural reference, not professional advice. */
+    disclaimer: string;
+    /** Under every post: the cover and figures are drawn by AI, as the app labels its art. */
+    aiArt: string;
+    backToList: string;
+    rss: string;
+    /** Above the app buttons at the end of a post. */
+    cta: string;
   };
 
   notFound: { title: string; body: string; home: string };
