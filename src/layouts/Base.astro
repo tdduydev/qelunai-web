@@ -2,10 +2,11 @@
 import '../styles/global.css';
 import Footer from '../components/Footer.astro';
 import Mark from '../components/Mark.astro';
-import { email, locales, defaultLocale, pathFor, type Locale, type PageId } from '../i18n';
+import { alternatesFor, email, homeFor, isPolicyOnly, locales, defaultLocale, pathFor, type Locale, type PageId, type PolicyLocale } from '../i18n';
 
 interface Props {
-  locale: Locale;
+  /** A privacy-only language gets a header and footer with just the language menu and links to the vi/en home pages. */
+  locale: Locale | PolicyLocale;
   /** Which page this is; canonical, hreflang and the language switch point at its siblings. */
   page?: PageId;
   /** Page-specific title; defaults to the locale's SEO title. */
@@ -17,13 +18,21 @@ interface Props {
   schema?: Record<string, unknown>[];
 }
 
-const { locale, page = 'home', title = locale.seo.title, description = locale.seo.description, noindex = false, schema = [] } = Astro.props;
+const { locale, page = 'home', noindex = false, schema = [] } = Astro.props;
+const policyOnly = isPolicyOnly(locale) ? locale : undefined;
+const full = isPolicyOnly(locale) ? undefined : locale;
+const defaults = isPolicyOnly(locale)
+  ? { title: locale.title, description: locale.description, nav: { skip: locale.skip, home: locale.home, language: locale.language } }
+  : { title: locale.seo.title, description: locale.seo.description, nav: locale.nav };
+const { title = defaults.title, description = defaults.description } = Astro.props;
+const nav = defaults.nav;
+const alternates = alternatesFor(page);
 
 const site = Astro.site!;
 const abs = (path: string) => new URL(path, site).href;
 const canonical = abs(pathFor(locale, page));
 const ogImage = abs('/og.png');
-const home = pathFor(locale);
+const home = homeFor(locale);
 
 const graph = [
   {
@@ -65,10 +74,10 @@ const graph = [
     </script>
     <title>{title}</title>
     <meta name="description" content={description} />
-    {!noindex && page === 'home' && <meta name="keywords" content={locale.seo.keywords} />}
+    {!noindex && page === 'home' && full && <meta name="keywords" content={full.seo.keywords} />}
     <meta name="robots" content={noindex ? 'noindex, follow' : 'index, follow, max-image-preview:large'} />
     {!noindex && <link rel="canonical" href={canonical} />}
-    {!noindex && locales.map((l) => <link rel="alternate" hreflang={l.code} href={abs(pathFor(l, page))} />)}
+    {!noindex && alternates.map((l) => <link rel="alternate" hreflang={l.hreflang} href={abs(l.href)} />)}
     {!noindex && <link rel="alternate" hreflang="x-default" href={abs(pathFor(defaultLocale, page))} />}
 
     <meta name="theme-color" content="#0D0A08" />
@@ -88,9 +97,9 @@ const graph = [
     <meta property="og:image" content={ogImage} />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
-    <meta property="og:image:alt" content={locale.seo.ogAlt} />
+    <meta property="og:image:alt" content={full?.seo.ogAlt ?? 'Qelunai'} />
     <meta property="og:locale" content={locale.ogLocale} />
-    {locales.filter((l) => l.code !== locale.code).map((l) => <meta property="og:locale:alternate" content={l.ogLocale} />)}
+    {alternates.filter((l) => l.code !== locale.code).map((l) => <meta property="og:locale:alternate" content={l.ogLocale} />)}
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
@@ -99,41 +108,68 @@ const graph = [
     <script type="application/ld+json" set:html={JSON.stringify({ '@context': 'https://schema.org', '@graph': graph })} />
   </head>
   <body>
-    <a class="skip" href="#main">{locale.nav.skip}</a>
+    <a class="skip" href="#main">{nav.skip}</a>
     <header class="site-header">
-      <a class="brand" href={home} aria-label={locale.nav.home}>
+      <a class="brand" href={home} aria-label={nav.home}>
         <Mark size={30} />
         <span>Qelunai</span>
       </a>
-      <nav class="site-nav" aria-label={locale.nav.home}>
-        <a href={pathFor(locale,'calendar')}>{locale.code==='vi'?'Lịch âm':'Lunar calendar'}</a>
-        <a href={`${home}#features`}>{locale.nav.features}</a>
-        <a href={`${home}#faq`}>{locale.nav.faq}</a>
-        <a href={pathFor(locale, 'support')} aria-current={page === 'support' ? 'page' : undefined}>{locale.nav.support}</a>
-      </nav>
-      <ul class="lang" aria-label={locale.nav.language}>
+      {
+        full && (
+          <nav class="site-nav" aria-label={full.nav.home}>
+            <a href={pathFor(full, 'calendar')}>{full.code === 'vi' ? 'Lịch âm' : 'Lunar calendar'}</a>
+            <a href={`${home}#features`}>{full.nav.features}</a>
+            <a href={`${home}#faq`}>{full.nav.faq}</a>
+            <a href={pathFor(full, 'support')} aria-current={page === 'support' ? 'page' : undefined}>{full.nav.support}</a>
+          </nav>
+        )
+      }
+      <ul class="lang" aria-label={nav.language}>
         {
-          locales.map((l) => (
+          alternates.map((l) => (
             <li>
               <a
-                href={pathFor(l, page)}
-                hreflang={l.code}
+                href={l.href}
+                hreflang={l.hreflang}
                 lang={l.htmlLang}
                 title={l.nativeName}
                 aria-current={l.code === locale.code ? 'true' : undefined}
               >
-                {l.code.toUpperCase()}
+                {locales.some((f) => f.code === l.code) ? l.code.toUpperCase() : l.nativeName}
               </a>
             </li>
           ))
         }
       </ul>
-      <a class="btn btn-gold header-action" href={`${home}#download`}>{locale.nav.action}</a>
+      {full && <a class="btn btn-gold header-action" href={`${home}#download`}>{full.nav.action}</a>}
     </header>
     <main id="main">
       <slot />
     </main>
-    <Footer locale={locale} />
+    {
+      policyOnly ? (
+        <footer class="site-footer">
+          <div class="footer-base">
+            <p>
+              {policyOnly.homeLinks}{' '}
+              {locales.map((l, i) => (
+                <>
+                  {i > 0 && ' · '}
+                  <a href={pathFor(l)} hreflang={l.code} lang={l.htmlLang}>
+                    {l.nativeName}
+                  </a>
+                </>
+              ))}
+              {' · '}
+              <a href={`mailto:${email}`}>{email}</a>
+            </p>
+            <p>© {new Date().getFullYear()} Qelunai</p>
+          </div>
+        </footer>
+      ) : (
+        full && <Footer locale={full} />
+      )
+    }
     <script>
       import '../scripts/reveal';
     </script>

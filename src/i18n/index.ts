@@ -1,6 +1,8 @@
-import type { Locale, PageId } from './types';
+import { policyLocales } from './policy-locales';
+import type { Locale, PageId, PolicyLocale } from './types';
 
-export type { Block, FeatureId, Locale, PageId } from './types';
+export type { Block, FeatureId, Locale, PageId, PolicyLocale } from './types';
+export { policyLocales };
 
 export const defaultLocaleCode = 'vi';
 
@@ -49,6 +51,31 @@ export function localePaths() {
     props: { locale },
   }));
 }
+
+/** One language version of a page: hreflang tags, the language menu and the sitemap list these. */
+export interface Alternate {
+  code: string;
+  /** hreflang code: the URL code for full languages, `htmlLang` for privacy-only ones. */
+  hreflang: string;
+  htmlLang: string;
+  ogLocale: string;
+  nativeName: string;
+  href: string;
+}
+
+/** Every language version of `page`; the privacy page also has the privacy-only languages. */
+export function alternatesFor(page: PageId): Alternate[] {
+  const full = locales.map((l) => ({ ...pick(l), hreflang: l.code, href: pathFor(l, page) }));
+  if (page !== 'privacy') return full;
+  return [...full, ...policyLocales.map((l) => ({ ...pick(l), hreflang: l.htmlLang, href: pathFor(l.code, page) }))];
+}
+
+const pick = ({ code, htmlLang, ogLocale, nativeName }: Locale | PolicyLocale) => ({ code, htmlLang, ogLocale, nativeName });
+
+export const isPolicyOnly = (locale: Locale | PolicyLocale): locale is PolicyLocale => !('pages' in locale);
+
+/** Home page for a language; privacy-only languages have none and use the English one. */
+export const homeFor = (locale: Locale | PolicyLocale) => pathFor(isPolicyOnly(locale) ? 'en' : locale);
 
 /** `**bold**` to `<strong>`, the support address and bare URLs to links, after escaping. */
 export function rich(text: string): string {

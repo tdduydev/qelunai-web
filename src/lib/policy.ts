@@ -1,8 +1,12 @@
 import raw from '../content/privacy.md?raw';
+import zh from '../content/privacy.zh.md?raw';
+import ko from '../content/privacy.ko.md?raw';
 
 /**
  * The privacy policy from `src/content/privacy.md` (copied from the app by
  * `npm run sync:privacy`): Vietnamese before the `---` line, English after.
+ * Chinese and Korean come from `privacy.zh.md` and `privacy.ko.md`, one
+ * language each.
  * Only the subset the app renders is handled: `#`, `##`, `- ` bullets with
  * indented continuation lines, `**bold**`, a `*note*` line, and bare URLs.
  */
@@ -14,10 +18,12 @@ export interface Policy {
   html: string;
 }
 
-const versions = raw.replace(/<!--[\s\S]*?-->/g, '').split(/^---$/m);
+const strip = (md: string) => md.replace(/<!--[\s\S]*?-->/g, '');
+const [vi, en] = strip(raw).split(/^---$/m);
+const versions: Record<string, string> = { vi, en, zh: strip(zh), ko: strip(ko) };
 
 export function policyFor(code: string): Policy {
-  return render(versions[code === 'vi' ? 0 : 1] ?? versions[0]);
+  return render(versions[code] ?? en ?? vi);
 }
 
 const escape = (s: string) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
@@ -28,13 +34,15 @@ const inline = (s: string) =>
     .replace(/(^|[^*])\*([^*\s][^*]*?)\*(?!\*)/g, '$1<em>$2</em>')
     .replace(/https?:\/\/[^\s<]+[^\s<.,;:)]/g, (url) => `<a href="${url}" rel="noopener">${url}</a>`);
 
+/** Latin letters lose their accents; Han and Hangul stay (NFC rejoins the Hangul syllables NFD split). */
 const slug = (s: string) =>
   s
     .normalize('NFD')
     .replace(/[̀-ͯ]/g, '')
     .replace(/đ/gi, 'd')
+    .normalize('NFC')
     .toLowerCase()
-    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/[^\p{L}\p{N}]+/gu, '-')
     .replace(/^-|-$/g, '');
 
 function render(md: string): Policy {

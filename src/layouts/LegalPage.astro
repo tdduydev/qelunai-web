@@ -1,9 +1,9 @@
 ---
 import Base from './Base.astro';
-import { pathFor, type Locale, type PageId } from '../i18n';
+import { homeFor, isPolicyOnly, pathFor, type Locale, type PageId, type PolicyLocale } from '../i18n';
 
 interface Props {
-  locale: Locale;
+  locale: Locale | PolicyLocale;
   page: PageId;
   title: string;
   description: string;
@@ -13,11 +13,12 @@ interface Props {
 }
 
 const { locale, page, title, description, updated, lead } = Astro.props;
+const home = homeFor(locale);
 const breadcrumb = {
   '@type': 'BreadcrumbList',
   itemListElement: [
-    { '@type': 'ListItem', position: 1, name: 'Qelunai', item: new URL(pathFor(locale), Astro.site).href },
-    { '@type': 'ListItem', position: 2, name: title, item: new URL(pathFor(locale, page), Astro.site).href },
+    { '@type': 'ListItem', position: 1, name: 'Qelunai', item: new URL(home, Astro.site).href },
+    { '@type': 'ListItem', position: 2, name: title, item: new URL(pathFor(locale.code, page), Astro.site).href },
   ],
 };
 ---
@@ -25,7 +26,7 @@ const breadcrumb = {
 <Base locale={locale} page={page} title={`${title} · Qelunai`} description={description} schema={[breadcrumb]}>
   <article class="legal">
     <header class="legal-head">
-      <a class="back link" href={pathFor(locale)}>← {locale.pages.backHome}</a>
+      <a class="back link" href={home}>← {isPolicyOnly(locale) ? locale.home : locale.pages.backHome}</a>
       <h1>{title}</h1>
       {updated && <p class="updated">{updated}</p>}
       {lead && <p class="lede">{lead}</p>}

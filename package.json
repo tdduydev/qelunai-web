@@ -12,7 +12,8 @@
     "sync:privacy": "node scripts/sync-privacy.mjs",
     "test:calendar": "node --test test/calendar.test.mjs",
     "test:store": "node --test test/store-pick.test.mjs",
-    "check": "npm run test:calendar && npm run test:store && npm run build"
+    "test:privacy": "node --test test/privacy-locales.test.mjs",
+    "check": "npm run test:calendar && npm run test:store && npm run build && npm run test:privacy"
   },
   "dependencies": {
     "astro": "^7.4.2",

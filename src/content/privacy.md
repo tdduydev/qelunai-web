@@ -6,8 +6,8 @@
 
 - Qelunai cần **tài khoản**. Bạn **đăng nhập** (Email, Google hoặc Apple) và đồng ý **sao lưu**,
   rồi nhập họ tên, ngày sinh và giờ sinh của bạn.
-- Hồ sơ ngày sinh, lịch sử gieo quẻ và sổ giỗ được lưu vào tài khoản để có trên mọi thiết bị bạn
-  đăng nhập.
+- Hồ sơ ngày sinh, lịch sử gieo quẻ, lịch sử rút bài Tarot, sổ giỗ và nhà đã lưu (Phong thủy
+  nhà) được lưu vào tài khoản để có trên mọi thiết bị bạn đăng nhập.
 - Mỗi mục đích dùng dữ liệu có một ô đồng ý riêng, không ô nào được đánh dấu sẵn. Bạn rút lại
   được bất cứ lúc nào.
 - Mọi phép tính vẫn chạy ngay trên máy bạn.
@@ -50,10 +50,14 @@ Khi bạn đăng nhập và đồng ý sao lưu, ứng dụng lưu các mục sa
 LLC), đặt tại khu vực Singapore (asia-southeast1):
 
 - **Hồ sơ ngày sinh** bạn tạo ở tab Lá số: họ tên, ngày sinh dương lịch, giờ sinh (nếu có),
-  giới tính, thời điểm tạo và sửa.
+  giới tính, thời điểm tạo và sửa. Hồ sơ của chính bạn có thêm **nơi ở** nếu bạn tự nhập (không
+  bắt buộc), chỉ dùng để điền chỗ "ngụ tại" trong bài văn khấn; xoá trống ô này để bỏ.
 - **Lịch sử gieo quẻ Kinh Dịch**: thời điểm gieo và sáu hào.
 - **Sổ giỗ**: tên người đã mất, quan hệ trong gia đình, ngày mất âm lịch (và năm nếu bạn nhập),
   ghi chú, cài đặt nhắc giỗ, thời điểm tạo và sửa.
+- **Nhà đã lưu** (Phong thủy nhà, tối đa 10 nhà): tên bạn đặt cho nhà (ví dụ "Nhà ở", "Văn
+  phòng"), hướng nhà tính bằng độ, thời điểm tạo và sửa. Ứng dụng không lưu địa chỉ hay vị trí
+  của nhà.
 - Thông tin kỹ thuật để đồng bộ: mã của từng mục, phiên bản dữ liệu, thời điểm cập nhật, và
   dấu "đã xoá" cho mục bạn xoá (dấu này không chứa họ tên, ngày sinh hay nội dung quẻ).
 
@@ -65,8 +69,8 @@ https://policies.google.com/privacy
 
 - Cài đặt ứng dụng: ngôn ngữ, chế độ sáng/tối, trạng thái đã xem phần giới thiệu.
 - Các dòng ghi đồng ý (xem **Đồng ý của bạn**).
-- Một bản sao hồ sơ ngày sinh và lịch sử gieo quẻ của tài khoản, để ứng dụng
-  dùng được khi không có mạng. Thay đổi khi mất mạng được tải lên ở lần đồng bộ sau.
+- Một bản sao hồ sơ ngày sinh, lịch sử gieo quẻ, lịch sử rút bài Tarot, sổ giỗ và nhà đã lưu
+  của tài khoản, để ứng dụng dùng được khi không có mạng. Thay đổi khi mất mạng được tải lên ở lần đồng bộ sau.
 - Gói nội dung diễn giải (lời giải từng hào Kinh Dịch và từng con số Thần số học), tải từ
   Cloud Firestore khi có bản mới. Gói này giống nhau cho mọi người, không chứa dữ liệu của bạn;
   khi tải, ứng dụng chỉ gửi kèm phiên đăng nhập, không gửi hồ sơ hay lịch sử. Gói được giữ lại
@@ -81,6 +85,10 @@ sao này.
 - Xoá một hồ sơ: mở hồ sơ ở tab **Lá số** > **Xoá hồ sơ**.
 - Xoá một lần gieo: mở lần gieo trong lịch sử > **Xoá lần gieo này**; hoặc **Xoá toàn bộ lịch
   sử** ở tab Lá số.
+- Xoá một nhà đã lưu: mở **Phong thủy nhà**, chọn nhà trong danh sách > **Xoá**.
+- Xoá một lần rút bài Tarot: mở **Tarot** > lịch sử, chọn lần rút > **Xoá**. Lịch sử Tarot chỉ
+  ghi các lá đã rút, chiều xuôi/ngược, kiểu trải bài, ngày và hồ sơ được chọn (nếu có); không
+  lưu câu hỏi.
 - Xoá tất cả: **Hồ sơ > Xoá mọi hồ sơ và lịch sử**.
 
 Các thao tác này xoá dữ liệu khỏi máy, và khỏi tài khoản (trên mọi thiết bị) ở lần đồng bộ kế
@@ -162,6 +170,22 @@ widget. Người dùng **Qelunai Plus** không thấy quảng cáo.
 
 Cách Google dùng dữ liệu từ ứng dụng: https://policies.google.com/technologies/partner-sites
 
+## Thông báo đẩy (Firebase Cloud Messaging)
+
+Nếu bạn bật thông báo, Qelunai dùng **Firebase Cloud Messaging** (Google LLC) để gửi nhắc ngày
+rằm, mùng một, tiết khí và tin khi có bản cập nhật mới.
+
+- Để gửi được, thiết bị nhận một **mã thông báo** (FCM token, gắn với mã thiết bị của Apple Push
+  Notification service trên iPhone). Mã này không chứa họ tên, ngày sinh hay hồ sơ của bạn, và
+  Qelunai không lưu mã này vào tài khoản của bạn.
+- Thiết bị đăng ký vào các **chủ đề** bạn chọn (tin chung, bản cập nhật, ngày rằm/mùng một) và
+  chủ đề theo ngôn ngữ của ứng dụng. Tin được gửi theo chủ đề, giống nhau cho mọi người cùng chủ
+  đề, không theo hồ sơ riêng của bạn.
+- Ứng dụng chỉ hỏi quyền thông báo sau khi giải thích, và chỉ khi bạn chọn **Bật**. Nếu bạn đã
+  cho phép nhắc giỗ thì dùng chung quyền đó, không hỏi lại.
+- Tắt từng loại ở **Hồ sơ > Thông báo** (thiết bị huỷ đăng ký chủ đề đó), hoặc tắt hẳn thông báo
+  của Qelunai trong Cài đặt của máy.
+
 ## Những gì Qelunai KHÔNG làm
 
 - Không bán dữ liệu của bạn.
@@ -173,6 +197,7 @@ Cách Google dùng dữ liệu từ ứng dụng: https://policies.google.com/te
 - **Camera**: chỉ khi bạn mở La bàn trên cảnh thật hoặc quét mã QR thẻ tuổi. Hình ảnh chỉ hiện
   trên màn hình, không được chụp, lưu hay gửi đi.
 - **Theo dõi (iPhone)**: chỉ hỏi ở bản có quảng cáo, như mục **Quảng cáo** ở trên.
+- **Thông báo**: cho nhắc giỗ và thông báo đẩy, chỉ hỏi khi bạn bật một trong hai.
 
 Ứng dụng không yêu cầu quyền vị trí, danh bạ, micro hay quyền nhạy cảm nào khác.
 
@@ -192,8 +217,8 @@ bạn có thể từ chối ra sao.
 
 - Qelunai needs an **account**. You **sign in** (Email, Google or Apple) and agree to
   **backup**, then enter your name, birth date and birth time.
-- Your birth profiles, Kinh Dịch cast history and memorial days are saved to your account so
-  they appear on every device you sign in on.
+- Your birth profiles, Kinh Dịch cast history, Tarot reading history, memorial days and saved
+  houses (Phong thủy nhà) are saved to your account so they appear on every device you sign in on.
 - Each use of your data has its own consent box, none ticked in advance. You can withdraw at
   any time.
 - All calculations still run on your device.
@@ -238,11 +263,16 @@ When you sign in and agree to backup, the app stores the following in **Cloud Fi
 (Google LLC), located in the Singapore region (asia-southeast1):
 
 - **Birth profiles** you create in the Charts tab: name, solar birth date, birth time (if
-  given), gender, and when the profile was created and changed.
+  given), gender, and when the profile was created and changed. Your own profile also holds a
+  **home address** if you type one in (optional), used only to fill in where you live in the
+  Văn khấn prayers; clear the field to remove it.
 - **Kinh Dịch cast history**: when each cast happened and its six lines.
 - **Memorial days (Sổ giỗ)**: the name of the person who passed away, their family relation,
   the lunar date of death (and the year if you enter it), notes, reminder settings, and when
   each entry was created and changed.
+- **Saved houses** (Phong thủy nhà, up to 10): the name you give the house (for example "Home"
+  or "Office"), the way it faces in degrees, and when it was created and changed. The app does
+  not store the house's address or location.
 - Technical sync data: each item's id, data version, update time, and a "deleted" marker for
   items you delete (the marker holds no name, birth data or cast).
 
@@ -253,8 +283,8 @@ devices you sign in on. Google's privacy policy: https://policies.google.com/pri
 
 - App settings: language, light/dark mode, whether the introduction has been completed.
 - The consent records (see **Your consent**).
-- A copy of the account's birth profiles and cast history, so the app works
-  offline. Changes made offline are uploaded at the next sync.
+- A copy of the account's birth profiles, cast history, Tarot reading history, memorial days
+  and saved houses, so the app works offline. Changes made offline are uploaded at the next sync.
 - The readings pack (the note for each I Ching line and each numerology number), downloaded
   from Cloud Firestore when a new version is out. The pack is the same for everyone and holds
   none of your data; the download sends only your sign-in session, not your profiles or history.
@@ -269,6 +299,10 @@ browser) also removes the copy.
 - One profile: open it in the **Charts** tab > **Delete profile**.
 - One cast: open it in the history > **Delete this cast**; or **Clear all history** in the
   Charts tab.
+- One saved house: open **Phong thủy nhà**, pick the house in the list > **Delete**.
+- One Tarot reading: open **Tarot** > history, pick the reading > **Delete**. Tarot history keeps
+  only the cards drawn, upright/reversed, the spread, the date and the chosen profile (if any);
+  your question is never stored.
 - Everything: **Profile > Delete all profiles and history**.
 
 These delete the data from the device, and from your account (on every device) at the next
@@ -352,6 +386,23 @@ widgets. **Qelunai Plus** subscribers see no ads.
 
 How Google uses data from apps: https://policies.google.com/technologies/partner-sites
 
+## Push notifications (Firebase Cloud Messaging)
+
+If you turn notifications on, Qelunai uses **Firebase Cloud Messaging** (Google LLC) to send
+reminders for full and new moon days and solar terms, and news when a new version is out.
+
+- To deliver them, the device gets a **notification token** (FCM token, tied to the Apple Push
+  Notification service device token on iPhone). It does not contain your name, birth date or
+  profiles, and Qelunai does not store it in your account.
+- The device subscribes to the **topics** you choose (general news, new versions, full/new moon
+  days) and to a topic for the app language. Messages are sent per topic, the same for everyone on
+  that topic, not based on your own profile.
+- The app asks for notification permission only after explaining it, and only if you choose
+  **Enable**. If you already allowed memorial day reminders, that permission is reused and you are
+  not asked again.
+- Turn each kind off in **Profile > Notifications** (the device unsubscribes from that topic), or
+  turn Qelunai's notifications off entirely in the device Settings.
+
 ## What Qelunai does NOT do
 
 - We do not sell your data.
@@ -363,6 +414,8 @@ How Google uses data from apps: https://policies.google.com/technologies/partner
 - **Camera**: only when you open the compass over the live view or scan a zodiac-card QR code.
   The picture is only shown on screen; it is never taken, saved or sent.
 - **Tracking (iPhone)**: asked only in versions with ads, as in **Ads** above.
+- **Notifications**: for memorial day reminders and push notifications, asked only when you turn
+  one of them on.
 
 The app does not request location, contacts, microphone, or any other sensitive permission.
 

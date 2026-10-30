@@ -1,0 +1,22 @@
+---
+import LegalPage from '../../layouts/LegalPage.astro';
+import { policyLocales, rich } from '../../i18n';
+import { policyFor } from '../../lib/policy';
+
+// The privacy-only languages (zh, ko); vi and en come from `[...lang]/privacy.astro`.
+export const getStaticPaths = () => policyLocales.map((locale) => ({ params: { policyLang: locale.code }, props: { locale } }));
+
+const { locale } = Astro.props;
+const policy = policyFor(locale.code);
+---
+
+<LegalPage locale={locale} page="privacy" title={locale.title} description={locale.description} updated={policy.updated}>
+  <nav class="toc" slot="aside" aria-labelledby="toc-title">
+    <h2 id="toc-title">{locale.onThisPage}</h2>
+    <ol>
+      {policy.sections.map((s) => <li><a href={`#${s.id}`}>{s.title}</a></li>)}
+    </ol>
+  </nav>
+  <Fragment set:html={policy.html} />
+  <p class="contact-line" set:html={rich(locale.contact)} />
+</LegalPage>
