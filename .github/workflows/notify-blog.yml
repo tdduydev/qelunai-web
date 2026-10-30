@@ -1,0 +1,101 @@
+name: Notify new blog posts
+
+# After each deploy of main: push "new post" through FCM for posts added in the
+# deployed commit (scripts/notify-blog.mjs, docs/blog-contract.md section 2).
+# By hand (Actions → Notify new blog posts → Run workflow): resend one post;
+# dry_run is on by default and only prints the payload.
+#
+# Auth is Workload Identity Federation, no JSON key. Repo variables:
+#   GCP_WIF_PROVIDER  projects/253342915563/locations/global/workloadIdentityPools/github/providers/qelunai-web
+#   GCP_BLOG_PUSH_SA  blog-push@qelunai.iam.gserviceaccount.com
+# Without them the job warns and stops without failing.
+
+on:
+  workflow_run:
+    workflows: [Deploy to GitHub Pages]
+    types: [completed]
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      slug:
+        description: Post slug (file name without .md)
+        required: true
+        type: string
+      lang:
+        description: Language to send in
+        type: choice
+        options: [all, vi, en, zh, ko]
+        default: all
+      dry_run:
+        description: Only print the payload, send nothing
+        type: boolean
+        default: true
+
+permissions:
+  contents: read
+  id-token: write
+
+concurrency:
+  group: notify-blog
+  cancel-in-progress: false
+
+jobs:
+  notify:
+    # A deploy started by a push to main, and only if it succeeded; a re-run
+    # deploy (workflow_dispatch) does not notify again.
+    if: >-
+      github.event_name == 'workflow_dispatch' ||
+      (github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.event == 'push')
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.workflow_run.head_sha || github.sha }}
+          fetch-depth: 2
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+
+      - id: config
+        env:
+          PROVIDER: ${{ vars.GCP_WIF_PROVIDER }}
+          SERVICE_ACCOUNT: ${{ vars.GCP_BLOG_PUSH_SA }}
+          DRY_RUN: ${{ github.event_name == 'workflow_dispatch' && inputs.dry_run }}
+        run: |
+          if [ "$DRY_RUN" = "true" ]; then
+            echo "mode=dry" >> "$GITHUB_OUTPUT"
+          elif [ -z "$PROVIDER" ] || [ -z "$SERVICE_ACCOUNT" ]; then
+            echo "::warning::GCP_WIF_PROVIDER or GCP_BLOG_PUSH_SA is not set; no notification sent. See README, 'Thông báo bài mới'."
+            echo "mode=off" >> "$GITHUB_OUTPUT"
+          else
+            echo "mode=send" >> "$GITHUB_OUTPUT"
+          fi
+
+      - id: auth
+        if: steps.config.outputs.mode == 'send'
+        uses: google-github-actions/auth@v2
+        with:
+          workload_identity_provider: ${{ vars.GCP_WIF_PROVIDER }}
+          service_account: ${{ vars.GCP_BLOG_PUSH_SA }}
+          token_format: access_token
+          access_token_scopes: https://www.googleapis.com/auth/firebase.messaging
+
+      - name: Notify
+        if: steps.config.outputs.mode != 'off'
+        env:
+          FCM_ACCESS_TOKEN: ${{ steps.auth.outputs.access_token }}
+          EVENT: ${{ github.event_name }}
+          SLUG: ${{ inputs.slug }}
+          BLOG_LANG: ${{ inputs.lang }}
+          MODE: ${{ steps.config.outputs.mode }}
+        run: |
+          args=()
+          if [ "$EVENT" = "workflow_dispatch" ]; then
+            args+=(--slug "$SLUG" --lang "$BLOG_LANG")
+          else
+            args+=(--from HEAD^ --to HEAD)
+          fi
+          if [ "$MODE" = "dry" ]; then args+=(--dry-run); fi
+          node scripts/notify-blog.mjs "${args[@]}"
